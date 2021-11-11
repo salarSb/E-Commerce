@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AminDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
+Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
+    Route::get('/', [AminDashboardController::class, 'index'])->name('home');
 });

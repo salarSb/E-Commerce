@@ -13,3 +13,11 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/public/admin-assets/css/bootstrap/
+/public/admin-assets/css/animate.min.css
+/public/admin-assets/fontawesome/
+/public/admin-assets/fonts/
+/public/admin-assets/images/
+/public/admin-assets/js/bootstrap/
+/public/admin-assets/js/jquery-3.5.1.min.js
+/public/admin-assets/js/popper.js
