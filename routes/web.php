@@ -30,7 +30,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
             Route::put('/update/{id}', [CategoryController::class, 'update'])->name('update');
-            Route::put('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
         });
     });
 });
