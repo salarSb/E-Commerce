@@ -8,16 +8,16 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index(): View|Factory|Application
     {
-        return view('admin.market.category.index');
+        return view('admin.market.brand.index');
     }
 
     public function create(): Factory|View|Application
     {
-        return view('admin.market.category.create');
+        return view('admin.market.brand.create');
     }
 
     public function store(Request $request)
