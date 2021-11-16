@@ -39,7 +39,7 @@
                             <th>1</th>
                             <td>نمایشگر</td>
                             <td>
-                                <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt=""
+                                <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="brand logo"
                                      class="max-height-2rem">
                             </td>
                             <td class="width-16-rem text-left">

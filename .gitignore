@@ -22,3 +22,4 @@ yarn-error.log
 /public/admin-assets/js/jquery-3.5.1.min.js
 /public/admin-assets/js/popper.js
 /storage/logs/
+/public/admin-assets/ckeditor/
