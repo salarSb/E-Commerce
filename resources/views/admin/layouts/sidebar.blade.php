@@ -21,7 +21,7 @@
                     <a href="{{ route('admin.market.brand.index') }}">برندها</a>
                     <a href="#">کالاها</a>
                     <a href="#">انبار</a>
-                    <a href="#">نظرات</a>
+                    <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
                 </section>
             </section>
 
@@ -68,7 +68,7 @@
                 </section>
             </section>
 
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.market.delivery.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>روش های ارسال</span>
             </a>
