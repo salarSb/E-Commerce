@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\SMSController;
+use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
@@ -223,7 +225,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
     });
 
     //user
-    Route::prefix('/user')->namespace('User')->name('user.')->group(function (){
+    Route::prefix('/user')->namespace('User')->name('user.')->group(function () {
 
         //admin-user
         Route::prefix('/admin-user')->name('adminUser.')->group(function () {
@@ -267,7 +269,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
     });
 
     //notify
-    Route::prefix('/notify')->namespace('Notify')->name('notify.')->group(function (){
+    Route::prefix('/notify')->namespace('Notify')->name('notify.')->group(function () {
 
         //email
         Route::prefix('/email')->name('email.')->group(function () {
@@ -288,5 +290,28 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::put('/update/{id}', [SMSController::class, 'update'])->name('update');
             Route::delete('/destroy/{id}', [SMSController::class, 'destroy'])->name('destroy');
         });
+    });
+
+    //ticket
+    Route::prefix('/ticket')->namespace('Ticket')->name('ticket.')->group(function () {
+        Route::get('/', [TicketController::class, 'index'])->name('index');
+        Route::get('/show', [TicketController::class, 'show'])->name('show');
+        Route::post('/store', [TicketController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [TicketController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [TicketController::class, 'update'])->name('update');
+        Route::delete('/destroy/{id}', [TicketController::class, 'destroy'])->name('destroy');
+        Route::get('/new-tickets', [TicketController::class, 'newTickets'])->name('newTickets');
+        Route::get('/open-tickets', [TicketController::class, 'openTickets'])->name('openTickets');
+        Route::get('/close-tickets', [TicketController::class, 'closeTickets'])->name('closeTickets');
+    });
+
+    //setting
+    Route::prefix('/setting')->namespace('Setting')->name('setting.')->group(function (){
+        Route::get('/', [SettingController::class, 'index'])->name('index');
+        Route::get('/create', [SettingController::class, 'create'])->name('create');
+        Route::post('/store', [SettingController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [SettingController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [SettingController::class, 'update'])->name('update');
+        Route::delete('/destroy/{id}', [SettingController::class, 'destroy'])->name('destroy');
     });
 });

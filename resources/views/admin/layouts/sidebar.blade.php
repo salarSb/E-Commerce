@@ -117,15 +117,15 @@
 
 
             <section class="sidebar-part-title">تیکت ها</section>
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.ticket.newTickets') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تیکت های جدید</span>
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.ticket.openTickets') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تیکت های باز</span>
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.ticket.closeTickets') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تیکت های بسته</span>
             </a>
@@ -143,7 +143,7 @@
 
 
             <section class="sidebar-part-title">تنظیمات</section>
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.setting.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تنظیمات</span>
             </a>
