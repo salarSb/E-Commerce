@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AminDashboardController;
+use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
+use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
+use App\Http\Controllers\Admin\Content\FAQController;
+use App\Http\Controllers\Admin\Content\MenuController;
+use App\Http\Controllers\Admin\Content\PageController;
+use App\Http\Controllers\Admin\Content\PostController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\CommentController;
@@ -143,6 +149,70 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/edit/{id}', [StoreController::class, 'edit'])->name('edit');
             Route::put('/update/{id}', [StoreController::class, 'update'])->name('update');
             Route::delete('/destroy/{id}', [StoreController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    //content
+    Route::prefix('/content')->namespace('Content')->name('content.')->group(function () {
+
+        //category
+        Route::prefix('/category')->name('category.')->group(function () {
+            Route::get('/', [ContentCategoryController::class, 'index'])->name('index');
+            Route::get('/create', [ContentCategoryController::class, 'create'])->name('create');
+            Route::post('/store', [ContentCategoryController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [ContentCategoryController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [ContentCategoryController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [ContentCategoryController::class, 'destroy'])->name('destroy');
+        });
+
+        //comment
+        Route::prefix('/comment')->name('comment.')->group(function () {
+            Route::get('/', [ContentCommentController::class, 'index'])->name('index');
+            Route::get('/show', [ContentCommentController::class, 'show'])->name('show');
+            Route::post('/store', [ContentCommentController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [ContentCommentController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [ContentCommentController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [ContentCommentController::class, 'destroy'])->name('destroy');
+        });
+
+        //faq
+        Route::prefix('/faq')->name('faq.')->group(function () {
+            Route::get('/', [FAQController::class, 'index'])->name('index');
+            Route::get('/create', [FAQController::class, 'create'])->name('create');
+            Route::post('/store', [FAQController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [FAQController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [FAQController::class, 'destroy'])->name('destroy');
+        });
+
+        //menu
+        Route::prefix('/menu')->name('menu.')->group(function () {
+            Route::get('/', [MenuController::class, 'index'])->name('index');
+            Route::get('/create', [MenuController::class, 'create'])->name('create');
+            Route::post('/store', [MenuController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [MenuController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [MenuController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [MenuController::class, 'destroy'])->name('destroy');
+        });
+
+        //page
+        Route::prefix('/page')->name('page.')->group(function () {
+            Route::get('/', [PageController::class, 'index'])->name('index');
+            Route::get('/create', [PageController::class, 'create'])->name('create');
+            Route::post('/store', [PageController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [PageController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [PageController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [PageController::class, 'destroy'])->name('destroy');
+        });
+
+        //post
+        Route::prefix('/post')->name('post.')->group(function () {
+            Route::get('/', [PostController::class, 'index'])->name('index');
+            Route::get('/create', [PostController::class, 'create'])->name('create');
+            Route::post('/store', [PostController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [PostController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [PostController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
         });
     });
 });
