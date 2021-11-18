@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductController;
+use App\Http\Controllers\Admin\Market\PropertyController;
+use App\Http\Controllers\Admin\Market\StoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -121,6 +123,26 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/gallery/', [GalleryController::class, 'index'])->name('gallery.index');
             Route::post('/gallery/store', [GalleryController::class, 'store'])->name('gallery.store');
             Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+        });
+
+        //property
+        Route::prefix('/property')->name('property.')->group(function () {
+            Route::get('/', [PropertyController::class, 'index'])->name('index');
+            Route::get('/create', [PropertyController::class, 'create'])->name('create');
+            Route::post('/store', [PropertyController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [PropertyController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [PropertyController::class, 'destroy'])->name('destroy');
+        });
+
+        //store
+        Route::prefix('/store')->name('store.')->group(function () {
+            Route::get('/', [StoreController::class, 'index'])->name('index');
+            Route::get('/add-to-store', [StoreController::class, 'addToStore'])->name('addToStore');
+            Route::post('/store', [StoreController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [StoreController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [StoreController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [StoreController::class, 'destroy'])->name('destroy');
         });
     });
 });
