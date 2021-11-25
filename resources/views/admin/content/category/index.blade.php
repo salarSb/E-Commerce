@@ -54,14 +54,14 @@
                                     <label>
                                         <input id="{{ $postCategory->id }}"
                                                onchange="changeStatus({{ $postCategory->id }})" type="checkbox"
-                                               data-url="{{ route('admin.content.category.status', $postCategory->id) }}"
+                                               data-url="{{ route('admin.content.category.status', $postCategory->slug) }}"
                                                @if($postCategory->status === 1) checked @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('admin.content.category.edit',$postCategory->id) }}"
+                                    <a href="{{ route('admin.content.category.edit',$postCategory->slug) }}"
                                        class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                    <form action="{{ route('admin.content.category.destroy',$postCategory->id) }}"
+                                    <form action="{{ route('admin.content.category.destroy',$postCategory->slug) }}"
                                           method="post" class="d-inline">
                                         @csrf
                                         @method('delete')

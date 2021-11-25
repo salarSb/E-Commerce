@@ -307,7 +307,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
     });
 
     //setting
-    Route::prefix('/setting')->namespace('Setting')->name('setting.')->group(function (){
+    Route::prefix('/setting')->namespace('Setting')->name('setting.')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('index');
         Route::get('/create', [SettingController::class, 'create'])->name('create');
         Route::post('/store', [SettingController::class, 'store'])->name('store');

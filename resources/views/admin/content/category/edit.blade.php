@@ -23,7 +23,7 @@
                     </a>
                 </section>
                 <section>
-                    <form action="{{ route('admin.content.category.update', $postCategory->id) }}" method="post"
+                    <form action="{{ route('admin.content.category.update', $postCategory->slug) }}" method="post"
                           enctype="multipart/form-data" id="form">
                         @csrf
                         @method('put')
