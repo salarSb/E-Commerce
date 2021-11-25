@@ -3,26 +3,30 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Content\PostCategoryRequest;
+use App\Models\Content\PostCategory;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
-        return view('admin.content.category.index');
+        $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.content.category.index', compact('postCategories'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('admin.content.category.create');
     }
 
-    public function store(Request $request)
+    public function store(PostCategoryRequest $request)
     {
-        //
+        $inputs = $request->all();
+        $inputs['slug'] = str_replace(' ', '-', $inputs['name']) . '-' . Str::random(5);
+        $inputs['image'] = 'image';
+        PostCategory::create($inputs);
+        return redirect()->route('admin.content.category.index');
     }
 
     public function show($id)
@@ -30,18 +34,22 @@ class CategoryController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(PostCategory $postCategory)
     {
-        //
+        return view('admin.content.category.edit', compact('postCategory'));
     }
 
-    public function update(Request $request, $id)
+    public function update(PostCategoryRequest $request, PostCategory $postCategory)
     {
-        //
+        $inputs = $request->all();
+        $inputs['image'] = 'image';
+        $postCategory->update($inputs);
+        return redirect()->route('admin.content.category.index');
     }
 
-    public function destroy($id)
+    public function destroy(PostCategory $postCategory)
     {
-        //
+        $postCategory->delete();
+        return redirect(route('admin.content.category.index'));
     }
 }

@@ -30,44 +30,46 @@
                         <tr>
                             <th>#</th>
                             <th>نام دسته</th>
-                            <th>دسته والد</th>
+                            <th>توضیحات</th>
+                            <th>اسلاگ</th>
+                            <th>عکس</th>
+                            <th>تگ ها</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>نمایشگر</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ml-1"></i>
-                                    حذف
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>موبایل</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ml-1"></i>
-                                    حذف
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>لوازم جانبی</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ml-1"></i>
-                                    حذف
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach($postCategories as $postCategory)
+                            <tr>
+                                <th>1</th>
+                                <td>{{ $postCategory->name }}</td>
+                                <td>{!! $postCategory->description !!}</td>
+                                <td>{{ $postCategory->slug }}</td>
+                                <td>
+                                    <img src="{{ asset($postCategory->image) }}" alt="category image"
+                                         class="max-height-2rem">
+                                </td>
+                                <td>{{ $postCategory->tags }}</td>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" @if($postCategory->status === 1) checked @endif>
+                                    </label>
+                                </td>
+                                <td class="width-16-rem text-left">
+                                    <a href="{{ route('admin.content.category.edit',$postCategory->id) }}"
+                                       class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
+                                    <form action="{{ route('admin.content.category.destroy',$postCategory->id) }}"
+                                          method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm"><i
+                                                class="fa fa-trash-alt ml-1"></i>
+                                            حذف
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>
