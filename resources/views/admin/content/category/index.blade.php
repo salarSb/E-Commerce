@@ -65,7 +65,7 @@
                                           method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i
+                                        <button type="submit" class="btn btn-danger btn-sm delete"><i
                                                 class="fa fa-trash-alt ml-1"></i>
                                             حذف
                                         </button>
@@ -93,14 +93,52 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
+                            successToast('دسته بندی با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
+                            successToast('دسته بندی با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی رخ داده است')
                     }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
                 }
             });
+
+            function successToast(message) {
+                let successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+                let errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
         }
     </script>
+    @include('admin.alerts.sweet-alert.delete-confirm',['className' => 'delete'])
 @endsection

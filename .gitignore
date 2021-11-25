@@ -24,3 +24,4 @@ yarn-error.log
 /storage/logs/
 /public/admin-assets/ckeditor/
 /public/admin-assets/select2/
+/public/admin-assets/sweetalert/
