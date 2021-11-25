@@ -24,7 +24,7 @@
                 </section>
                 <section>
                     <form action="{{ route('admin.content.category.update', $postCategory->id) }}" method="post"
-                          enctype="multipart/form-data">
+                          enctype="multipart/form-data" id="form">
                         @csrf
                         @method('put')
                         <section class="row">
@@ -42,9 +42,11 @@
                             </section>
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="tags">تگ ها</label>
-                                    <input class="form-control form-control-sm" type="text" name="tags" id="tags"
-                                           value="{{ old('tags', $postCategory->tags) }}">
+                                    <label for="select-tags">تگ ها</label>
+                                    <input class="form-control form-control-sm" type="hidden" name="tags" id="tags"
+                                           value="{{ old('tags',$postCategory->tags) }}">
+                                    <select class="select2 form-control form-control-sm" id="select-tags"
+                                            multiple></select>
                                 </div>
                                 @error('tags')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -109,5 +111,28 @@
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.replace('description')
+    </script>
+    <script>
+        $(document).ready(function () {
+            let tags_input = $('#tags');
+            let select_tags = $('#select-tags');
+            let default_tags = tags_input.val();
+            let default_data = null;
+            if (tags_input.val() !== null && tags_input.val().length > 0) {
+                default_data = default_tags.split(',')
+            }
+            select_tags.select2({
+                placeholder: 'لطفا تگ های خود را وارد نمایید',
+                tags: true,
+                data: default_data
+            });
+            select_tags.children('option').attr('selected', true).trigger('change');
+            $('#form').submit(function () {
+                if (select_tags.val() !== null && select_tags.val().length > 0) {
+                    let selectedSource = select_tags.val().join(',');
+                    tags_input.val(selectedSource);
+                }
+            });
+        })
     </script>
 @endsection
