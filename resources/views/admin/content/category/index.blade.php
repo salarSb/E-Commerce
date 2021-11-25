@@ -52,7 +52,10 @@
                                 <td>{{ $postCategory->tags }}</td>
                                 <td>
                                     <label>
-                                        <input type="checkbox" @if($postCategory->status === 1) checked @endif>
+                                        <input id="{{ $postCategory->id }}"
+                                               onchange="changeStatus({{ $postCategory->id }})" type="checkbox"
+                                               data-url="{{ route('admin.content.category.status', $postCategory->id) }}"
+                                               @if($postCategory->status === 1) checked @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
@@ -76,4 +79,28 @@
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        function changeStatus(id) {
+            let element = $('#' + id);
+            let url = element.attr('data-url');
+            let elementValue = !element.prop('checked');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                        } else {
+                            element.prop('checked', false);
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

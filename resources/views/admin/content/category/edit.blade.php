@@ -42,7 +42,7 @@
                             </section>
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="select-tags">تگ ها</label>
+                                    <label for="select-tags">برچسب ها</label>
                                     <input class="form-control form-control-sm" type="hidden" name="tags" id="tags"
                                            value="{{ old('tags',$postCategory->tags) }}">
                                     <select class="select2 form-control form-control-sm" id="select-tags"
