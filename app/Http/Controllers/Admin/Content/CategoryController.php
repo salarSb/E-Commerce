@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
+use App\Http\Services\Image\ImageService;
 use App\Models\Content\PostCategory;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -20,10 +20,24 @@ class CategoryController extends Controller
         return view('admin.content.category.create');
     }
 
-    public function store(PostCategoryRequest $request)
+    public function store(PostCategoryRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
-        $inputs['image'] = 'image';
+        if ($request->hasFile('image')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-categories');
+
+//            $result = $imageService->save($request->file('image'));
+
+//            $result = $imageService->fitAndSave($request->file('image'), 600, 500);
+//            exit;
+
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+        if ($result === false) {
+            return redirect()->route('admin.content.category.index')
+                ->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+        }
+        $inputs['image'] = $result;
         PostCategory::create($inputs);
         return redirect()->route('admin.content.category.index')
             ->with('swal-success', 'دسته بندی جدید با موفقیت ثبت شد');

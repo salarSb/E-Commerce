@@ -19,6 +19,9 @@ class PostCategory extends Model
         'status',
         'tags',
     ];
+    protected $casts = [
+        'image' => 'array'
+    ];
 
     public function sluggable(): array
     {
