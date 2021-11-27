@@ -219,9 +219,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [PostController::class, 'index'])->name('index');
             Route::get('/create', [PostController::class, 'create'])->name('create');
             Route::post('/store', [PostController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [PostController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [PostController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{post}', [PostController::class, 'edit'])->name('edit');
+            Route::put('/update/{post}', [PostController::class, 'update'])->name('update');
+            Route::delete('/destroy/{post}', [PostController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{post}', [PostController::class, 'status'])->name('status');
+            Route::get('/commentable/{post}', [PostController::class, 'commentable'])->name('commentable');
         });
     });
 

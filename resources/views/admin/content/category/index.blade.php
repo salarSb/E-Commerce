@@ -41,7 +41,7 @@
                         <tbody>
                         @foreach($postCategories as $postCategory)
                             <tr>
-                                <th>1</th>
+                                <th>{{$loop->iteration}}</th>
                                 <td>{{ $postCategory->name }}</td>
                                 <td>{!! $postCategory->description !!}</td>
                                 <td>{{ $postCategory->slug }}</td>
