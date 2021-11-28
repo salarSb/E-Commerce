@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('head-tag')
-    <title>ایجاد سوال جدید</title>
+    <title>ویرایش سوال</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -8,14 +8,14 @@
             <li class="breadcrumb-item font-size-12 ml-3"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش محتوا</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">سوالات متداول</a></li>
-            <li class="active font-size-12" aria-current="page">ایجاد سوال جدید</li>
+            <li class="active font-size-12" aria-current="page">ویرایش سوال</li>
         </ol>
     </nav>
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
-                    <h5>ایجاد سوال جدید</h5>
+                    <h5>ویرایش سوال</h5>
                 </section>
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('admin.content.faq.index') }}" class="btn btn-info btn-sm">
@@ -23,14 +23,15 @@
                     </a>
                 </section>
                 <section>
-                    <form id="form" action="{{ route('admin.content.faq.store') }}" method="post">
+                    <form id="form" action="{{ route('admin.content.faq.update', $faq->slug) }}" method="post">
                         @csrf
+                        @method('put')
                         <section class="row">
                             <section class="col-12 my-2">
                                 <div class="form-group">
                                     <label for="question">پرسش</label>
                                     <input type="text" class="form-control form-control-sm" id="question"
-                                           name="question" value="{{ old('question') }}">
+                                           name="question" value="{{ old('question',$faq->question) }}">
                                 </div>
                                 @error('question')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -42,7 +43,7 @@
                                 <div class="form-group">
                                     <label for="answer">پاسخ</label>
                                     <textarea class="form-control form-control-sm" rows="6" id="answer"
-                                              name="answer">{{ old('answer') }}</textarea>
+                                              name="answer">{{ old('answer', $faq->answer) }}</textarea>
                                 </div>
                                 @error('answer')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -54,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="select-tags">برچسب ها</label>
                                     <input class="form-control form-control-sm" type="hidden" name="tags" id="tags"
-                                           value="{{ old('tags') }}">
+                                           value="{{ old('tags', $faq->tags) }}">
                                     <select class="select2 form-control form-control-sm" id="select-tags"
                                             multiple></select>
                                 </div>
@@ -68,8 +69,12 @@
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" id="status" class="form-control form-control-sm">
-                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
-                                        <option value="0" @if(old('status') == 0) selected @endif>غیر فعال</option>
+                                        <option value="1" @if(old('status', $faq->status) == 1) selected @endif>
+                                            فعال
+                                        </option>
+                                        <option value="0" @if(old('status', $faq->status) == 0) selected @endif>
+                                            غیر فعال
+                                        </option>
                                     </select>
                                 </div>
                                 @error('status')

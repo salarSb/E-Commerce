@@ -26,8 +26,8 @@ class PostRequest extends FormRequest
         if ($this->isMethod('post')) {
             return [
                 'title' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
-                'summary' => ['required', 'max:300', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u'],
-                'body' => ['required', 'max:600', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u'],
+                'summary' => ['required', 'max:300', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟! ]+$/u'],
+                'body' => ['required', 'max:600', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟! ]+$/u'],
                 'category_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:post_categories,id'],
                 'image' => ['required', 'image', 'mimes:png,jpg,jpeg,gif'],
                 'status' => ['required', 'numeric', 'in:0,1'],
@@ -37,8 +37,8 @@ class PostRequest extends FormRequest
         } else {
             return [
                 'title' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
-                'summary' => ['required', 'max:300', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u'],
-                'body' => ['required', 'max:600', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u'],
+                'summary' => ['required', 'max:300', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟! ]+$/u'],
+                'body' => ['required', 'max:600', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟! ]+$/u'],
                 'category_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:post_categories,id'],
                 'image' => ['image', 'mimes:png,jpg,jpeg,gif'],
                 'status' => ['required', 'numeric', 'in:0,1'],
