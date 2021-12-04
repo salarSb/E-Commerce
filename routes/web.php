@@ -201,9 +201,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [MenuController::class, 'index'])->name('index');
             Route::get('/create', [MenuController::class, 'create'])->name('create');
             Route::post('/store', [MenuController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [MenuController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [MenuController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [MenuController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{menu}', [MenuController::class, 'edit'])->name('edit');
+            Route::put('/update/{menu}', [MenuController::class, 'update'])->name('update');
+            Route::delete('/destroy/{menu}', [MenuController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{menu}', [MenuController::class, 'status'])->name('status');
         });
 
         //page
