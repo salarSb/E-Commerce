@@ -3,19 +3,16 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
         return view('admin.content.menu.index');
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('admin.content.menu.create');
     }

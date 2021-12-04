@@ -5,19 +5,16 @@ namespace App\Http\Controllers\Admin\Content;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\FaqRequest;
 use App\Models\Content\Faq;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 
 class FAQController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
         $faqs = Faq::orderby('created_at')->simplePaginate(15);
         return view('admin.content.faq.index', compact('faqs'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('admin.content.faq.create');
     }
@@ -59,12 +56,12 @@ class FAQController extends Controller
         if ($result) {
             if ($faq->status == 0) {
                 return response()->json([
-                    'faq' => true,
+                    'status' => true,
                     'checked' => false
                 ]);
             } else {
                 return response()->json([
-                    'faq' => true,
+                    'status' => true,
                     'checked' => true
                 ]);
             }

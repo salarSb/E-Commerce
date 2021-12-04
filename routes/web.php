@@ -211,9 +211,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [PageController::class, 'index'])->name('index');
             Route::get('/create', [PageController::class, 'create'])->name('create');
             Route::post('/store', [PageController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [PageController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [PageController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [PageController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{page}', [PageController::class, 'edit'])->name('edit');
+            Route::put('/update/{page}', [PageController::class, 'update'])->name('update');
+            Route::delete('/destroy/{page}', [PageController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{page}', [PageController::class, 'status'])->name('status');
         });
 
         //post

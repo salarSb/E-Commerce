@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
         return view('admin.content.comment.index');
     }
@@ -25,7 +22,7 @@ class CommentController extends Controller
         //
     }
 
-    public function show(): Factory|View|Application
+    public function show()
     {
         return view('admin.content.comment.show');
     }

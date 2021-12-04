@@ -81,7 +81,7 @@
                 url: url,
                 type: 'GET',
                 success: function (response) {
-                    if (response.faq) {
+                    if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
                             successToast('سوال با موفقیت فعال شد')

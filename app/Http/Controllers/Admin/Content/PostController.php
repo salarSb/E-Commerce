@@ -13,13 +13,13 @@ use Illuminate\Contracts\View\View;
 
 class PostController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.post.index', compact('posts'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         $postCategories = PostCategory::all();
         return view('admin.content.post.create', compact('postCategories'));
