@@ -25,8 +25,8 @@ class MenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
-            'url' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.#, ]+$/u'],
-            'parent_id' => ['nullable', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:menus,id'],
+            'url' => ['required', 'max:120', 'min:1', 'regex:/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/u'],
+            'parent_id' => ['nullable', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:menus,id'],
             'status' => ['required', 'numeric', 'in:0,1'],
         ];
     }

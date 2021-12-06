@@ -34,7 +34,7 @@ class MenuController extends Controller
 
     public function edit(Menu $menu)
     {
-        $menus = Menu::where('parent_id', null)->get();
+        $menus = Menu::where('parent_id', null)->get()->except($menu->id);
         return view('admin.content.menu.edit', compact(['menus', 'menu']));
     }
 
