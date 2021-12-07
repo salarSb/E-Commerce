@@ -177,11 +177,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         //comment
         Route::prefix('/comment')->name('comment.')->group(function () {
             Route::get('/', [ContentCommentController::class, 'index'])->name('index');
-            Route::get('/show', [ContentCommentController::class, 'show'])->name('show');
-            Route::post('/store', [ContentCommentController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [ContentCommentController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [ContentCommentController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [ContentCommentController::class, 'destroy'])->name('destroy');
+            Route::get('/show/{comment}', [ContentCommentController::class, 'show'])->name('show');
+            Route::delete('/destroy/{comment}', [ContentCommentController::class, 'destroy'])->name('destroy');
+            Route::get('/approved/{comment}', [ContentCommentController::class, 'approved'])->name('approved');
+            Route::get('/status/{comment}', [ContentCommentController::class, 'status'])->name('status');
         });
 
         //faq

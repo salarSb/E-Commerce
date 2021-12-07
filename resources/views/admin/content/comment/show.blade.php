@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('head-tag')
-    <title>نظرات</title>
+    <title>نمایش نظر</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -33,7 +33,7 @@
                             213124
                         </h5>
                         <p class="card-text">
-                            به نظر من ساعت خوبیه ولی تنها مشکلی که داره اینه که وزنش زیاده و شارژش زود تموم میشه
+                            {{ $comment->body }}
                         </p>
                     </section>
                 </section>
