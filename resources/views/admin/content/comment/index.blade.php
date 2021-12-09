@@ -29,10 +29,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>کد کاربر</th>
+                            <th>نظر</th>
+                            <th>پاسخ به</th>
                             <th>نویسنده نظر</th>
+                            <th>کد نویسنده</th>
                             <th>کد پست</th>
-                            <th>پست</th>
+                            <th>عنوان پست</th>
                             <th>وضعیت تایید</th>
                             <th>وضعیت کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
@@ -42,10 +44,12 @@
                         @foreach($comments as $comment)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
+                                <td>{{ \Illuminate\Support\Str::limit($comment->body,10 ) }}</td>
+                                <td>{{ $comment->parent_id ? \Illuminate\Support\Str::limit($comment->parent->body, 10) : '-' }}</td>
+                                <td>{{ $comment->user->full_name }}</td>
                                 <td>{{ $comment->author_id }}</td>
-                                <td>سالار ثابتی</td>
                                 <td>{{ $comment->commentable_id }}</td>
-                                <td>آیفون 12</td>
+                                <td>{{ $comment->commentable->title }}</td>
                                 <td>{{ $comment->approved == 1 ? 'تایید شده' : 'تایید نشده' }}</td>
                                 <td>
                                     <label>
@@ -61,15 +65,17 @@
                                         <i class="fa fa-eye ml-1"></i>نمایش
                                     </a>
                                     @if($comment->approved == 1)
-                                        <button type="submit" class="btn btn-warning btn-sm"><i
+                                        <a href="{{ route('admin.content.comment.approved', $comment->id) }}"
+                                           type="submit" class="btn btn-warning btn-sm"><i
                                                 class="fa fa-clock ml-1"></i>
                                             عدم تایید
-                                        </button>
+                                        </a>
                                     @else
-                                        <button type="submit" class="btn btn-success btn-sm"><i
+                                        <a href="{{ route('admin.content.comment.approved', $comment->id) }}"
+                                           type="submit" class="btn btn-success btn-sm"><i
                                                 class="fa fa-check ml-1"></i>
                                             تایید
-                                        </button>
+                                        </a>
                                     @endif
                                 </td>
                             </tr>

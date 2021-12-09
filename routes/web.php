@@ -181,6 +181,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::delete('/destroy/{comment}', [ContentCommentController::class, 'destroy'])->name('destroy');
             Route::get('/approved/{comment}', [ContentCommentController::class, 'approved'])->name('approved');
             Route::get('/status/{comment}', [ContentCommentController::class, 'status'])->name('status');
+            Route::post('/answer/{comment}', [ContentCommentController::class, 'answer'])->name('answer');
         });
 
         //faq

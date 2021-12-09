@@ -24,32 +24,36 @@
                 </section>
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        کامران محمدی - 4331231
+                        {{ $comment->user->full_name }} - {{ $comment->author_id }}
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title">مشخصات کالا:
-                            ساعت هوشمند apple watch
-                            کد کالا:
-                            213124
+                        <h5 class="card-title">عنوان پست:
+                            {{ $comment->commentable->title }} -
+                            کد پست:
+                            {{ $comment->commentable_id }}
                         </h5>
                         <p class="card-text">
                             {{ $comment->body }}
                         </p>
                     </section>
                 </section>
-                <section>
-                    <form action="" method="">
-                        <section class="row">
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label>پاسخ ادمین</label>
-                                    <textarea class="form-control form-control-sm" rows="4"></textarea>
-                                </div>
+                @if(!$comment->parent_id)
+                    <section>
+                        <form action="{{ route('admin.content.comment.answer', $comment->id) }}" method="post">
+                            @csrf
+                            <section class="row">
+                                <section class="col-12">
+                                    <div class="form-group">
+                                        <label for="body">پاسخ ادمین</label>
+                                        <textarea id="body" class="form-control form-control-sm" rows="4"
+                                                  name="body"></textarea>
+                                    </div>
+                                </section>
                             </section>
-                        </section>
-                        <button class="btn btn-sm btn-primary">ثبت</button>
-                    </form>
-                </section>
+                            <button class="btn btn-sm btn-primary">ثبت</button>
+                        </form>
+                    </section>
+                @endif
             </section>
         </section>
     </section>
