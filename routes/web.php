@@ -283,9 +283,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [EmailController::class, 'index'])->name('index');
             Route::get('/create', [EmailController::class, 'create'])->name('create');
             Route::post('/store', [EmailController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [EmailController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [EmailController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [EmailController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{email}', [EmailController::class, 'edit'])->name('edit');
+            Route::put('/update/{email}', [EmailController::class, 'update'])->name('update');
+            Route::delete('/destroy/{email}', [EmailController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{email}', [EmailController::class, 'status'])->name('status');
         });
 
         //sms
@@ -293,9 +294,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [SMSController::class, 'index'])->name('index');
             Route::get('/create', [SMSController::class, 'create'])->name('create');
             Route::post('/store', [SMSController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [SMSController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [SMSController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [SMSController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{sms}', [SMSController::class, 'edit'])->name('edit');
+            Route::put('/update/{sms}', [SMSController::class, 'update'])->name('update');
+            Route::delete('/destroy/{sms}', [SMSController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{sms}', [SMSController::class, 'status'])->name('status');
         });
     });
 

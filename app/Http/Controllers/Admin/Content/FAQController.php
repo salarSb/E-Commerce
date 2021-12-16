@@ -67,7 +67,7 @@ class FAQController extends Controller
             }
         } else {
             return response()->json([
-                'faq' => false
+                'status' => false
             ]);
         }
     }
