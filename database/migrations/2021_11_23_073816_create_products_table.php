@@ -32,7 +32,7 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('marketable_number')->default(0);
             $table->foreignId('brand_id')->constrained('brands')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

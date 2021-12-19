@@ -28,21 +28,32 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام سایت</th>
                             <th>عنوان سایت</th>
+                            <th>توضیحات سایت</th>
+                            <th>کلمات کلیدی سایت</th>
+                            <th>لوگو سایت</th>
+                            <th>آیکون سایت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <th>1</th>
-                            <td>فروشگاه من</td>
-                            <td>فروشگاه من</td>
+                            <td>{{ $setting->title }}</td>
+                            <td>{{ $setting->description }}</td>
+                            <td>{{ $setting->keywords }}</td>
+                            <td>
+                                <img src="{{ asset($setting->logo) }}" alt="category image" width="50" height="50">
+                            </td>
+                            <td>
+                                <img src="{{ asset($setting->icon) }}" alt="category image" width="50" height="50">
+                            </td>
                             <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                <button disabled type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ml-1"></i>
-                                    حذف
-                                </button>
+                                <a href="{{ route('admin.setting.edit', $setting->id) }}"
+                                   class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit ml-1"></i>
+                                    ویرایش
+                                </a>
                             </td>
                         </tr>
                         </tbody>
