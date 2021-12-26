@@ -6,20 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Email extends Model
+class EmailFile extends Model
 {
     use HasFactory, softDeletes;
 
-    protected $table = 'public_mail';
+    protected $table = 'public_mail_files';
     protected $fillable = [
-        'subject',
-        'body',
+        'public_mail_id',
+        'file_path',
+        'file_size',
+        'file_type',
         'status',
-        'published_at',
     ];
 
-    public function files()
+    public function email()
     {
-        return $this->hasMany(EmailFile::class, 'public_mail_id');
+        return $this->belongsTo(Email::class, 'public_mail_id');
     }
 }

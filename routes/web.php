@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
+use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Notify\SMSController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
@@ -287,6 +288,17 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::put('/update/{email}', [EmailController::class, 'update'])->name('update');
             Route::delete('/destroy/{email}', [EmailController::class, 'destroy'])->name('destroy');
             Route::get('/status/{email}', [EmailController::class, 'status'])->name('status');
+        });
+
+        //email-file
+        Route::prefix('/email-file')->name('email-file.')->group(function () {
+            Route::get('/{email}', [EmailFileController::class, 'index'])->name('index');
+            Route::get('/{email}/create', [EmailFileController::class, 'create'])->name('create');
+            Route::post('/{email}/store', [EmailFileController::class, 'store'])->name('store');
+            Route::get('/edit/{file}', [EmailFileController::class, 'edit'])->name('edit');
+            Route::put('/update/{file}', [EmailFileController::class, 'update'])->name('update');
+            Route::delete('/destroy/{file}', [EmailFileController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{file}', [EmailFileController::class, 'status'])->name('status');
         });
 
         //sms

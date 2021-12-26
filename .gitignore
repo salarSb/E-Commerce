@@ -27,3 +27,5 @@ yarn-error.log
 /public/admin-assets/sweetalert/
 /public/images/
 /public/admin-assets/jalalidatepicker/
+/public/files/
+/storage/files/
