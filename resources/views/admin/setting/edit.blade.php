@@ -71,6 +71,8 @@
                                     <label for="image">لوگو</label>
                                     <input type="file" class="form-control form-control-sm" name="logo" id="image">
                                 </div>
+                                <img src="{{ asset($setting->logo) }}" alt="avatar" height="180"
+                                     width="310">
                                 @error('logo')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -82,6 +84,8 @@
                                     <label for="icon">آیکون</label>
                                     <input class="form-control form-control-sm" type="file" name="icon" id="icon">
                                 </div>
+                                <img src="{{ asset($setting->icon) }}" alt="avatar" height="180"
+                                     width="310">
                                 @error('icon')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>

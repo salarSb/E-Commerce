@@ -167,6 +167,7 @@ return [
         "logo"                      => "لوگو",
         "icon"                      => "آیکون",
         "keywords"                  => "کلمات کلیدی",
-        "file_path"                 => "مسیر فایل"
+        "file_path"                 => "مسیر فایل",
+        "national_code"             => "کد ملی",
     ],
 ];

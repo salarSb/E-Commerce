@@ -1,0 +1,7 @@
+{
+    "The :attribute must contain at least one letter.": ":attribute باید حداقل شامل یک حرف باشد.",
+    "The :attribute must contain at least one uppercase and one lowercase letter.": ":attribute باید حداقل شامل یک حرف بزرگ و یک حرف کوچک باشد.",
+    "The :attribute must contain at least one number.": ":attribute باید حداقل شامل یک عدد باشد.",
+    "The :attribute must contain at least one symbol.": ":attribute باید حداقل شامل یک کاراکتر ویژه باشد.",
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": ":attribute انتخاب شده قبلا لو رفته است لطفا :attribute دیگری انتخاب کنید."
+}

@@ -240,9 +240,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('index');
             Route::get('/create', [AdminUserController::class, 'create'])->name('create');
             Route::post('/store', [AdminUserController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [AdminUserController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [AdminUserController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [AdminUserController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{user}', [AdminUserController::class, 'edit'])->name('edit');
+            Route::put('/update/{user}', [AdminUserController::class, 'update'])->name('update');
+            Route::delete('/destroy/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
+            Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('activation');
+            Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('status');
         });
 
         //customer
