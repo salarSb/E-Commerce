@@ -22,7 +22,9 @@ use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Notify\SMSController;
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
+use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
@@ -328,6 +330,28 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::get('/new-tickets', [TicketController::class, 'newTickets'])->name('newTickets');
         Route::get('/open-tickets', [TicketController::class, 'openTickets'])->name('openTickets');
         Route::get('/close-tickets', [TicketController::class, 'closeTickets'])->name('closeTickets');
+
+        //category
+        Route::prefix('/category')->name('category.')->group(function () {
+            Route::get('/', [TicketCategoryController::class, 'index'])->name('index');
+            Route::get('/create', [TicketCategoryController::class, 'create'])->name('create');
+            Route::post('/store', [TicketCategoryController::class, 'store'])->name('store');
+            Route::get('/edit/{ticketCategory}', [TicketCategoryController::class, 'edit'])->name('edit');
+            Route::put('/update/{ticketCategory}', [TicketCategoryController::class, 'update'])->name('update');
+            Route::delete('/destroy/{ticketCategory}', [TicketCategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{ticketCategory}', [TicketCategoryController::class, 'status'])->name('status');
+        });
+
+        //priority
+        Route::prefix('/priority')->name('priority.')->group(function () {
+            Route::get('/', [TicketPriorityController::class, 'index'])->name('index');
+            Route::get('/create', [TicketPriorityController::class, 'create'])->name('create');
+            Route::post('/store', [TicketPriorityController::class, 'store'])->name('store');
+            Route::get('/edit/{ticketPriority}', [TicketPriorityController::class, 'edit'])->name('edit');
+            Route::put('/update/{ticketPriority}', [TicketPriorityController::class, 'update'])->name('update');
+            Route::delete('/destroy/{ticketPriority}', [TicketPriorityController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{ticketPriority}', [TicketPriorityController::class, 'status'])->name('status');
+        });
     });
 
     //setting

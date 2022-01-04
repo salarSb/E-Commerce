@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin\Ticket;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
         return view('admin.ticket.index');
     }
@@ -25,7 +22,7 @@ class TicketController extends Controller
         //
     }
 
-    public function show(): Factory|View|Application
+    public function show()
     {
         return view('admin.ticket.show');
     }
@@ -45,17 +42,17 @@ class TicketController extends Controller
         //
     }
 
-    public function newTickets(): Factory|View|Application
+    public function newTickets()
     {
         return view('admin.ticket.index');
     }
 
-    public function openTickets(): Factory|View|Application
+    public function openTickets()
     {
         return view('admin.ticket.index');
     }
 
-    public function closeTickets(): Factory|View|Application
+    public function closeTickets()
     {
         return view('admin.ticket.index');
     }
