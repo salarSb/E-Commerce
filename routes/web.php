@@ -252,9 +252,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('index');
             Route::get('/create', [CustomerController::class, 'create'])->name('create');
             Route::post('/store', [CustomerController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [CustomerController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [CustomerController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{user}', [CustomerController::class, 'edit'])->name('edit');
+            Route::put('/update/{user}', [CustomerController::class, 'update'])->name('update');
+            Route::delete('/destroy/{user}', [CustomerController::class, 'destroy'])->name('destroy');
+            Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('activation');
+            Route::get('/status/{user}', [CustomerController::class, 'status'])->name('status');
         });
 
         //role

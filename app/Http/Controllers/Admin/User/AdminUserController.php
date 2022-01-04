@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\User\AdminUserRequest;
+use App\Http\Requests\Admin\User\UserRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +21,7 @@ class AdminUserController extends Controller
         return view('admin.user.admin-user.create');
     }
 
-    public function store(AdminUserRequest $request, ImageService $imageService)
+    public function store(UserRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
         if ($request->hasFile('profile_photo_path')) {
@@ -50,7 +50,7 @@ class AdminUserController extends Controller
         return view('admin.user.admin-user.edit', compact('user'));
     }
 
-    public function update(AdminUserRequest $request, User $user, ImageService $imageService)
+    public function update(UserRequest $request, User $user, ImageService $imageService)
     {
         // TODO: edit admin's email and password and verify them
         $inputs = $request->all();

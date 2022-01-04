@@ -6,7 +6,7 @@ use App\Rules\NationalCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class AdminUserRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,11 @@ class AdminUserRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->isMethod('post')){
+        if ($this->isMethod('post')) {
             return [
                 'first_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
                 'last_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
-                'mobile' => ['required', 'digits:11', 'unique:users'],
+                'mobile' => ['required', 'regex:/^09[\d]{9}$/u', 'unique:users'],
                 'email' => ['required', 'string', 'email', 'unique:users'],
 //            'password' => ['required', Password::min(8)
 //                ->letters()->mixedCase()->numbers()->symbols()->uncompromised(), 'confirmed', 'unique:users'],
@@ -38,7 +38,7 @@ class AdminUserRequest extends FormRequest
                 'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,gif'],
                 'national_code' => ['required', 'numeric', new NationalCodeRule],
             ];
-        }else{
+        } else {
             return [
                 'first_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
                 'last_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
