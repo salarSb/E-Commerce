@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Ticket\TicketAdmin;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -87,5 +88,10 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function ticketAdmin()
+    {
+        return $this->hasOne(TicketAdmin::class);
     }
 }
