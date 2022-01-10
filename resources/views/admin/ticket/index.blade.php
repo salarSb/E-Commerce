@@ -33,24 +33,34 @@
                             <th>عنوان</th>
                             <th>دسته</th>
                             <th>اولویت</th>
-                            <th>ارجاع شده از</th>
+                            <th>ارجاع شده به</th>
+                            <th>تیکت مرجع</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>حامد احمدی</td>
-                            <td>پرداخت انجام نمیشه!</td>
-                            <td>فروش</td>
-                            <td>فوری</td>
-                            <td>-</td>
-                            <td class="width-16-rem text-left">
-                                <a href="{{ route('admin.ticket.show') }}" class="btn btn-sm btn-info mb-1">
-                                    <i class="fa fa-eye ml-1"></i>مشاهده
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach($tickets as $ticket)
+                            <tr>
+                                <th>{{ $loop->iteration }}</th>
+                                <td>{{ $ticket->user->full_name }}</td>
+                                <td>{{ $ticket->subject }}</td>
+                                <td>{{ $ticket->category->name }}</td>
+                                <td>{{ $ticket->priority->name }}</td>
+                                <td>{{ $ticket->admin->user->full_name }}</td>
+                                <td>{{ $ticket->parent->subject ?? '-' }}</td>
+                                <td class="width-16-rem text-left">
+                                    <a href="{{ route('admin.ticket.show', $ticket->id) }}"
+                                       class="btn btn-sm btn-info mb-1">
+                                        <i class="fa fa-eye ml-1"></i>مشاهده
+                                    </a>
+                                    <a href="{{ route('admin.ticket.change', $ticket->id) }}"
+                                       class="btn btn-sm btn-warning mb-1">
+                                        <i class="fa fa-check ml-1"></i>
+                                        {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>

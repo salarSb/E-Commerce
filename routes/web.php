@@ -323,14 +323,12 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
     //ticket
     Route::prefix('/ticket')->namespace('Ticket')->name('ticket.')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('index');
-        Route::get('/show', [TicketController::class, 'show'])->name('show');
-        Route::post('/store', [TicketController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [TicketController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [TicketController::class, 'update'])->name('update');
-        Route::delete('/destroy/{id}', [TicketController::class, 'destroy'])->name('destroy');
+        Route::get('/show/{ticket}', [TicketController::class, 'show'])->name('show');
         Route::get('/new-tickets', [TicketController::class, 'newTickets'])->name('newTickets');
         Route::get('/open-tickets', [TicketController::class, 'openTickets'])->name('openTickets');
         Route::get('/close-tickets', [TicketController::class, 'closeTickets'])->name('closeTickets');
+        Route::post('/answer/{ticket}', [TicketController::class, 'answer'])->name('answer');
+        Route::get('/change/{ticket}', [TicketController::class, 'change'])->name('change');
 
         //category
         Route::prefix('/category')->name('category.')->group(function () {

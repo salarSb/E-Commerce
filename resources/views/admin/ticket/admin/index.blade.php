@@ -35,7 +35,7 @@
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('admin.ticket.admin.set', $admin->slug) }}"
                                        class="btn btn-sm btn-{{ $admin->ticketAdmin == null ? 'success' : 'danger' }}">
-                                        <i class="fa fa-{{ $admin->ticketAdmin == null ? 'check' : 'delete' }} ml-1"></i>
+                                        <i class="fa fa-{{ $admin->ticketAdmin == null ? 'check' : 'trash' }} ml-1"></i>
                                         {{ $admin->ticketAdmin == null ? 'اضافه' : 'حذف' }}
                                     </a>
                                 </td>

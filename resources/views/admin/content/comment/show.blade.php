@@ -42,12 +42,17 @@
                         <form action="{{ route('admin.content.comment.answer', $comment->id) }}" method="post">
                             @csrf
                             <section class="row">
-                                <section class="col-12">
+                                <section class="col-12 my-2">
                                     <div class="form-group">
                                         <label for="body">پاسخ ادمین</label>
                                         <textarea id="body" class="form-control form-control-sm" rows="4"
                                                   name="body"></textarea>
                                     </div>
+                                    @error('body')
+                                    <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
                                 </section>
                             </section>
                             <button class="btn btn-sm btn-primary">ثبت</button>

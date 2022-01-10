@@ -24,26 +24,34 @@
                 </section>
                 <section class="card mb-3">
                     <section class="card-header text-white bg-primary">
-                        کامران محمدی - 4331231
+                        {{ $ticket->user->full_name }} - {{ $ticket->id }}
                     </section>
                     <section class="card-body">
                         <h5 class="card-title">
                             موضوع:
-                            پرداخت انجام نمیشه!
+                            {{ $ticket->subject }}
                         </h5>
                         <p class="card-text">
-                            من میخواهم پرداخت کنم ولی درگاه مشکل دارد.
+                            {{ $ticket->description }}
                         </p>
                     </section>
                 </section>
                 <section>
-                    <form action="" method="">
+                    <form action="{{ route('admin.ticket.answer', $ticket->id) }}" method="post">
+                        @csrf
                         <section class="row">
-                            <section class="col-12">
+                            <section class="col-12 my-2">
                                 <div class="form-group">
-                                    <label>پاسخ تیکت</label>
-                                    <textarea class="form-control form-control-sm" rows="4"></textarea>
+                                    <label for="description">پاسخ تیکت</label>
+                                    <textarea id="description" name="description" class="form-control form-control-sm" rows="4">
+                                        {{ old('description') }}
+                                    </textarea>
                                 </div>
+                                @error('body')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </section>
                         </section>
                         <button class="btn btn-sm btn-primary">ثبت</button>
