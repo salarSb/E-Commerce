@@ -3,26 +3,32 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\User\RoleRequest;
+use App\Models\User\Permission;
+use App\Models\User\Role;
 
 class RoleController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
-        return view('admin.user.role.index');
+        $roles = Role::all();
+        return view('admin.user.role.index', compact('roles'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
-        return view('admin.user.role.create');
+        $permissions = Permission::all();
+        return view('admin.user.role.create', compact('permissions'));
     }
 
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        $inputs = $request->except('permissions');
+        $role = Role::create($inputs);
+        if ($request->filled('permissions')) {
+            $role->permissions()->sync($request->input('permissions'));
+        }
+        return redirect(route('admin.user.role.index'))->with('swal-success', 'نقش جدید با موفقیت ثبت شد');
     }
 
     public function show($id)
@@ -30,18 +36,33 @@ class RoleController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        return view('admin.user.role.edit', compact('role'));
     }
 
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, Role $role)
     {
-        //
+        $inputs = $request->all();
+        $role->update($inputs);
+        return redirect(route('admin.user.role.index'))->with('swal-success', 'نقش با موفقیت ویرایش شد');
     }
 
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+        return redirect(route('admin.user.role.index'))->with('swal-success', 'نقش با موفقیت حذف شد');
+    }
+
+    public function permissionForm(Role $role)
+    {
+        $permissions = Permission::all();
+        return view('admin.user.role.set-permission', compact(['role', 'permissions']));
+    }
+
+    public function permissionUpdate(RoleRequest $request, Role $role)
+    {
+        $role->permissions()->sync($request->input('permissions'));
+        return redirect(route('admin.user.role.index'))->with('swal-success', 'دسترسی های نقش با موفقیت ویرایش شدند');
     }
 }

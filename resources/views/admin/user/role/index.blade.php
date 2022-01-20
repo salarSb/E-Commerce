@@ -35,29 +35,49 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>پشتیبان فروش</td>
-                            <td>
-                                1-مشاهده سفارشات<br>
-                                1-مشاهده پرداخت ها<br>
-                                1-مشاهده تخفیف ها<br>
-                            </td>
-                            <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-sm btn-success">
-                                    <i class="fa fa-user-graduate ml-1"></i>
-                                    دسترسی ها
-                                </a>
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ml-1"></i>
-                                    حذف
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach($roles as $role)
+                            <tr>
+                                <th>{{ $loop->iteration }}</th>
+                                <td>{{ $role->name }}</td>
+                                <td>
+                                    @if(empty($role->permissions()->get()->toArray()))
+                                        <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده</span>
+                                    @else
+                                        @foreach($role->permissions as $permission)
+                                            {{ $permission->name }}<br>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td class="width-22-rem text-left">
+                                    <a href="{{ route('admin.user.role.permission-form', $role->id) }}"
+                                       class="btn btn-sm btn-success">
+                                        <i class="fa fa-user-graduate ml-1"></i>
+                                        دسترسی ها
+                                    </a>
+                                    <a href="{{ route('admin.user.role.edit',$role->id) }}"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit ml-1"></i>
+                                        ویرایش
+                                    </a>
+                                    <form action="{{ route('admin.user.role.destroy',$role->id) }}"
+                                          method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm delete"><i
+                                                class="fa fa-trash-alt ml-1"></i>
+                                            حذف
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    @include('admin.alerts.sweet-alert.delete-confirm',['className' => 'delete'])
 @endsection
