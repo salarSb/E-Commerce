@@ -3,26 +3,29 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Http\Requests\Admin\Market\DeiveryRequest;
+use App\Models\Market\Delivery;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
-        return view('admin.market.delivery.index');
+        $delivery_methods = Delivery::all();
+        return view('admin.market.delivery.index', compact('delivery_methods'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('admin.market.delivery.create');
     }
 
-    public function store(Request $request)
+    public function store(DeiveryRequest $request)
     {
-        //
+        $inputs = $request->all();
+        Delivery::create($inputs);
+        return redirect()->route('admin.market.delivery.index')
+            ->with('swal-success', 'روش ارسال جدید با موفقیت ثبت شد');
     }
 
     public function show($id)
@@ -30,18 +33,46 @@ class DeliveryController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Delivery $delivery)
     {
-        //
+        return view('admin.market.delivery.edit', compact('delivery'));
     }
 
-    public function update(Request $request, $id)
+    public function update(DeiveryRequest $request, Delivery $delivery)
     {
-        //
+        $inputs = $request->all();
+        $delivery->update($inputs);
+        return redirect()->route('admin.market.delivery.index')
+            ->with('swal-success', 'روش ارسال با موفقیت ویرایش شد');
     }
 
-    public function destroy($id)
+    public function destroy(Delivery $delivery)
     {
-        //
+        $delivery->delete();
+        return redirect()->route('admin.market.delivery.index')
+            ->with('swal-success', 'روش ارسال با موفقیت حذف شد');
+    }
+
+    public function status(Delivery $delivery)
+    {
+        $delivery->status = $delivery->status == 0 ? 1 : 0;
+        $result = $delivery->save();
+        if ($result) {
+            if ($delivery->status == 0) {
+                return response()->json([
+                    'status' => true,
+                    'checked' => false
+                ]);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'checked' => true
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 }

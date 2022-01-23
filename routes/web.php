@@ -89,9 +89,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [DeliveryController::class, 'index'])->name('index');
             Route::get('/create', [DeliveryController::class, 'create'])->name('create');
             Route::post('/store', [DeliveryController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [DeliveryController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [DeliveryController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{delivery}', [DeliveryController::class, 'edit'])->name('edit');
+            Route::put('/update/{delivery}', [DeliveryController::class, 'update'])->name('update');
+            Route::delete('/destroy/{delivery}', [DeliveryController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{delivery}', [DeliveryController::class, 'status'])->name('status');
         });
 
         //discount
