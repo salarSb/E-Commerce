@@ -59,9 +59,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::get('/create', [CategoryController::class, 'create'])->name('create');
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [CategoryController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{productCategory}', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/update/{productCategory}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('/destroy/{productCategory}', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{productCategory}', [CategoryController::class, 'status'])->name('status');
+            Route::get('/show-in-menu/{productCategory}', [CategoryController::class, 'showInMenu'])->name('show-in-menu');
         });
 
         //brand

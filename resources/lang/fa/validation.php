@@ -169,5 +169,6 @@ return [
         "keywords"                  => "کلمات کلیدی",
         "file_path"                 => "مسیر فایل",
         "national_code"             => "کد ملی",
+        "show_in_menu"              => "نمایش در منو",
     ],
 ];
