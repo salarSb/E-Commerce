@@ -3,26 +3,38 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Market\BrandRequest;
+use App\Http\Services\Image\ImageService;
+use App\Models\Market\Brand;
 
 class BrandController extends Controller
 {
-    public function index(): View|Factory|Application
+    public function index()
     {
-        return view('admin.market.brand.index');
+        $brands = Brand::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.brand.index', compact('brands'));
     }
 
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('admin.market.brand.create');
     }
 
-    public function store(Request $request)
+    public function store(BrandRequest $request, ImageService $imageService)
     {
-        //
+        $inputs = $request->all();
+        if ($request->hasFile('logo')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
+            $result = $imageService->createIndexAndSave($request->file('logo'));
+            if ($result === false) {
+                return redirect()->route('admin.market.brand.index')
+                    ->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['logo'] = $result;
+        }
+        Brand::create($inputs);
+        return redirect()->route('admin.market.brand.index')
+            ->with('swal-success', 'برند جدید با موفقیت ثبت شد');
     }
 
     public function show($id)
@@ -30,18 +42,64 @@ class BrandController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Brand $brand)
     {
-        //
+        return view('admin.market.brand.edit', compact('brand'));
     }
 
-    public function update(Request $request, $id)
+    public function update(BrandRequest $request, Brand $brand, ImageService $imageService)
     {
-        //
+        $inputs = $request->all();
+        if ($request->hasFile('logo')) {
+            if (!empty($brand->logo)) {
+                $imageService->deleteDirectoryAndFiles($brand->logo['directory']);
+            }
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
+            $result = $imageService->createIndexAndSave($request->file('logo'));
+            if ($result === false) {
+                return redirect()->route('admin.market.brand.index')
+                    ->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['logo'] = $result;
+        } else {
+            if (isset($inputs['currentImage']) && !empty($brand->logo)) {
+                $logo = $brand->logo;
+                $logo['currentImage'] = $inputs['currentImage'];
+                $inputs['logo'] = $logo;
+            }
+        }
+        $brand->update($inputs);
+        return redirect()->route('admin.market.brand.index')
+            ->with('swal-success', 'برند با موفقیت ویرایش شد');
     }
 
-    public function destroy($id)
+    public function destroy(Brand $brand)
     {
-        //
+        $brand->delete();
+        return redirect(route('admin.market.brand.index'))
+            ->with('swal-success', 'برند با موفقیت حذف شد');
+    }
+
+    public function status(Brand $brand)
+    {
+        $brand->status = $brand->status == 0 ? 1 : 0;
+        $result = $brand->save();
+        if ($result) {
+            if ($brand->status == 0) {
+                return response()->json([
+                    'status' => true,
+                    'checked' => false
+                ]);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'checked' => true
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 }

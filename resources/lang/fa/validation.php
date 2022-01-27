@@ -170,5 +170,7 @@ return [
         "file_path"                 => "مسیر فایل",
         "national_code"             => "کد ملی",
         "show_in_menu"              => "نمایش در منو",
+        "persian_name"              => "نام فارسی",
+        "original_name"             => "نام اصلی",
     ],
 ];
