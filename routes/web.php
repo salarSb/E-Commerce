@@ -133,18 +133,22 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         });
 
         //product
-        Route::prefix('/product')->group(function () {
-            Route::get('/', [ProductController::class, 'index'])->name('product.index');
-            Route::get('/create', [ProductController::class, 'create'])->name('product.create');
-            Route::post('/store', [ProductController::class, 'store'])->name('product.store');
-            Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-            Route::put('/update/{id}', [ProductController::class, 'update'])->name('product.update');
-            Route::delete('/destroy/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::prefix('/product')->name('product.')->group(function () {
+            Route::get('/', [ProductController::class, 'index'])->name('index');
+            Route::get('/create', [ProductController::class, 'create'])->name('create');
+            Route::post('/store', [ProductController::class, 'store'])->name('store');
+            Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
+            Route::put('/update/{product}', [ProductController::class, 'update'])->name('update');
+            Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{product}', [ProductController::class, 'status'])->name('status');
+            Route::get('/marketable/{product}', [ProductController::class, 'marketable'])->name('marketable');
 
             //gallery
-            Route::get('/gallery/', [GalleryController::class, 'index'])->name('gallery.index');
-            Route::post('/gallery/store', [GalleryController::class, 'store'])->name('gallery.store');
-            Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+            Route::prefix('/gallery')->name('gallery.')->group(function (){
+                Route::get('/gallery/', [GalleryController::class, 'index'])->name('index');
+                Route::post('/gallery/store', [GalleryController::class, 'store'])->name('store');
+                Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('destroy');
+            });
         });
 
         //property

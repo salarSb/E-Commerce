@@ -32,58 +32,202 @@
                             <th>نام کالا</th>
                             <th>تصویر کالا</th>
                             <th>قیمت</th>
-                            <th>وزن کالا</th>
                             <th>دسته</th>
-                            <th>فرم</th>
+                            <th>وضعیت</th>
+                            <th>قابل فروش</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>گوشی آیفون 12</td>
-                            <td>
-                                <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="product image"
-                                     class="max-height-2rem">
-                            </td>
-                            <td>12.000.000 تومان</td>
-                            <td>1 کیلوگرم</td>
-                            <td>کالای الکترونیکی</td>
-                            <td>موبایل</td>
-                            <td class="width-16-rem text-left">
-                                <div class="dropdown">
-                                    <a href="#" class="btn btn-success btn-sm btn-block dropdown-toggle" role="button"
-                                       id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-tools"></i>
-                                        عملیات
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a href="#" class="dropdown-item text-right">
-                                            <i class="fa fa-images"></i>
-                                            گالری
+                        @foreach($products as $product)
+                            <tr>
+                                <th>{{ $loop->iteration }}</th>
+                                <td>{{ $product->name }}</td>
+                                <td>
+                                    <img
+                                        src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
+                                        alt="category image"
+                                        width="50" height="50">
+                                </td>
+                                <td>{{ $product->price }} تومان</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $product->id }}"
+                                               onchange="changeStatus({{ $product->id }})" type="checkbox"
+                                               data-url="{{ route('admin.market.product.status', $product->slug) }}"
+                                               @if($product->status === 1) checked @endif>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $product->id }}-marketable"
+                                               onchange="changeMarketable({{ $product->id }})" type="checkbox"
+                                               data-url="{{ route('admin.market.product.marketable', $product->slug) }}"
+                                               @if($product->marketable === 1) checked @endif>
+                                    </label>
+                                </td>
+                                <td class="width-16-rem text-left">
+                                    <div class="dropdown">
+                                        <a href="#" class="btn btn-success btn-sm btn-block dropdown-toggle"
+                                           role="button"
+                                           id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-tools"></i>
+                                            عملیات
                                         </a>
-                                        <a href="#" class="dropdown-item text-right">
-                                            <i class="fa fa-list-ul"></i>
-                                            فرم کالا
-                                        </a>
-                                        <a href="#" class="dropdown-item text-right">
-                                            <i class="fa fa-edit"></i>
-                                            ویرایش
-                                        </a>
-                                        <form action="" method="post">
-                                            <button type="submit" class="dropdown-item text-right">
-                                                <i class="fa fa-window-close"></i>
-                                                حذف
-                                            </button>
-                                        </form>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a href="#" class="dropdown-item text-right">
+                                                <i class="fa fa-images"></i>
+                                                گالری
+                                            </a>
+                                            <a href="#" class="dropdown-item text-right">
+                                                <i class="fa fa-list-ul"></i>
+                                                فرم کالا
+                                            </a>
+                                            <a href="{{ route('admin.market.product.edit', $product->slug) }}"
+                                               class="dropdown-item text-right">
+                                                <i class="fa fa-edit"></i>
+                                                ویرایش
+                                            </a>
+                                            <form action="{{ route('admin.market.product.destroy', $product->slug) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="dropdown-item text-right delete">
+                                                    <i class="fa fa-window-close"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        function changeStatus(id) {
+            let element = $('#' + id);
+            let url = element.attr('data-url');
+            let elementValue = !element.prop('checked');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('کالا با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('کالا با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی رخ داده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+                let successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+                let errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function changeMarketable(id) {
+            let element = $('#' + id + '-marketable');
+            let url = element.attr('data-url');
+            let elementValue = !element.prop('checked');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('قابلیت فروش کالا فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('قابلیت فروش کالا غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی رخ داده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+                let successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+                let errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5000).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+    @include('admin.alerts.sweet-alert.delete-confirm',['className' => 'delete'])
 @endsection

@@ -172,5 +172,12 @@ return [
         "show_in_menu"              => "نمایش در منو",
         "persian_name"              => "نام فارسی",
         "original_name"             => "نام اصلی",
+        "brand_id"                  => "برند",
+        "weight"                    => "وزن",
+        "length"                    => "طول",
+        "width"                     => "عرض",
+        "height"                    => "ارتفاع",
+        "price"                     => "قیمت",
+        "introduction"              => "توضیحات",
     ],
 ];
