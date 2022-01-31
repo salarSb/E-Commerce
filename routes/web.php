@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
+use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\StoreController;
@@ -143,8 +144,17 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/status/{product}', [ProductController::class, 'status'])->name('status');
             Route::get('/marketable/{product}', [ProductController::class, 'marketable'])->name('marketable');
 
+            //product color
+            Route::prefix('/color')->name('color.')->group(function () {
+                Route::get('/{product}', [ProductColorController::class, 'index'])->name('index');
+                Route::get('create/{product}', [ProductColorController::class, 'create'])->name('create');
+                Route::post('store/{product}', [ProductColorController::class, 'store'])->name('store');
+                Route::delete('destroy/{product}/{color}', [ProductColorController::class, 'destroy'])->name('destroy');
+                Route::get('status/{color}', [ProductColorController::class, 'status'])->name('status');
+            });
+
             //gallery
-            Route::prefix('/gallery')->name('gallery.')->group(function (){
+            Route::prefix('/gallery')->name('gallery.')->group(function () {
                 Route::get('/gallery/', [GalleryController::class, 'index'])->name('index');
                 Route::post('/gallery/store', [GalleryController::class, 'store'])->name('store');
                 Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('destroy');

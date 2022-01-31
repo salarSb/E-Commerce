@@ -255,12 +255,22 @@
                                                 <input class="form-control form-control-sm" type="text"
                                                        name="meta_key[{{ $meta->id }}]" value="{{ $meta->meta_key }}">
                                             </div>
+                                            @error('meta_key.*')
+                                            <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
                                         </section>
                                         <section class="col-6 col-md-3">
                                             <div class="form-group">
                                                 <input class="form-control form-control-sm" type="text"
                                                        name="meta_value[]" value="{{ $meta->meta_value }}">
                                             </div>
+                                            @error('meta_value.*')
+                                            <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
                                         </section>
                                     </section>
                                 @endforeach

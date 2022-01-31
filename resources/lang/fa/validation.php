@@ -179,5 +179,6 @@ return [
         "height"                    => "ارتفاع",
         "price"                     => "قیمت",
         "introduction"              => "توضیحات",
+        "price_increase"            => "افزایش قیمت",
     ],
 ];

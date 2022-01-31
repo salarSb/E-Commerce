@@ -80,9 +80,10 @@
                                                 <i class="fa fa-images"></i>
                                                 گالری
                                             </a>
-                                            <a href="#" class="dropdown-item text-right">
+                                            <a href="{{ route('admin.market.product.color.index', $product->slug) }}"
+                                               class="dropdown-item text-right">
                                                 <i class="fa fa-list-ul"></i>
-                                                فرم کالا
+                                                رنگ کالا
                                             </a>
                                             <a href="{{ route('admin.market.product.edit', $product->slug) }}"
                                                class="dropdown-item text-right">
