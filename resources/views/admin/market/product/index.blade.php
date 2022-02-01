@@ -76,7 +76,8 @@
                                             عملیات
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a href="#" class="dropdown-item text-right">
+                                            <a href="{{ route('admin.market.product.gallery.index', $product->slug) }}"
+                                               class="dropdown-item text-right">
                                                 <i class="fa fa-images"></i>
                                                 گالری
                                             </a>

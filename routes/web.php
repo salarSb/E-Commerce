@@ -155,9 +155,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
 
             //gallery
             Route::prefix('/gallery')->name('gallery.')->group(function () {
-                Route::get('/gallery/', [GalleryController::class, 'index'])->name('index');
-                Route::post('/gallery/store', [GalleryController::class, 'store'])->name('store');
-                Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('destroy');
+                Route::get('/{product}', [GalleryController::class, 'index'])->name('index');
+                Route::get('/create/{product}', [GalleryController::class, 'create'])->name('create');
+                Route::post('/store/{product}', [GalleryController::class, 'store'])->name('store');
+                Route::delete('/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('destroy');
             });
         });
 
