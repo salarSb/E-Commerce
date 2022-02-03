@@ -167,9 +167,9 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [PropertyController::class, 'index'])->name('index');
             Route::get('/create', [PropertyController::class, 'create'])->name('create');
             Route::post('/store', [PropertyController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [PropertyController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [PropertyController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{categoryAttribute}', [PropertyController::class, 'edit'])->name('edit');
+            Route::put('/update/{categoryAttribute}', [PropertyController::class, 'update'])->name('update');
+            Route::delete('/destroy/{categoryAttribute}', [PropertyController::class, 'destroy'])->name('destroy');
         });
 
         //store

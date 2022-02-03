@@ -180,5 +180,6 @@ return [
         "price"                     => "قیمت",
         "introduction"              => "توضیحات",
         "price_increase"            => "افزایش قیمت",
+        "unit"                      => "واحد اندازه گیری"
     ],
 ];
