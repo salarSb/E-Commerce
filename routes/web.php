@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
+use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
@@ -170,6 +171,17 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/edit/{categoryAttribute}', [PropertyController::class, 'edit'])->name('edit');
             Route::put('/update/{categoryAttribute}', [PropertyController::class, 'update'])->name('update');
             Route::delete('/destroy/{categoryAttribute}', [PropertyController::class, 'destroy'])->name('destroy');
+
+            //property value
+            Route::prefix('/value')->name('value.')->group(function () {
+                Route::get('/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('index');
+                Route::get('create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('create');
+                Route::post('store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('store');
+                Route::get('edit/{categoryAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('edit');
+                Route::put('update/{categoryAttribute}/{value}', [PropertyValueController::class, 'update'])->name('update');
+                Route::delete('destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('destroy');
+
+            });
         });
 
         //store

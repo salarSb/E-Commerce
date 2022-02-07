@@ -6,24 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CategoryAttribute extends Model
+class CategoryValue extends Model
 {
     use HasFactory, softDeletes;
 
     protected $fillable = [
-        'name',
+        'product_id',
+        'category_attribute_id',
+        'value',
         'type',
-        'unit',
-        'category_id',
     ];
 
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(ProductCategory::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function values()
+    public function attribute()
     {
-        return $this->hasMany(CategoryValue::class);
+        return $this->belongsTo(CategoryAttribute::class);
     }
 }
