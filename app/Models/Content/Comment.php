@@ -26,6 +26,16 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    public function scopePostComments($query)
+    {
+        return $query->where('commentable_type', 'App\Models\Content\Post');
+    }
+
+    public function scopeProductComments($query)
+    {
+        return $query->where('commentable_type', 'App\Models\Market\Product');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id');

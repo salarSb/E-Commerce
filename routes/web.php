@@ -82,11 +82,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         //comment
         Route::prefix('/comment')->name('comment.')->group(function () {
             Route::get('/', [CommentController::class, 'index'])->name('index');
-            Route::get('/show', [CommentController::class, 'show'])->name('show');
-            Route::post('/store', [CommentController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [CommentController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [CommentController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [CommentController::class, 'destroy'])->name('destroy');
+            Route::get('/show/{comment}', [CommentController::class, 'show'])->name('show');
+            Route::delete('/destroy/{comment}', [CommentController::class, 'destroy'])->name('destroy');
+            Route::get('/approved/{comment}', [CommentController::class, 'approved'])->name('approved');
+            Route::get('/status/{comment}', [CommentController::class, 'status'])->name('status');
+            Route::post('/answer/{comment}', [CommentController::class, 'answer'])->name('answer');
         });
 
         //delivery
