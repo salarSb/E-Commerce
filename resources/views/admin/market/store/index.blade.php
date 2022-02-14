@@ -31,35 +31,40 @@
                             <th>#</th>
                             <th>نام کالا</th>
                             <th>تصویر کالا</th>
-                            <th>موجودی</th>
-                            <th>ورودی انبار</th>
-                            <th>خروجی انبار</th>
+                            <th>تعداد قابل فروش</th>
+                            <th>تعداد رزرو شده</th>
+                            <th>تعداد فروخته شده</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>سامسونگ LED</td>
-                            <td>
-                                <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="product image"
-                                     class="max-height-2rem">
-                            </td>
-                            <td>16</td>
-                            <td>38</td>
-                            <td>22</td>
-                            <td class="width-16-rem-rem text-left">
-                                <a href="{{ route('admin.market.store.addToStore') }}"
-                                   class="btn btn-sm btn-primary mb-1">
-                                    <i class="fa fa-edit ml-1"></i>
-                                    افزایش موجودی
-                                </a>
-                                <button type="submit" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-trash-alt ml-1"></i>
-                                    اصلاح موجودی
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach($products as $product)
+                            <tr>
+                                <th>{{ $loop->iteration }}</th>
+                                <td>{{ $product->name }}</td>
+                                <td>
+                                    <img
+                                        src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
+                                        alt="category image"
+                                        width="50" height="50">
+                                </td>
+                                <td>{{ $product->marketable_number }}</td>
+                                <td>{{ $product->frozen_number }}</td>
+                                <td>{{ $product->sold_number }}</td>
+                                <td class="width-16-rem-rem text-left">
+                                    <a href="{{ route('admin.market.store.addToStore', $product->slug) }}"
+                                       class="btn btn-sm btn-primary mb-1">
+                                        <i class="fa fa-edit ml-1"></i>
+                                        افزایش موجودی
+                                    </a>
+                                    <a href="{{ route('admin.market.store.edit', $product->slug) }}"
+                                       class="btn btn-sm btn-warning mb-1">
+                                        <i class="fa fa-edit ml-1"></i>
+                                        اصلاح موجودی
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>

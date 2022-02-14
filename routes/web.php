@@ -187,11 +187,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         //store
         Route::prefix('/store')->name('store.')->group(function () {
             Route::get('/', [StoreController::class, 'index'])->name('index');
-            Route::get('/add-to-store', [StoreController::class, 'addToStore'])->name('addToStore');
-            Route::post('/store', [StoreController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [StoreController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [StoreController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [StoreController::class, 'destroy'])->name('destroy');
+            Route::get('/add-to-store/{product}', [StoreController::class, 'addToStore'])->name('addToStore');
+            Route::post('/store/{product}', [StoreController::class, 'store'])->name('store');
+            Route::get('/edit/{product}', [StoreController::class, 'edit'])->name('edit');
+            Route::put('/update/{product}', [StoreController::class, 'update'])->name('update');
         });
     });
 

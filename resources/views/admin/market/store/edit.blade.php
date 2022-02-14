@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('head-tag')
-    <title>اضافه کردن به انبار</title>
+    <title>ویرایش موجودی</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -8,14 +8,14 @@
             <li class="breadcrumb-item font-size-12 ml-3"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">انبار</a></li>
-            <li class="active font-size-12" aria-current="page">اضافه کردن به انبار</li>
+            <li class="active font-size-12" aria-current="page">ویرایش موجودی</li>
         </ol>
     </nav>
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
-                    <h5>اضافه کردن به انبار</h5>
+                    <h5>ویرایش موجودی</h5>
                 </section>
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('admin.market.store.index') }}" class="btn btn-info btn-sm">
@@ -23,39 +23,16 @@
                     </a>
                 </section>
                 <section>
-                    <form action="{{ route('admin.market.store.store',$product->slug) }}" method="post">
+                    <form action="{{ route('admin.market.store.update',$product->slug) }}" method="post">
                         @csrf
+                        @method('put')
                         <section class="row">
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="receiver">نام تحویل گیرنده</label>
-                                    <input id="receiver" name="receiver" class="form-control form-control-sm"
-                                           type="text" value="{{ old('receiver') }}">
-                                </div>
-                                @error('receiver')
-                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="deliverer">نام تحویل دهنده</label>
-                                    <input id="deliverer" name="deliverer" class="form-control form-control-sm"
-                                           type="text" value="{{ old('deliverer') }}">
-                                </div>
-                                @error('deliverer')
-                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="marketable_number">تعداد</label>
+                                    <label for="marketable_number">تعداد قابل فروش</label>
                                     <input id="marketable_number" name="marketable_number"
                                            class="form-control form-control-sm"
-                                           type="text" value="{{ old('marletable_number') }}">
+                                           type="text" value="{{ old('marletable_number', $product->marketable_number) }}">
                                 </div>
                                 @error('marketable_number')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -63,13 +40,27 @@
                                 </span>
                                 @enderror
                             </section>
-                            <section class="col-12 my-2">
+                            <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="description">توضیحات</label>
-                                    <textarea class="form-control form-control-sm" rows="6" id="description"
-                                              name="description">{{ old('description') }}</textarea>
+                                    <label for="sold_number"> تعداد فروحته شده</label>
+                                    <input id="sold_number" name="sold_number"
+                                           class="form-control form-control-sm"
+                                           type="text" value="{{ old('sold_number',$product->sold_number) }}">
                                 </div>
-                                @error('description')
+                                @error('sold_number')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="frozen_number">تعداد رزرو شده</label>
+                                    <input id="frozen_number" name="frozen_number"
+                                           class="form-control form-control-sm"
+                                           type="text" value="{{ old('frozen_number',$product->frozen_number) }}">
+                                </div>
+                                @error('frozen_number')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
