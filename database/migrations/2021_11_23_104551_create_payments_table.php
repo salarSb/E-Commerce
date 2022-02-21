@@ -17,8 +17,8 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->decimal('amount', 20, 3);
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('type')->default(0)->comment('0 => online, 1 => offline, 2 => cash ');
+            $table->tinyInteger('status')->default(0)->comment('0 => notPaid, 1 => paid, 2 => canceled, 3 => returned');
+            $table->tinyInteger('type')->default(0)->comment('0 => online, 1 => offline, 2 => cash');
             $table->morphs('paymentable');
             $table->timestamps();
             $table->softDeletes();

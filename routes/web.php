@@ -130,8 +130,10 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/', [PaymentController::class, 'index'])->name('index');
             Route::get('/online', [PaymentController::class, 'online'])->name('online');
             Route::get('/offline', [PaymentController::class, 'offline'])->name('offline');
-            Route::get('/attendance', [PaymentController::class, 'attendance'])->name('attendance');
-            Route::get('/confirm', [PaymentController::class, 'confirm'])->name('confirm');
+            Route::get('/cash', [PaymentController::class, 'cash'])->name('cash');
+            Route::get('/canceled/{payment}', [PaymentController::class, 'canceled'])->name('canceled');
+            Route::get('/returned/{payment}', [PaymentController::class, 'returned'])->name('returned');
+            Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('show');
         });
 
         //product

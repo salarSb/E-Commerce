@@ -3,34 +3,54 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Models\Market\Payment;
 
 class PaymentController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
-        return view('admin.market.payment.index');
+        $payments = Payment::all();
+        return view('admin.market.payment.index', compact('payments'));
     }
 
-    public function online(): Factory|View|Application
+    public function online()
     {
-        return view('admin.market.payment.index');
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\OnlinePayment')->get();
+        return view('admin.market.payment.index', compact('payments'));
     }
 
-    public function offline(): Factory|View|Application
+    public function offline()
     {
-        return view('admin.market.payment.index');
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\OfflinePayment')->get();
+        return view('admin.market.payment.index', compact('payments'));
     }
 
-    public function attendance(): Factory|View|Application
+    public function cash()
     {
-        return view('admin.market.payment.index');
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\CashPayment')->get();
+        return view('admin.market.payment.index', compact('payments'));
     }
 
-    public function confirm(): Factory|View|Application
+    public function canceled(Payment $payment)
     {
-        return view('admin.market.payment.index');
+        $payment->status = 2;
+        $payment->save();
+        $payment->paymentable->status = 2;
+        $payment->paymentable->save();
+        return redirect()->route('admin.market.payment.index')->with('swal-success', 'پرداخت با موفقیت باطل شد');
+    }
+
+    public function returned(Payment $payment)
+    {
+        $payment->status = 3;
+        $payment->save();
+        $payment->paymentable->status = 3;
+        $payment->paymentable->save();
+        return redirect()->route('admin.market.payment.index')->with('swal-success', 'پرداخت با موفقیت برگشت داده شد');
+    }
+
+    public function show(Payment $payment)
+    {
+        return view('admin.market.payment.show', compact('payment'));
     }
 }
