@@ -63,7 +63,7 @@
                 </section>
                 <section class="sidebar-dropdown">
                     <a href="{{ route('admin.market.discount.coupon') }}">کوپن تخفیف</a>
-                    <a href="{{ route('admin.market.discount.commonDiscount') }}">تخفیف عمومی</a>
+                    <a href="{{ route('admin.market.discount.commonDiscount.index') }}">تخفیف عمومی</a>
                     <a href="{{ route('admin.market.discount.amazingSale') }}">فروش شگفت انگیز</a>
                 </section>
             </section>

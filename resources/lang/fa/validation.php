@@ -187,5 +187,10 @@ return [
         "marketable_number"         => "تعداد قابل فروش",
         "sold_number"               => "تعداد فروخته شده",
         "frozen_number"             => "تعداد رزرو شده",
+        "percentage"                => "درصد",
+        "discount_ceiling"          => "سقف تخفیف",
+        "minimal_order_amount"      => "حداقل مبلغ",
+        "start_date"                => "تاریخ شروع",
+        "end_date"                  => "تاریخ پایان",
     ],
 ];
