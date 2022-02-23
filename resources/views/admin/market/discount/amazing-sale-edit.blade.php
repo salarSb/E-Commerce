@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @section('head-tag')
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
-    <title>افزودن به فروش شگفت انگیز</title>
+    <title>ویرایش فروش شگفت انگیز</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -9,14 +9,14 @@
             <li class="breadcrumb-item font-size-12 ml-3"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">فروش شگفت انگیز</a></li>
-            <li class="active font-size-12" aria-current="page">افزودن به فروش شگفت انگیز</li>
+            <li class="active font-size-12" aria-current="page">ویرایش فروش شگفت انگیز</li>
         </ol>
     </nav>
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
-                    <h5>افزودن به فروش شگفت انگیز</h5>
+                    <h5>ویرایش فروش شگفت انگیز</h5>
                 </section>
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('admin.market.discount.amazingSale.index') }}" class="btn btn-info btn-sm">
@@ -24,7 +24,9 @@
                     </a>
                 </section>
                 <section>
-                    <form action="{{ route('admin.market.discount.amazingSale.store') }}" method="post">
+                    <form action="{{ route('admin.market.discount.amazingSale.update', $amazingSale->id) }}"
+                          method="post">
+                        @method('put')
                         @csrf
                         <section class="row">
                             <section class="col-12 col-md-6 my-2">
@@ -34,7 +36,7 @@
                                         <option value="">کالا را انتخاب کنید</option>
                                         @foreach($products as $product)
                                             <option value="{{ $product->id }}"
-                                                    @if(old('product_id') == $product->id) selected @endif>
+                                                    @if(old('product_id', $amazingSale->product_id) == $product->id) selected @endif>
                                                 {{ $product->name }}
                                             </option>
                                         @endforeach
@@ -51,7 +53,7 @@
                                     <label for="percentage">درصد تخفیف</label>
                                     <input name="percentage" id="percentage" class="form-control form-control-sm"
                                            type="text"
-                                           value="{{ old('percentage') }}">
+                                           value="{{ old('percentage', $amazingSale->percentage) }}">
                                 </div>
                                 @error('percentage')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -89,8 +91,12 @@
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" id="status" class="form-control form-control-sm">
-                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
-                                        <option value="0" @if(old('status') == 0) selected @endif>غیر فعال</option>
+                                        <option value="1" @if(old('status', $amazingSale->status) == 1) selected @endif>
+                                            فعال
+                                        </option>
+                                        <option value="0" @if(old('status', $amazingSale->status) == 0) selected @endif>
+                                            غیر فعال
+                                        </option>
                                     </select>
                                 </div>
                                 @error('status')
