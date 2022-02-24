@@ -93,3 +93,10 @@
         </section>
     </section>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $("#product_id").select2();
+        });
+    </script>
+@endsection

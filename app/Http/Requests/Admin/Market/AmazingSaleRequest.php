@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin\Market;
 
-use App\Rules\DiscountDateRule;
+use App\Rules\DateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AmazingSaleRequest extends FormRequest
@@ -28,7 +28,7 @@ class AmazingSaleRequest extends FormRequest
             'product_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:products,id'],
             'percentage' => ['required', 'max:100', 'min:1', 'numeric'],
             'status' => ['required', 'numeric', 'in:0,1'],
-            'start_date' => ['required', 'numeric', 'lt:end_date', new DiscountDateRule()],
+            'start_date' => ['required', 'numeric', 'lt:end_date', new DateRule()],
             'end_date' => ['required', 'numeric',],
         ];
     }

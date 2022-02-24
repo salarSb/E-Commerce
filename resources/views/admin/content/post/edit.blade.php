@@ -138,7 +138,8 @@
                                     <label for="published_at_view">تاریخ انتشار</label>
                                     <input id="published_at" class="form-control form-control-sm d-none" type="text"
                                            name="published_at">
-                                    <input id="published_at_view" type="text" class="form-control form-control-sm">
+                                    <input id="published_at_view" type="text" class="form-control form-control-sm"
+                                           value="{{ old('published_at', $post->published_at) }}">
                                 </div>
                                 @error('published_at')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -200,6 +201,11 @@
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#category_id").select2();
+        });
+    </script>
     <script>
         CKEDITOR.replace('summary')
         CKEDITOR.replace('body')

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin\Market;
 
-use App\Rules\DiscountDateRule;
+use App\Rules\DateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CommonDiscountRequest extends FormRequest
@@ -30,7 +30,7 @@ class CommonDiscountRequest extends FormRequest
             'discount_ceiling' => ['nullable', 'max:100000000000000', 'min:1', 'numeric'],
             'minimal_order_amount' => ['nullable', 'max:100000000000000', 'min:1', 'numeric'],
             'status' => ['required', 'numeric', 'in:0,1'],
-            'start_date' => ['required', 'numeric', 'lt:end_date', new DiscountDateRule()],
+            'start_date' => ['required', 'numeric', 'lt:end_date', new DateRule()],
             'end_date' => ['required', 'numeric',],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Content;
 
+use App\Rules\DateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
@@ -32,7 +33,7 @@ class PostRequest extends FormRequest
                 'image' => ['required', 'image', 'mimes:png,jpg,jpeg,gif'],
                 'status' => ['required', 'numeric', 'in:0,1'],
                 'tags' => ['required', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
-                'published_at' => ['required', 'numeric'],
+                'published_at' => ['required', 'numeric', new DateRule],
             ];
         } else {
             return [
@@ -43,7 +44,7 @@ class PostRequest extends FormRequest
                 'image' => ['image', 'mimes:png,jpg,jpeg,gif'],
                 'status' => ['required', 'numeric', 'in:0,1'],
                 'tags' => ['required', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
-                'published_at' => 'numeric'
+                'published_at' => ['numeric', new DateRule]
             ];
         }
     }

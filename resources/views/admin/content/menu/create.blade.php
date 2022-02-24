@@ -91,3 +91,10 @@
         </section>
     </section>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $("#parent_id").select2();
+        });
+    </script>
+@endsection

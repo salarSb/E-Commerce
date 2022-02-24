@@ -192,5 +192,6 @@ return [
         "minimal_order_amount"      => "حداقل مبلغ",
         "start_date"                => "تاریخ شروع",
         "end_date"                  => "تاریخ پایان",
+        "code"                      => "کد"
     ],
 ];

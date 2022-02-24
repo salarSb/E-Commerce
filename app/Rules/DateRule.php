@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class DiscountDateRule implements Rule
+class DateRule implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,8 +25,8 @@ class DiscountDateRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $value = substr($value, 0, 8);
-        $timestamp = substr(now()->getTimestamp(), 0, 8);
+        $value = substr($value, 0, 6);
+        $timestamp = substr(now()->getTimestamp(), 0, 6);
         return $value >= $timestamp;
     }
 

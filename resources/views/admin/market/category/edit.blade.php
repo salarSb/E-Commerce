@@ -166,6 +166,11 @@
 @section('script')
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("#parent_id").select2();
+        });
+    </script>
+    <script>
         CKEDITOR.replace('description')
     </script>
     <script>

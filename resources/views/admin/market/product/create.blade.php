@@ -258,6 +258,16 @@
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("#category_id").select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#brand_id").select2();
+        });
+    </script>
+    <script>
         CKEDITOR.replace('introduction')
     </script>
     <script>

@@ -1,42 +1,108 @@
 @extends('admin.layouts.master')
 @section('head-tag')
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
-    <title>ویرایش تخفیف عمومی</title>
+    <title>ویرایش کوپن تخفیف</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12 ml-3"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">تخفیف عمومی</a></li>
-            <li class="active font-size-12" aria-current="page">ویرایش تخفیف عمومی</li>
+            <li class="breadcrumb-item font-size-12"><a href="#">کوپن تخفیف</a></li>
+            <li class="active font-size-12" aria-current="page">ویرایش کوپن تخفیف</li>
         </ol>
     </nav>
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
-                    <h5>ویرایش تخفیف عمومی</h5>
+                    <h5>ویرایش کوپن تخفیف</h5>
                 </section>
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('admin.market.discount.commonDiscount.index') }}" class="btn btn-info btn-sm">
+                    <a href="{{ route('admin.market.discount.coupon.index') }}" class="btn btn-info btn-sm">
                         بازگشت
                     </a>
                 </section>
                 <section>
-                    <form action="{{ route('admin.market.discount.commonDiscount.update', $commonDiscount->id) }}"
-                          method="post">
+                    <form action="{{ route('admin.market.discount.coupon.update', $coupon->id) }}" method="post">
                         @csrf
                         @method('put')
                         <section class="row">
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="percentage">درصد تخفیف</label>
-                                    <input name="percentage" id="percentage" class="form-control form-control-sm"
+                                    <label for="code">کد کوپن</label>
+                                    <input name="code" id="code" class="form-control form-control-sm"
                                            type="text"
-                                           value="{{ old('percentage', $commonDiscount->percentage) }}">
+                                           value="{{ old('code', $coupon->code) }}">
                                 </div>
-                                @error('percentage')
+                                @error('code')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="type">نوع کوپن</label>
+                                    <select class="form-control form-control-sm" name="type" id="type">
+                                        <option value="0" @if(old('type', $coupon->type) == 0) selected @endif>عمومی
+                                        </option>
+                                        <option value="1" @if(old('type', $coupon->type) == 1) selected @endif>خصوصی
+                                        </option>
+                                    </select>
+                                </div>
+                                @error('type')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="user_id">انتخاب کاربر</label>
+                                    <select class="form-control form-control-sm" name="user_id" id="user_id"
+                                            @if(old('type',$coupon->type) == 0) disabled @endif>
+                                        <option value="">کاربر را انتخاب کنید</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                    @if(old('user_id', $coupon->user_id ? $coupon->user->id : '') == $user->id) selected @endif>
+                                                {{ $user->fullName }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('user_id')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="amount_type">نوع تخفیف</label>
+                                    <select class="form-control form-control-sm" name="amount_type" id="amount_type">
+                                        <option value="0"
+                                                @if(old('amount_type', $coupon->amount_type) == 0) selected @endif>درصدی
+                                        </option>
+                                        <option value="1"
+                                                @if(old('amount_type', $coupon->amount_type) == 1) selected @endif>مبلغی
+                                        </option>
+                                    </select>
+                                </div>
+                                @error('amount_type')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="amount">میزان تخفیف</label>
+                                    <input name="amount" id="amount" class="form-control form-control-sm"
+                                           type="text"
+                                           value="{{ old('amount', $coupon->amount) }}">
+                                </div>
+                                @error('amount')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -47,34 +113,9 @@
                                     <label for="discount_ceiling">حداکثر تخفیف</label>
                                     <input name="discount_ceiling" id="discount_ceiling"
                                            class="form-control form-control-sm" type="text"
-                                           value="{{ old('discount_ceiling', $commonDiscount->discount_ceiling) }}">
+                                           value="{{ old('discount_ceiling', $coupon->discount_ceiling) }}">
                                 </div>
                                 @error('discount_ceiling')
-                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="minimal_order_amount">حداقل مبلغ خرید</label>
-                                    <input name="minimal_order_amount" id="minimal_order_amount"
-                                           class="form-control form-control-sm" type="text"
-                                           value="{{ old('minimal_order_amount', $commonDiscount->minimal_order_amount) }}">
-                                </div>
-                                @error('minimal_order_amount')
-                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="title">عنوان مناسبت</label>
-                                    <input name="title" id="title" class="form-control form-control-sm" type="text"
-                                           value="{{ old('title', $commonDiscount->title) }}">
-                                </div>
-                                @error('title')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -86,7 +127,7 @@
                                     <input id="start_date" class="form-control form-control-sm d-none" type="text"
                                            name="start_date">
                                     <input id="start_date_view" type="text" class="form-control form-control-sm"
-                                           value="{{ old('start_date', $commonDiscount->start_date) }}">
+                                           value="{{ old('start_date', $coupon->start_date) }}">
                                 </div>
                                 @error('start_date')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -100,7 +141,7 @@
                                     <input id="end_date" class="form-control form-control-sm d-none" type="text"
                                            name="end_date">
                                     <input id="end_date_view" type="text" class="form-control form-control-sm"
-                                           value="{{ old('end_date', $commonDiscount->end_date) }}">
+                                           value="{{ old('end_date', $coupon->end_date) }}">
                                 </div>
                                 @error('end_date')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -108,17 +149,15 @@
                                 </span>
                                 @enderror
                             </section>
-                            <section class="col-12 my-2">
+                            <section class="col-12">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" id="status" class="form-control form-control-sm">
-                                        <option value="1"
-                                                @if(old('status', $commonDiscount->status) == 1) selected @endif>
+                                        <option value="1" @if(old('status', $coupon->status) == 1) selected @endif>
                                             فعال
                                         </option>
-                                        <option value="0"
-                                                @if(old('status', $commonDiscount->status) == 0) selected @endif>
-                                            غیر فعال
+                                        <option value="0" @if(old('status', $coupon->status) == 0) selected @endif>غیر
+                                            فعال
                                         </option>
                                     </select>
                                 </div>
@@ -139,6 +178,22 @@
 @section('script')
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#user_id").select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#type').change(function () {
+                if ($('#type').find(':selected').val() == 1) {
+                    $('#user_id').removeAttr('disabled');
+                } else {
+                    $('#user_id').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('#start_date_view').persianDatepicker({

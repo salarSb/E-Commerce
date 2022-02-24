@@ -112,6 +112,11 @@
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script>
         $(document).ready(function () {
+            $("#product_id").select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
             $('#start_date_view').persianDatepicker({
                 format: 'YYYY/MM/DD',
                 altField: '#start_date'

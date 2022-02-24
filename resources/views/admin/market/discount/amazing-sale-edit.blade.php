@@ -66,7 +66,8 @@
                                     <label for="start_date_view">تاریخ شروع</label>
                                     <input id="start_date" class="form-control form-control-sm d-none" type="text"
                                            name="start_date">
-                                    <input id="start_date_view" type="text" class="form-control form-control-sm">
+                                    <input id="start_date_view" type="text" class="form-control form-control-sm"
+                                           value="{{ old('start_date', $amazingSale->start_date) }}">
                                 </div>
                                 @error('start_date')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -79,7 +80,8 @@
                                     <label for="end_date_view">تاریخ پایان</label>
                                     <input id="end_date" class="form-control form-control-sm d-none" type="text"
                                            name="end_date">
-                                    <input id="end_date_view" type="text" class="form-control form-control-sm">
+                                    <input id="end_date_view" type="text" class="form-control form-control-sm"
+                                           value="{{ old('end_date', $amazingSale->end_date) }}">
                                 </div>
                                 @error('end_date')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
@@ -116,6 +118,11 @@
 @section('script')
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#product_id").select2();
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('#start_date_view').persianDatepicker({

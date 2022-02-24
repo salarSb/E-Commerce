@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Market;
 
+use App\Rules\DateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -38,7 +39,7 @@ class ProductRequest extends FormRequest
                 'tags' => ['required', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
                 'category_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:product_categories,id'],
                 'brand_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:brands,id'],
-                'published_at' => ['required', 'numeric'],
+                'published_at' => ['required', 'numeric', new DateRule],
                 'meta_key.*' => 'required',
                 'meta_value.*' => 'required'
             ];
@@ -57,7 +58,7 @@ class ProductRequest extends FormRequest
                 'tags' => ['required', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
                 'category_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:product_categories,id'],
                 'brand_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:brands,id'],
-                'published_at' => ['required', 'numeric'],
+                'published_at' => ['required', 'numeric', new DateRule],
                 'meta_key.*' => 'required',
                 'meta_value.*' => 'required'
             ];

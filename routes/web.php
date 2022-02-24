@@ -102,8 +102,17 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
 
         //discount
         Route::prefix('/discount')->name('discount.')->group(function () {
-            Route::get('/coupon', [DiscountController::class, 'coupon'])->name('coupon');
-            Route::get('/coupon/create', [DiscountController::class, 'couponCreate'])->name('coupon.create');
+
+            //coupon
+            Route::prefix('/coupon')->name('coupon.')->group(function () {
+                Route::get('/', [DiscountController::class, 'coupon'])->name('index');
+                Route::get('create', [DiscountController::class, 'couponCreate'])->name('create');
+                Route::post('/store', [DiscountController::class, 'couponStore'])->name('store');
+                Route::get('/edit/{coupon}', [DiscountController::class, 'couponEdit'])->name('edit');
+                Route::put('/update/{coupon}', [DiscountController::class, 'couponUpdate'])->name('update');
+                Route::delete('/destroy/{coupon}', [DiscountController::class, 'couponDestroy'])->name('destroy');
+                Route::get('/status/{coupon}', [DiscountController::class, 'couponStatus'])->name('status');
+            });
 
             //common-discount
             Route::prefix('/common-discount')->name('commonDiscount.')->group(function () {
