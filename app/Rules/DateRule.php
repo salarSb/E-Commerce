@@ -25,8 +25,8 @@ class DateRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $value = substr($value, 0, 6);
-        $timestamp = substr(now()->getTimestamp(), 0, 6);
+        $value = substr($value, 0, 5);
+        $timestamp = substr(now()->getTimestamp(), 0, 5);
         return $value >= $timestamp;
     }
 

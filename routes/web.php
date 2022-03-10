@@ -145,10 +145,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('unpaid');
             Route::get('/canceled', [OrderController::class, 'canceled'])->name('canceled');
             Route::get('/returned', [OrderController::class, 'returned'])->name('returned');
-            Route::get('/show', [OrderController::class, 'show'])->name('show');
-            Route::get('/change-send-status', [OrderController::class, 'changeSendStatus'])->name('changeSendStatus');
-            Route::get('/change-order-status', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
-            Route::get('/cancel-order', [OrderController::class, 'cancelOrder'])->name('cancelOrder');
+            Route::get('/show/{order}', [OrderController::class, 'show'])->name('show');
+            Route::get('/show/{order}/detail', [OrderController::class, 'detail'])->name('detail');
+            Route::get('/change-send-status/{order}', [OrderController::class, 'changeSendStatus'])->name('changeSendStatus');
+            Route::get('/change-order-status/{order}', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
+            Route::get('/cancel-order/{order}', [OrderController::class, 'cancelOrder'])->name('cancelOrder');
         });
 
         //payment

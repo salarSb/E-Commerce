@@ -6,21 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CommonDiscount extends Model
+class Address extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'common_discount';
-
-    protected $fillable = [
-        'title',
-        'percentage',
-        'discount_ceiling',
-        'minimal_order_amount',
-        'status',
-        'start_date',
-        'end_date',
-    ];
+    public function city()
+    {
+        return $this->belongsTo(IranCity::class);
+    }
 
     public function orders()
     {
