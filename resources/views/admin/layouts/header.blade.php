@@ -79,7 +79,10 @@
                     </span>
                 <span class="ml-2 ml-md-4 position-relative">
                         <span id="header-comment-toggle" class="pointer">
-                            <i class="far fa-comment-alt"></i><sup class="badge badge-danger">3</sup>
+                            <i class="far fa-comment-alt"></i>
+                            @if($unseenComments->count() !== 0)
+                                <sup class="badge badge-danger">{{ $unseenComments->count() }}</sup>
+                            @endif
                         </span>
                         <section id="header-comment" class="header-comment">
                             <section class="border-bottom px-4">
@@ -87,71 +90,33 @@
                             </section>
                             <section class="header-comment-wrapper">
                                 <ul class="list-group rounded px-0">
-                                    <li class="list-group-item list-group-item-action">
+                                    @foreach($unseenComments as $unseenComment)
+                                        <a class="text-decoration-none"
+                                           @if($unseenComment->commentable_type === 'App\Models\Content\Post')
+                                           href="{{ route('admin.content.comment.show', $unseenComment->id) }}"
+                                           @else
+                                           href="{{ route('admin.market.comment.show', $unseenComment->id) }}"
+                                        @endif>
+                                            <li class="list-group-item list-group-item-action">
                                         <section class="media">
-                                            <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
-                                                 class="notification-img">
+                                            @if($unseenComment->user->profile_photo_path)
+                                                <img src="{{ asset($unseenComment->user->profile_photo_path) }}"
+                                                     alt="avatar"
+                                                     class="notification-img">
+                                            @endif
                                             <section class="media-body pr-1">
                                                 <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i
-                                                            class="fas fa-circle text-success comment-user-status"></i></span>
+                                                    <h5 class="comment-user">{{ $unseenComment->user->fullName }}</h5>
+                                                    <span>
+                                                        {{ \Illuminate\Support\Str::limit($unseenComment->body, 15) }}
+                                                        <i class="fas fa-circle text-success comment-user-status"></i>
+                                                    </span>
                                                 </section>
                                             </section>
                                         </section>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media">
-                                            <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
-                                                 class="notification-img">
-                                            <section class="media-body pr-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i
-                                                            class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media">
-                                            <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
-                                                 class="notification-img">
-                                            <section class="media-body pr-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i
-                                                            class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media">
-                                            <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
-                                                 class="notification-img">
-                                            <section class="media-body pr-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i
-                                                            class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media">
-                                            <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
-                                                 class="notification-img">
-                                            <section class="media-body pr-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user"> محمد هاشمی</h5>
-                                                    <span><i
-                                                            class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>
+                                        </a>
+                                    @endforeach
                                 </ul>
                             </section>
                         </section>
