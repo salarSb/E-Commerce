@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\StoreController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Notify\SMSController;
@@ -426,6 +427,11 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::get('/edit/{setting}', [SettingController::class, 'edit'])->name('edit');
         Route::put('/update/{setting}', [SettingController::class, 'update'])->name('update');
         Route::delete('/destroy/{setting}', [SettingController::class, 'destroy'])->name('destroy');
+    });
+
+    //notification
+    Route::prefix('notification')->name('notification.')->group(function () {
+        Route::post('/read-all', [NotificationController::class, 'readAll'])->name('readAll');
     });
 });
 
