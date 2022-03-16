@@ -435,6 +435,15 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
     });
 });
 
+/*
+|--------------------------------------------------------------------------
+| Customer
+|--------------------------------------------------------------------------
+*/
+Route::get('/',function (){
+    return view('customer.home');
+})->name('customer.home');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

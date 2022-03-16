@@ -29,3 +29,11 @@ yarn-error.log
 /public/admin-assets/jalalidatepicker/
 /public/files/
 /storage/files/
+/public/customer-assets/css/bootstrap/
+/public/customer-assets/fontawesome/
+/public/customer-assets/fonts/
+/public/customer-assets/images/
+/public/customer-assets/js/bootstrap/
+/public/customer-assets/js/jquery-3.5.1.min.js
+/public/customer-assets/js/popper.js
+/public/customer-assets/plugins/
