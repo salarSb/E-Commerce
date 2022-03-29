@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
+use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -437,10 +438,18 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
+Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customer.login-register-form');
+Route::post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.customer.login-register');
+
+/*
+|--------------------------------------------------------------------------
 | Customer
 |--------------------------------------------------------------------------
 */
-Route::get('/',function (){
+Route::get('/', function () {
     return view('customer.home');
 })->name('customer.home');
 
