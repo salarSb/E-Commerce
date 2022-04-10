@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Otp extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'token',
+        'user_id',
+        'code',
+        'login_id',
+        'type',
+        'used',
+        'status',
+    ];
 }
