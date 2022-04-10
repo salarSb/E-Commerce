@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Customer\LoginRegisterRequest;
+use App\Http\Services\Message\Email\EmailService;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\SMS\SmsService;
 use App\Models\Otp;
@@ -36,7 +37,7 @@ class LoginRegisterController extends Controller
 
             // all mobile numbers are in on format 9** *** ***
             $inputs['id'] = ltrim($inputs['id'], '0');
-            $inputs['id'] = substr($inputs['id'], 0, 2) === '98' ? substr($inputs['id'], 2) : $inputs['id'];
+            $inputs['id'] = str_starts_with($inputs['id'], '98') ? substr($inputs['id'], 2) : $inputs['id'];
             $inputs['id'] = str_replace('+98', '', $inputs['id']);
 
             $user = User::where('mobile', $inputs['id'])->first();
@@ -79,7 +80,21 @@ class LoginRegisterController extends Controller
 
             $messagesService = new MessageService($smsService);
 
+        } elseif ($type == 1) {
+            //send email
+
+            $emailService = new EmailService();
+            $details = [
+                'title' => 'ایمیل فعالسازی',
+                'body' => "کد فعالسازی شما : $otpCode"
+            ];
+            $emailService->setDeatail($details);
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject('کد احراز هویت');
+            $emailService->setTo($inputs['id']);
+            $messagesService = new MessageService($emailService);
         }
         $messagesService->send();
+        dd('ok');
     }
 }
