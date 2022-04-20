@@ -43,6 +43,8 @@ class User extends Authenticatable
         'status',
         'slug',
         'national_code',
+        'email_verified_at',
+        'mobile_verified_at',
     ];
 
     /**
@@ -117,5 +119,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function otps()
+    {
+        return $this->hasMany(Otp::class);
     }
 }

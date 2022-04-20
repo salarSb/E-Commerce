@@ -9,6 +9,8 @@ use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\SMS\SmsService;
 use App\Models\Otp;
 use App\Models\User;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
@@ -80,7 +82,7 @@ class LoginRegisterController extends Controller
 
             $messagesService = new MessageService($smsService);
 
-        } elseif ($type == 1) {
+        } else {
             //send email
 
             $emailService = new EmailService();
@@ -95,6 +97,44 @@ class LoginRegisterController extends Controller
             $messagesService = new MessageService($emailService);
         }
         $messagesService->send();
-        dd('ok');
+        return redirect()->route('auth.customer.login-confirm-form', $token);
+    }
+
+    public function loginConfirmForm($token)
+    {
+        $otp = Otp::where('token', $token)->first();
+        if (empty($otp)) {
+            return redirect()->route('auth.customer.login-register-form')
+                ->withErrors(['id' => 'آدرس وارد شده نامعتبر می باشد']);
+        }
+        return view('customer.auth.login-confirm', compact('token', 'otp'));
+    }
+
+    public function loginConfirm(LoginRegisterRequest $request, $token)
+    {
+        $inputs = $request->all();
+        $otp = Otp::where('token', $token)->where('used', 0)
+            ->where('created_at', '>=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+        if (empty($otp)) {
+            return redirect()->route('auth.customer.login-register-form', $token)
+                ->withErrors(['id' => 'آدرس وارد شده نامعتبر می باشد']);
+        }
+
+        //if otp not matched
+        if ($otp->code !== $inputs['otp']) {
+            return redirect()->route('auth.customer.login-confirm-form', $token)
+                ->withErrors(['otp' => 'کد وارد شده صحیح نمی باشد']);
+        }
+
+        //if everything is ok
+        $otp->update(['used' => 1]);
+        $user = $otp->user;
+        if ($otp->type == 0 && empty($user->mobile_verified_at)) {
+            $user->update(['mobile_verified_at' => Carbon::now()]);
+        } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
+            $user->update(['email_verified_at' => Carbon::now()]);
+        }
+        Auth::login($user);
+        return redirect()->route('customer.home');
     }
 }

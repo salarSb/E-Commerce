@@ -18,4 +18,9 @@ class Otp extends Model
         'used',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

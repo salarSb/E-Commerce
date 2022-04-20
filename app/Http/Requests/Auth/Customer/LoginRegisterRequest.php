@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Auth\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
+use JetBrains\PhpStorm\ArrayShape;
 
 class LoginRegisterRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class LoginRegisterRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,14 +23,21 @@ class LoginRegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            'id' => ['required', 'min:11', 'max:64', 'regex:/^[a-zA-Z0-9_.@\+]*$/']
-        ];
+        $route = Route::current();
+        if ($route->getName() == 'auth.customer.login-register') {
+            return [
+                'id' => ['required', 'min:11', 'max:64', 'regex:/^[a-zA-Z0-9_.@\+]*$/']
+            ];
+        } else {
+            return [
+                'otp' => ['required', 'min:6', 'max:6', 'exists:otps,code']
+            ];
+        }
     }
 
-    public function attributes()
+    #[ArrayShape(['id' => "string"])] public function attributes(): array
     {
         return [
             'id' => 'ایمیل یا شماره موبایل'
