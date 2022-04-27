@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="{{ asset('customer-asset/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
+<link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customer-assets/fontawesome/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customer-assets/plugins/owlcarousel/assets/owl.carousel.min.css') }}">
