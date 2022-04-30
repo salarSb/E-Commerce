@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AminDashboardController;
+use App\Http\Controllers\Admin\Content\BannerController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\FAQController;
@@ -293,6 +294,17 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::delete('/destroy/{post}', [PostController::class, 'destroy'])->name('destroy');
             Route::get('/status/{post}', [PostController::class, 'status'])->name('status');
             Route::get('/commentable/{post}', [PostController::class, 'commentable'])->name('commentable');
+        });
+
+        //banner
+        Route::prefix('/banner')->name('banner.')->group(function () {
+            Route::get('/', [BannerController::class, 'index'])->name('index');
+            Route::get('/create', [BannerController::class, 'create'])->name('create');
+            Route::post('/store', [BannerController::class, 'store'])->name('store');
+            Route::get('/edit/{banner}', [BannerController::class, 'edit'])->name('edit');
+            Route::put('/update/{banner}', [BannerController::class, 'update'])->name('update');
+            Route::delete('/destroy/{banner}', [BannerController::class, 'destroy'])->name('destroy');
+            Route::get('/status/{banner}', [BannerController::class, 'status'])->name('status');
         });
     });
 
