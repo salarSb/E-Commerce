@@ -50,26 +50,6 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                                <section class="row">
-                                    @php
-                                        $number = 1;
-                                    @endphp
-                                    @foreach($banner->image['indexArray'] as $key => $value)
-                                        <section class="col-md-{{ 6 / $number }}">
-                                            <div class="form-check">
-                                                <input type="radio" id="{{ $number }}" class="form-check-input"
-                                                       value="{{ $key }}" name="currentImage"
-                                                       @if($banner->image['currentImage'] == $key) checked @endif>
-                                                <label for="{{ $number }}" class="form-check-label">
-                                                    <img src="{{ asset($value) }}" class="w-100">
-                                                </label>
-                                            </div>
-                                        </section>
-                                        @php
-                                            $number++;
-                                        @endphp
-                                    @endforeach
-                                </section>
                             </section>
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
@@ -85,10 +65,16 @@
                             </section>
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="position">موقیعت</label>
-                                    <input class="form-control form-control-sm" type="text" name="position"
-                                           id="position"
-                                           value="{{ old('position', $banner->position) }}">
+                                    <label for="position">انتخاب موقیعت</label>
+                                    <select class="form-control form-control-sm" name="position" id="position">
+                                        <option value="">موقیعت را انتخاب کنید</option>
+                                        @foreach($positions as $key => $value)
+                                            <option value="{{ $key }}"
+                                                    @if(old('position', $banner->position) == $key) selected @endif>
+                                                {{ $value }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 @error('position')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">

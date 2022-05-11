@@ -45,7 +45,7 @@
                                 <td>{{ $banner->url }}</td>
                                 <td>
                                     <img
-                                        src="{{ asset($banner->image['indexArray'][$banner->image['currentImage']]) }}"
+                                        src="{{ asset($banner->image) }}"
                                         alt="banner image"
                                         width="50" height="50">
                                 </td>
@@ -57,7 +57,7 @@
                                                @if($banner->status === 1) checked @endif>
                                     </label>
                                 </td>
-                                <td>{{ $banner->position }}</td>
+                                <td>{{ $positions[$banner->position] }}</td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('admin.content.banner.edit',$banner->id) }}"
                                        class="btn btn-sm btn-primary"><i class="fa fa-edit ml-1"></i>ویرایش</a>
