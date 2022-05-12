@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\GalleryController;
+use App\Http\Controllers\Admin\Market\GuaranteeController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
@@ -193,6 +194,15 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
                 Route::get('/create/{product}', [GalleryController::class, 'create'])->name('create');
                 Route::post('/store/{product}', [GalleryController::class, 'store'])->name('store');
                 Route::delete('/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('destroy');
+            });
+
+            //guarantee
+            Route::prefix('/guarantee')->name('guarantee.')->group(function () {
+                Route::get('/{product}', [GuaranteeController::class, 'index'])->name('index');
+                Route::get('/create/{product}', [GuaranteeController::class, 'create'])->name('create');
+                Route::post('/store/{product}', [GuaranteeController::class, 'store'])->name('store');
+                Route::delete('/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('destroy');
+                Route::get('status/{guarantee}', [GuaranteeController::class, 'status'])->name('status');
             });
         });
 

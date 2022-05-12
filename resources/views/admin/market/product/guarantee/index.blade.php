@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('head-tag')
-    <title>رنگ کالا</title>
+    <title>گارانتی های کالا</title>
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -8,19 +8,19 @@
             <li class="breadcrumb-item font-size-12 ml-3"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">کالاها</a></li>
-            <li class="active font-size-12" aria-current="page">رنگ کالا</li>
+            <li class="active font-size-12" aria-current="page">گارانتی های کالا</li>
         </ol>
     </nav>
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
-                    <h5>رنگ کالا</h5>
+                    <h5>گارانتی های کالا</h5>
                 </section>
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('admin.market.product.color.create', $product->slug) }}"
+                    <a href="{{ route('admin.market.product.guarantee.create', $product->slug) }}"
                        class="btn btn-info btn-sm">
-                        ایجاد رنگ جدید
+                        ایجاد گارانتی جدید
                     </a>
                     <div class="max-width-16-rem">
                         <input type="text" placeholder="جستجو" class="form-control form-control-sm form-text">
@@ -32,33 +32,31 @@
                         <tr>
                             <th>#</th>
                             <th>نام کالا</th>
-                            <th>رنگ کالا</th>
-                            <th>کد رنگ</th>
+                            <th>نام گارانتی</th>
                             <th>افزایش قیمت</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($product->colors as $color)
+                        @foreach($product->guarantees as $guarantee)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $color->name }}</td>
-                                <td>{{ $color->color }}</td>
-                                <td>{{ $color->price_increase }} تومان</td>
+                                <td>{{ $guarantee->name }}</td>
+                                <td>{{ $guarantee->price_increase }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $color->id }}"
-                                               onchange="changeStatus({{ $color->id }})" type="checkbox"
-                                               data-url="{{ route('admin.market.product.color.status', $color->id) }}"
-                                               @if($color->status === 1) checked @endif>
+                                        <input id="{{ $guarantee->id }}"
+                                               onchange="changeStatus({{ $guarantee->id }})" type="checkbox"
+                                               data-url="{{ route('admin.market.product.guarantee.status', $guarantee->id) }}"
+                                               @if($guarantee->status === 1) checked @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <form
-                                        action="{{ route('admin.market.product.color.destroy',
-                                                    ['product'=>$product->slug, 'color'=>$color->id]) }}"
+                                        action="{{ route('admin.market.product.guarantee.destroy',
+                                                    ['product'=>$product->slug, 'guarantee'=>$guarantee->id]) }}"
                                         method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
@@ -90,10 +88,10 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('رنگ کالا با موفقیت فعال شد')
+                            successToast('گارانتی کالا با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('رنگ کالا با موفقیت غیر فعال شد')
+                            successToast('گارانتی کالا با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);

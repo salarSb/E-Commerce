@@ -75,6 +75,11 @@ class Product extends Model
         return $this->hasMany(Gallery::class);
     }
 
+    public function guarantees()
+    {
+        return $this->hasMany(Guarantee::class);
+    }
+
     public function values()
     {
         return $this->hasMany(CategoryValue::class);

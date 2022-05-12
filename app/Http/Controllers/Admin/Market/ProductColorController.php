@@ -23,6 +23,7 @@ class ProductColorController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'color' => ['required', 'max:120'],
             'price_increase' => ['required', 'numeric'],
             'status' => ['required', 'numeric', 'in:0,1'],
         ]);

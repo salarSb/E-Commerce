@@ -84,7 +84,12 @@
                                             <a href="{{ route('admin.market.product.color.index', $product->slug) }}"
                                                class="dropdown-item text-right">
                                                 <i class="fa fa-list-ul"></i>
-                                                رنگ کالا
+                                                مدیریت رنگ ها
+                                            </a>
+                                            <a href="{{ route('admin.market.product.guarantee.index', $product->slug) }}"
+                                               class="dropdown-item text-right">
+                                                <i class="fa fa-shield-alt"></i>
+                                               مدیریت گارانتی ها
                                             </a>
                                             <a href="{{ route('admin.market.product.edit', $product->slug) }}"
                                                class="dropdown-item text-right">

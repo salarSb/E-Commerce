@@ -12,6 +12,7 @@ class ProductColor extends Model
 
     protected $fillable = [
         'name',
+        'color',
         'product_id',
         'price_increase',
         'status',
