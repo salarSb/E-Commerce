@@ -16,7 +16,7 @@ class HomeController extends Controller
         $middleBanners = Banner::where('position', 2)->where('status', 1)->take(2)->get();
         $bottomBanner = Banner::where('position', 3)->where('status', 1)->first();
 
-        $brands = Brand::all();
+        $brands = Brand::where('status', 1)->get();
 
         //TODO : get most visited products and show them with lazy loading
         $mostVisitedProducts = Product::latest()->take(10)->get();
@@ -24,6 +24,6 @@ class HomeController extends Controller
         //we can take most commented products or most sold products we take last 10 for now
         $offerProducts = Product::latest()->take(10)->get();
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners',
-            'bottomBanner', 'mostVisitedProducts', 'offerProducts'));
+            'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
     }
 }
