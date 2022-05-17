@@ -52,7 +52,7 @@ class BannerController extends Controller
         $inputs = $request->all();
         if ($request->hasFile('image')) {
             if (!empty($banner->image)) {
-                $imageService->deleteDirectoryAndFiles($banner->image['directory']);
+                $imageService->deleteImage($banner->image);
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'banner');
             $result = $imageService->save($request->file('image'));

@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+                'name' => ['required', 'max:255', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
                 'introduction' => ['required', 'max:10000000', 'min:5'],
                 'weight' => ['required', 'numeric', 'max:1000000', 'min:1'],
                 'length' => ['required', 'numeric', 'max:1000000', 'min:1'],
@@ -45,9 +45,9 @@ class ProductRequest extends FormRequest
             ];
         } else {
             return [
-                'name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+                'name' => ['required', 'max:255', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
                 'introduction' => ['required', 'max:10000000', 'min:5'],
-                'weight' => ['required', 'numeric', 'max:1000000', 'min:1'],
+                'weight' => ['numeric', 'max:1000000', 'min:1'],
                 'length' => ['required', 'numeric', 'max:1000000', 'min:1'],
                 'width' => ['required', 'numeric', 'max:1000000', 'min:1'],
                 'height' => ['required', 'numeric', 'max:1000000', 'min:1'],
@@ -58,7 +58,7 @@ class ProductRequest extends FormRequest
                 'tags' => ['required', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
                 'category_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:product_categories,id'],
                 'brand_id' => ['required', 'max:100000000', 'min:1', 'regex:/^[0-9]+$/u', 'exists:brands,id'],
-                'published_at' => ['required', 'numeric', new DateRule],
+                'published_at' => 'numeric',
                 'meta_key.*' => 'required',
                 'meta_value.*' => 'required'
             ];
