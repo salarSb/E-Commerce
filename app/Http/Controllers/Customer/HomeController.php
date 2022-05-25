@@ -22,8 +22,8 @@ class HomeController extends Controller
         $mostVisitedProducts = Product::latest()->take(10)->get();
 
         //we can take most commented products or most sold products we take last 10 for now
-        $offerProducts = Product::latest()->take(10)->get();
+        $offeredProducts = Product::latest()->take(10)->get();
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners',
-            'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
+            'bottomBanner', 'brands', 'mostVisitedProducts', 'offeredProducts'));
     }
 }

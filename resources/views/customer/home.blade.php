@@ -1,4 +1,7 @@
 @extends('customer.layouts.master-one-col')
+@section('head-tag')
+    <title>فروشگاه آمازون</title>
+@endsection
 @section('content')
     <!-- start slideshow -->
     <section class="container-xxl my-4">
@@ -66,7 +69,8 @@
                                                 {{--                                                        <i class="fa fa-heart"></i>--}}
                                                 {{--                                                    </a>--}}
                                                 {{--                                                </section>--}}
-                                                <a class="product-link" href="#">
+                                                <a class="product-link"
+                                                   href="{{ route('customer.market.product', $mostVisitedProduct) }}">
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}"
@@ -147,7 +151,7 @@
                         <!-- start vontent header -->
                         <section class="lazyload-wrapper">
                             <section class="lazyload light-owl-nav owl-carousel owl-theme">
-                                @foreach($offerProducts as $offerProduct)
+                                @foreach($offeredProducts as $offeredProduct)
                                     <section class="item">
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
@@ -163,15 +167,16 @@
                                                 {{--                                                        <i class="fa fa-heart"></i>--}}
                                                 {{--                                                    </a>--}}
                                                 {{--                                                </section>--}}
-                                                <a class="product-link" href="#">
+                                                <a class="product-link"
+                                                   href="{{ route('customer.market.product', $offeredProduct) }}">
                                                     <section class="product-image">
                                                         <img class=""
-                                                             src="{{ asset($offerProduct->image['indexArray']['medium']) }}"
-                                                             alt="{{ $offerProduct->name }}">
+                                                             src="{{ asset($offeredProduct->image['indexArray']['medium']) }}"
+                                                             alt="{{ $offeredProduct->name }}">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">
-                                                        <h3>{{ Str::limit($offerProduct->name, 50)}}</h3>
+                                                        <h3>{{ Str::limit($offeredProduct->name, 50)}}</h3>
                                                     </section>
                                                     <section class="product-price-wrapper">
                                                         {{--                                                        <section class="product-discount">--}}
@@ -179,7 +184,7 @@
                                                         {{--                                                            <span class="product-discount-amount">10%</span>--}}
                                                         {{--                                                        </section>--}}
                                                         <section
-                                                            class="product-price">{{ priceFormat($offerProduct->price) }}
+                                                            class="product-price">{{ priceFormat($offeredProduct->price) }}
                                                             تومان
                                                         </section>
                                                     </section>

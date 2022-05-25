@@ -37,6 +37,7 @@ use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
+use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -483,12 +484,19 @@ Route::middleware('throttle:customer-login-resend-otp-limiter')
     ->name('auth.customer.login-resend-otp');
 
 Route::get('/logout', [LoginRegisterController::class, 'logout'])->name('auth.customer.logout');
+
 /*
 |--------------------------------------------------------------------------
 | Customer
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'home'])->name('customer.home');
+
+//product page
+Route::prefix('product')->name('customer.market.')->group(function () {
+    Route::get('/{product}', [CustomerProductController::class, 'product'])->name('product');
+    Route::post('/{product}/add-comment', [CustomerProductController::class, 'addComment'])->name('add-comment');
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
