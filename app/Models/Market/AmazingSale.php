@@ -2,6 +2,7 @@
 
 namespace App\Models\Market;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +18,12 @@ class AmazingSale extends Model
         'start_date',
         'end_date',
     ];
+
+    public function scopeValidAmazingSales($query)
+    {
+        return $query->where('status', 1)->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now());
+    }
 
     public function product()
     {

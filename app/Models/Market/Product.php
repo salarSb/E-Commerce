@@ -84,4 +84,9 @@ class Product extends Model
     {
         return $this->hasMany(CategoryValue::class);
     }
+
+    public function amazingSales()
+    {
+        return $this->hasMany(AmazingSale::class);
+    }
 }
