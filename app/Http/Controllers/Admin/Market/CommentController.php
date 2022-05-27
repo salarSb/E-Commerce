@@ -85,7 +85,7 @@ class CommentController extends Controller
     {
         if (!$comment->parent_id) {
             $inputs = $request->all();
-            $inputs['author_id'] = 1;
+            $inputs['author_id'] = 2;
             $inputs['parent_id'] = $comment->id;
             $inputs['commentable_id'] = $comment->commentable_id;
             $inputs['commentable_type'] = $comment->commentable_type;

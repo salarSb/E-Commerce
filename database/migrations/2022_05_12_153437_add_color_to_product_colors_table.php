@@ -26,7 +26,7 @@ class AddColorToProductColorsTable extends Migration
     public function down()
     {
         Schema::table('product_colors', function (Blueprint $table) {
-            //
+            $table->dropColumn('color');
         });
     }
 }

@@ -36,6 +36,11 @@ class Comment extends Model
         return $query->where('commentable_type', 'App\Models\Market\Product');
     }
 
+    public function scopeValidComments($query)
+    {
+        return $query->where('status', 1)->where('approved', 1)->where('parent_id', null);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id');

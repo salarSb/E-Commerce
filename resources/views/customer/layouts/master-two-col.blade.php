@@ -14,6 +14,7 @@
 </main>
 @include('customer.layouts.footer')
 @include('customer.layouts.script')
+@include('admin.alerts.sweet-alert.success')
 @stack('script')
 </body>
 </html>
