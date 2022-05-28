@@ -66,14 +66,21 @@
                                 </section>
                                 <section class="product-info">
                                     @if($product->colors()->get()->count() != 0)
-                                        <p><span>رنگ : {{ $product->colors()->first()->name }}</span></p>
                                         <p>
-                                            @foreach($product->colors as $key => $color)
-                                                <span style="background-color: {{ $color->color ?? '#ffffff' }};"
-                                                      class="product-info-colors me-1"
-                                                      data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                      title="{{ $color->name }}">
-                                                </span>
+                                            <span>رنگ انتخاب شده: <span
+                                                    id="selected_color_name">{{ $product->colors()->first()->name }}</span></span>
+                                        </p>
+                                        <p>
+                                            @foreach($product->colors as $color)
+                                                <label for="{{ 'color_'.$color->id }}"
+                                                       style="background-color: {{ $color->color ?? '#ffffff' }};"
+                                                       class="product-info-colors me-1"
+                                                       data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                       title="{{ $color->name }}"></label>
+                                                <input type="radio" name="color" id="{{ 'color_'.$color->id }}"
+                                                       class="d-none" value="{{ $color->id }}"
+                                                       data-color-name="{{ $color->name }}"
+                                                       @if($loop->first) checked @endif>
                                             @endforeach
                                         </p>
                                     @endif
@@ -442,3 +449,19 @@
     </section>
     <!-- end description, features and comments -->
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function () {
+            bill();
+
+            //input color
+            $('input[name="color"]').change(function (){
+                bill();
+            });
+        });
+        function bill(){
+            let selectedColor = $('input[name="color"]:checked');
+            $('#selected_color_name').html(selectedColor.attr('data-color-name'));
+        }
+    </script>
+@endpush
