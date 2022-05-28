@@ -37,6 +37,10 @@
                                 </span>
                     @enderror
                 </section>
+                <div class="form-group mb-3">
+                    <label for="remember">مرا به خاطر بسپار</label>
+                    <input type="checkbox" name="remember" value="1" id="remember">
+                </div>
                 <section class="login-btn d-grid g-2">
                     <button class="btn btn-danger">تایید</button>
                 </section>

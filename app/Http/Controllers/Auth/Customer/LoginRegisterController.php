@@ -134,7 +134,7 @@ class LoginRegisterController extends Controller
         } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
             $user->update(['email_verified_at' => Carbon::now()]);
         }
-        Auth::login($user);
+        Auth::login($user, $request->get('remember'));
         return redirect()->route('customer.home');
     }
 
