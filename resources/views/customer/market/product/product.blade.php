@@ -80,17 +80,25 @@
                                                 <input type="radio" name="color" id="{{ 'color_'.$color->id }}"
                                                        class="d-none" value="{{ $color->id }}"
                                                        data-color-name="{{ $color->name }}"
+                                                       data-color-price="{{ $color->price_increase }}"
                                                        @if($loop->first) checked @endif>
                                             @endforeach
                                         </p>
                                     @endif
                                     @if($product->guarantees()->get()->count() != 0)
-                                        @foreach($product->guarantees as $key => $guarantee)
-                                            <p>
-                                                <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                                <span>گارانتی {{ $guarantee->name }}</span>
-                                            </p>
-                                        @endforeach
+                                        <p>
+                                            <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
+                                            <label for="guarantee">گارانتی :</label>
+                                            <select name="guarantee" id="guarantee" class="p-1">
+                                                @foreach($product->guarantees as $key => $guarantee)
+                                                    <option value="{{ $guarantee->id }}"
+                                                            data-guarantee-price="{{ $guarantee->price_increase }}"
+                                                            @if($loop->first) selected @endif>
+                                                        {{ $guarantee->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </p>
                                     @endif
                                     <p>
                                         <i class="fa fa-store-alt cart-product-selected-store me-1"></i>
@@ -104,10 +112,11 @@
                                                 class="fa fa-heart text-danger"></i> افزودن به علاقه مندی</a></p>
                                     <section>
                                         <section class="cart-product-number d-inline-block ">
-                                            <button class="cart-number-down" type="button">-</button>
-                                            <input class="" type="number" min="1" max="5" step="1" value="1"
+                                            <button class="cart-number cart-number-down" type="button">-</button>
+                                            <input id="number" name="number" type="number" min="1" max="5" step="1"
+                                                   value="1"
                                                    readonly="readonly">
-                                            <button class="cart-number-up" type="button">+</button>
+                                            <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
                                     </section>
                                     <p class="mb-3 mt-5">
@@ -131,36 +140,55 @@
                                 @if(!empty($amazingSale))
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">قیمت کالا</p>
-                                        <p class="text-muted">{{ priceFormat($product->price) }}<span
-                                                class="small">تومان</span></p>
+                                        <p class="text-muted">
+                                            <span id="product_price"
+                                                  data-product-original-price="{{ $product->price }}">
+                                                {{ priceFormat($product->price) }}
+                                            </span>
+                                            <span class="small">تومان</span>
+                                        </p>
                                     </section>
                                     @php
                                         $discountPrice = $product->price * ($amazingSale->percentage / 100);
                                     @endphp
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">تخفیف کالا</p>
-                                        <p class="text-danger fw-bolder">{{ priceFormat($discountPrice) }}
-                                            <span class="small">تومان</span></p>
+                                        <p class="text-danger fw-bolder" id="product_discount_price"
+                                           data-product-discount-price="{{ $discountPrice }}">
+                                            {{ priceFormat($discountPrice) }}
+                                            <span class="small">تومان</span>
+                                        </p>
                                     </section>
 
                                     <section class="border-bottom mb-3"></section>
 
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">قابل پرداخت</p>
-                                        <p class="fw-bolder">{{ priceFormat($product->price - $discountPrice) }}
+                                        <p class="fw-bolder">
+                                            <span id="final_price">
+                                                {{ priceFormat($product->price - $discountPrice) }}
+                                            </span>
                                             <span class="small">تومان</span>
                                         </p>
                                     </section>
                                 @else
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">قیمت کالا</p>
-                                        <p class="text-muted">{{ priceFormat($product->price) }}<span
-                                                class="small">تومان</span></p>
+                                        <p class="text-muted">
+                                            <span id="product_price"
+                                                  data-product-original-price="{{ $product->price }}">
+                                                {{ priceFormat($product->price) }}
+                                            </span>
+                                            <span class="small">تومان</span>
+                                        </p>
                                     </section>
                                     <section class="border-bottom mb-3"></section>
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">قابل پرداخت</p>
-                                        <p class="fw-bolder">{{ priceFormat($product->price) }}
+                                        <p class="fw-bolder">
+                                            <span id="final_price">
+                                                {{ priceFormat($product->price) }}
+                                            </span>
                                             <span class="small">تومان</span>
                                         </p>
                                     </section>
@@ -455,13 +483,51 @@
             bill();
 
             //input color
-            $('input[name="color"]').change(function (){
+            $('input[name="color"]').change(function () {
+                bill();
+            });
+
+            //select guarantee
+            $('select[name="guarantee"]').change(function () {
+                bill();
+            });
+
+            //change product number
+            $('.cart-number').click(function () {
                 bill();
             });
         });
-        function bill(){
+
+        function bill() {
             let selectedColor = $('input[name="color"]:checked');
-            $('#selected_color_name').html(selectedColor.attr('data-color-name'));
+            if (selectedColor.length != 0) {
+                $('#selected_color_name').html(selectedColor.attr('data-color-name'));
+            }
+
+            // price computing
+            let selectedColorPrice = 0;
+            let selectedGuaranteePrice = 0;
+            let number = 1;
+            let productDiscountPrice = 0;
+            let productOriginalPrice = parseFloat($('#product_price').attr('data-product-original-price'));
+            if ($('input[name="color"]:checked').length != 0) {
+                selectedColorPrice = parseFloat(selectedColor.attr('data-color-price'));
+            }
+            if ($('#guarantee option:selected').length != 0) {
+                selectedGuaranteePrice = parseFloat($('#guarantee option:selected').attr('data-guarantee-price'));
+            }
+            if ($('#number').val() > 0) {
+                number = parseFloat($('#number').val());
+            }
+            if ($('#product_discount_price').length != 0) {
+                productDiscountPrice = parseFloat($('#product_discount_price').attr('data-product-discount-price'));
+            }
+
+            //final price
+            let productPrice = productOriginalPrice + selectedColorPrice + selectedGuaranteePrice;
+            let finalPrice = number * (productPrice - productDiscountPrice);
+            $('#product_price').html(productPrice);
+            $('#final_price').html(finalPrice)
         }
     </script>
 @endpush
