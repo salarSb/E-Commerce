@@ -153,7 +153,7 @@
                                     @endphp
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">تخفیف کالا</p>
-                                        <p class="text-danger fw-bolder" id="product_discount_price"
+                                        <p class="text-danger fw-bolder" id="product-discount-price"
                                            data-product-discount-price="{{ $discountPrice }}">
                                             {{ priceFormat($discountPrice) }}
                                             <span class="small">تومان</span>
@@ -519,15 +519,23 @@
             if ($('#number').val() > 0) {
                 number = parseFloat($('#number').val());
             }
-            if ($('#product_discount_price').length != 0) {
-                productDiscountPrice = parseFloat($('#product_discount_price').attr('data-product-discount-price'));
+            if ($('#product-discount-price').length != 0) {
+                productDiscountPrice = parseFloat($('#product-discount-price').attr('data-product-discount-price'));
             }
 
             //final price
             let productPrice = productOriginalPrice + selectedColorPrice + selectedGuaranteePrice;
             let finalPrice = number * (productPrice - productDiscountPrice);
-            $('#product_price').html(productPrice);
-            $('#final_price').html(finalPrice)
+            $('#product_price').html(toFarsiNumber(productPrice));
+            $('#final_price').html(toFarsiNumber(finalPrice))
+        }
+
+        function toFarsiNumber(number) {
+            const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            // add comma
+            number = new Intl.NumberFormat().format(number);
+            //convert to persian
+            return number.toString().replace(/\d/g, x => farsiDigits[x]);
         }
     </script>
 @endpush
