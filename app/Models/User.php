@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Content\Comment;
 use App\Models\Market\Order;
 use App\Models\Market\Payment;
+use App\Models\Market\Product;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
 use App\Models\User\Role;
@@ -130,5 +131,10 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class, 'author_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

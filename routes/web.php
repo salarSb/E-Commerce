@@ -496,6 +496,7 @@ Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 Route::prefix('product')->name('customer.market.')->group(function () {
     Route::get('/{product}', [CustomerProductController::class, 'product'])->name('product');
     Route::post('/{product}/add-comment', [CustomerProductController::class, 'addComment'])->name('add-comment');
+    Route::get('/{product}/add-to-favorite', [CustomerProductController::class, 'addToFavorite'])->name('add-to-favorite');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
