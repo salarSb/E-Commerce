@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\SalesProcess\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -497,6 +498,14 @@ Route::prefix('product')->name('customer.market.')->group(function () {
     Route::get('/{product}', [CustomerProductController::class, 'product'])->name('product');
     Route::post('/{product}/add-comment', [CustomerProductController::class, 'addComment'])->name('add-comment');
     Route::get('/{product}/add-to-favorite', [CustomerProductController::class, 'addToFavorite'])->name('add-to-favorite');
+});
+
+//sales process
+Route::prefix('/cart')->middleware('auth')->name('customer.sales-process.')->group(function () {
+    Route::get('/', [CartController::class, 'cart'])->name('cart');
+    Route::post('/', [CartController::class, 'updateCart'])->name('update-cart');
+    Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+    Route::delete('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

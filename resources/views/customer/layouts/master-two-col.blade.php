@@ -15,6 +15,7 @@
 @include('customer.layouts.footer')
 @include('customer.layouts.script')
 @include('admin.alerts.sweet-alert.success')
+@include('admin.alerts.sweet-alert.error')
 @stack('script')
 </body>
 </html>
