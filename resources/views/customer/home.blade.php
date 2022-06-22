@@ -316,7 +316,7 @@
     <!-- end brand part-->
 
     <section class="position-fixed p-4 flex-row-reverse"
-             style="z-index: 100000; left: 0; top: 3rem; width: 26rem; max-width: 80%;">
+             style="z-index: 10; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="7000">
             <div class="toast-header">
                 <strong class="me-auto">فروشگاه</strong>
@@ -326,7 +326,7 @@
                 <strong class="ml-auto">
                     برای افزودن کالا به لیست علاقه مندی ها باید ابتدا وارد حساب کاربری خود شوید
                     <br>
-                    <a href="{{ route('auth.customer.login-register-form') }}" class="text-dark">ثبت نام یا ورود</a>
+                    <a href="{{ route('auth.customer.login-register-form') }}" class="text-primary">ثبت نام یا ورود</a>
                 </strong>
             </div>
         </div>

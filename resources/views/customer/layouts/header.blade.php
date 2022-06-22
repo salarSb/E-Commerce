@@ -86,7 +86,8 @@
                         <section class="header-cart-dropdown">
                             <section class="border-bottom d-flex justify-content-between p-2">
                                 <span class="text-muted">2 کالا</span>
-                                <a class="text-decoration-none text-info" href="cart.html">مشاهده سبد خرید </a>
+                                <a class="text-decoration-none text-info"
+                                   href="{{ route('customer.sales-process.cart') }}">مشاهده سبد خرید </a>
                             </section>
                             <section class="header-cart-dropdown-body">
 
