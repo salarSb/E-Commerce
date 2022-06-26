@@ -30,8 +30,8 @@
                                 @endphp
                                 @foreach($cartItems as $cartItem)
                                     @php
-                                        $totalProductPrice += $cartItem->final_price;
-                                        $totalDiscount += $cartItem->final_discount;
+                                        $totalProductPrice += $cartItem->product_price;
+                                        $totalDiscount += $cartItem->product_discount;
                                     @endphp
                                     <section class="cart-item d-md-flex py-3">
                                         <section class="cart-img align-self-start flex-shrink-1"><img
@@ -52,10 +52,15 @@
                                             </p>
                                             <section>
                                                 <section class="cart-product-number d-inline-block ">
-                                                    <button class="cart-number-down" type="button">-</button>
-                                                    <input class="" type="number" min="1" max="5" step="1" value="{{ $cartItem->number }}"
+                                                    <button class="cart-number cart-number-down" type="button">-
+                                                    </button>
+                                                    <input class="number"
+                                                           data-product-price="{{ $cartItem->product_price }}"
+                                                           data-product-discount="{{ $cartItem->product_discount }}"
+                                                           type="number" min="1" max="5" step="1"
+                                                           value="{{ $cartItem->number }}"
                                                            readonly="readonly">
-                                                    <button class="cart-number-up" type="button">+</button>
+                                                    <button class="cart-number cart-number-up" type="button">+</button>
                                                 </section>
                                                 <a class="text-decoration-none ms-4 cart-delete" href="#"><i
                                                         class="fa fa-trash-alt"></i> حذف از سبد</a>
@@ -67,11 +72,11 @@
                                             @endphp
                                             @if(!empty($amazingSale))
                                                 <section class="cart-item-discount text-danger text-nowrap mb-1">تخفیف
-                                                    {{ priceFormat($cartItem->final_discount) }}
+                                                    {{ priceFormat($cartItem->product_discount) }}
                                                 </section>
                                             @endif
                                             <section
-                                                class="text-nowrap fw-bold">{{ priceFormat($cartItem->final_price) }}
+                                                class="text-nowrap fw-bold">{{ priceFormat($cartItem->product_price) }}
                                                 تومان
                                             </section>
                                         </section>
@@ -83,17 +88,20 @@
                             <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
-                                    <p class="text-muted" id="total-product-price">{{ priceFormat($totalProductPrice) }} تومان</p>
+                                    <p class="text-muted" id="total-product-price">{{ priceFormat($totalProductPrice) }}
+                                        تومان</p>
                                 </section>
 
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">تخفیف کالاها</p>
-                                    <p class="text-danger fw-bolder" id="total-discount">{{ priceFormat($totalDiscount) }} تومان</p>
+                                    <p class="text-danger fw-bolder"
+                                       id="total-discount">{{ priceFormat($totalDiscount) }} تومان</p>
                                 </section>
                                 <section class="border-bottom mb-3"></section>
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder" id="total-price">{{ priceFormat($totalProductPrice - $totalDiscount) }}
+                                    <p class="fw-bolder"
+                                       id="total-price">{{ priceFormat($totalProductPrice - $totalDiscount) }}
                                         تومان
                                     </p>
                                 </section>
@@ -139,318 +147,98 @@
                         <!-- start vontent header -->
                         <section class="lazyload-wrapper">
                             <section class="lazyload light-owl-nav owl-carousel owl-theme">
-
-
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/3.jpg" alt="">
+                                @foreach($relatedProducts as $relatedProduct)
+                                    <section class="item">
+                                        <section class="lazyload-item-wrapper">
+                                            <section class="product">
+                                                <section class="product-add-to-cart">
+                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"
+                                                       title="افزودن به سبد خرید">
+                                                        <i class="fa fa-cart-plus"></i>
+                                                    </a>
                                                 </section>
-                                                <section class="product-name"><h3>پکیج آموزش خطاطی و خوشنویسی با کد
-                                                        624</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">115,000 تومان</section>
-                                                </section>
-                                                <section class="product-colors">
-                                                    <section class="product-colors-item"
-                                                             style="background-color: yellow;"></section>
-                                                    <section class="product-colors-item"
-                                                             style="background-color: green;"></section>
-                                                    <section class="product-colors-item"
-                                                             style="background-color: white;"></section>
-                                                    <section class="product-colors-item"
-                                                             style="background-color: blue;"></section>
-                                                    <section class="product-colors-item"
-                                                             style="background-color: red;"></section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/4.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>مجموعه داستان های هزار و یک شب</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-discount">
-                                                        <span class="product-old-price">230,000 </span>
-                                                        <span class="product-discount-amount">10%</span>
+                                                @guest
+                                                    <section class="product-add-to-favorite">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $relatedProduct->slug) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="افزودن به علاقه مندی">
+                                                            <i class="fa fa-heart"></i>
+                                                        </button>
                                                     </section>
-                                                    <section class="product-price">207،000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/5.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب اطلاعات عمومی انتشارات فارابی با
-                                                        کد 3087</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">870,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/6.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب شیوه گرگ اثر جردن بلفورت</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-discount">
-                                                        <span class="product-old-price">59,000 </span>
-                                                        <span class="product-discount-amount">50%</span>
+                                                @endguest
+                                                @auth
+                                                    @if($relatedProduct->users->contains('id', auth()->user()->id))
+                                                        <section class="product-add-to-favorite">
+                                                            <button
+                                                                class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
+                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct->slug) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="حذف از علاقه مندی">
+                                                                <i class="fa fa-heart text-danger"></i>
+                                                            </button>
+                                                        </section>
+                                                    @else
+                                                        <section class="product-add-to-favorite">
+                                                            <button
+                                                                class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
+                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct->slug) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="افزودن به علاقه مندی">
+                                                                <i class="fa fa-heart"></i>
+                                                            </button>
+                                                        </section>
+                                                    @endif
+                                                @endauth
+                                                <a class="product-link"
+                                                   href="{{ route('customer.market.product', $relatedProduct->slug) }}">
+                                                    <section class="product-image">
+                                                        <img class=""
+                                                             src="{{ asset($relatedProduct->image['indexArray']['medium']) }}"
+                                                             alt="{{ $relatedProduct->name }}">
                                                     </section>
-                                                    <section class="product-price">29،000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/7.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>مجموعه داستان های قصه های مشهور
-                                                        جهان</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">450,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/8.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب برای سفر خودآموز مکالمات
-                                                        انگلیسی</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">64,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/9.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب آدم های سمی اثر لیلیان گلاس</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-discount">
-                                                        <span class="product-old-price">164,000 </span>
-                                                        <span class="product-discount-amount">10%</span>
+                                                    <section class="product-name">
+                                                        <h3>{{ $relatedProduct->name }}</h3>
                                                     </section>
-                                                    <section class="product-price">147،600 تومان</section>
-                                                </section>
-                                            </a>
+                                                    <section class="product-price-wrapper">
+                                                        @php
+                                                            $relatedProductAmazingSale = $relatedProduct->amazingSales()->validAmazingSales()->first();
+                                                        @endphp
+                                                        @if(!empty($relatedProductAmazingSale))
+                                                            <section class="product-price-wrapper">
+                                                                <section class="product-discount">
+                                                                    <span
+                                                                        class="product-old-price">{{ priceFormat($relatedProduct->price) }}</span>
+                                                                    <span
+                                                                        class="product-discount-amount">{{ $relatedProductAmazingSale->percentage }}%</span>
+                                                                </section>
+                                                                <section
+                                                                    class="product-price">{{ priceFormat($relatedProduct->price - $relatedProduct->price * ($relatedProductAmazingSale->percentage / 100)) }}
+                                                                    تومان
+                                                                </section>
+                                                            </section>
+                                                        @else
+                                                            <section
+                                                                class="product-price">{{ priceFormat($relatedProduct->price) }}
+                                                                تومان
+                                                            </section>
+                                                        @endif
+                                                    </section>
+                                                    <section class="product-colors">
+                                                        @foreach($relatedProduct->colors as $color)
+                                                            <section class="product-colors-item"
+                                                                     style="background-color: {{ $color->color }};"></section>
+                                                        @endforeach
+                                                    </section>
+                                                </a>
+                                            </section>
                                         </section>
                                     </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/10.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>مجموعه کتاب من پیش از تو، پس از تو،
-                                                        باز هم من</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">221,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/11.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب سلخ اثر غزاله شکوهی</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">870,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/12.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب بیشعوری اثر جردن بلفورت</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">57,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a></section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به علاقه مندی"><i
-                                                        class="fa fa-heart"></i></a></section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class="" src="assets/images/products/13.jpg" alt="">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name"><h3>کتاب تختخوابت را مرتب کن اثر ژنرال
-                                                        ویلیام مک ریون</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-price">89,000 تومان</section>
-                                                </section>
-                                            </a>
-                                        </section>
-                                    </section>
-                                </section>
-
+                                @endforeach
                             </section>
                         </section>
                     </section>
@@ -459,3 +247,58 @@
         </section>
     </section>
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function () {
+            bill();
+            $('.cart-number').click(function () {
+                bill();
+            });
+        });
+
+        function bill() {
+            let totalProductPrice = 0;
+            let totalDiscount = 0;
+            let totalPrice = 0;
+            $('.number').each(function () {
+                let productPrice = parseFloat($(this).data('product-price'));
+                let productDiscount = parseFloat($(this).data('product-discount'));
+                let number = parseFloat($(this).val());
+                totalProductPrice += number * productPrice;
+                totalDiscount += number * productDiscount;
+            });
+            totalPrice = totalProductPrice - totalDiscount;
+            $('#total-product-price').html(toFarsiNumber(totalProductPrice));
+            $('#total-discount').html(toFarsiNumber(totalDiscount));
+            $('#total-price').html(toFarsiNumber(totalPrice));
+
+            function toFarsiNumber(number) {
+                const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                // add comma
+                number = new Intl.NumberFormat().format(number);
+                //convert to persian
+                return number.toString().replace(/\d/g, x => farsiDigits[x]);
+            }
+        }
+    </script>
+    <script>
+        $('.product-add-to-favorite button').click(function () {
+            const url = $(this).attr('data-url');
+            const element = $(this);
+            $.ajax({
+                url: url,
+                success: function (result) {
+                    if (result.status == 1) {
+                        $(element).children().first().addClass('text-danger');
+                        $(element).attr('data-bs-original-title', 'حذف از علاقه مندی');
+                    } else if (result.status == 2) {
+                        $(element).children().first().removeClass('text-danger');
+                        $(element).attr('data-bs-original-title', 'افزودن به علاقه مندی');
+                    } else {
+                        $('.toast').toast('show');
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

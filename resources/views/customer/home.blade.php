@@ -57,16 +57,17 @@
                                     <section class="item">
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
-                                                {{--                                                <section class="product-add-to-cart">--}}
-                                                {{--                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"--}}
-                                                {{--                                                       title="افزودن به سبد خرید">--}}
-                                                {{--                                                        <i class="fa fa-cart-plus"></i>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                </section>--}}
+                                                <section class="product-add-to-cart">
+                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"
+                                                       title="افزودن به سبد خرید">
+                                                        <i class="fa fa-cart-plus"></i>
+                                                    </a>
+                                                </section>
                                                 @guest
                                                     <section class="product-add-to-favorite">
                                                         <button
                                                             class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
                                                             data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct->slug) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="افزودن به علاقه مندی">
@@ -79,6 +80,7 @@
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
                                                                 data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct->slug) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
@@ -89,6 +91,7 @@
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
                                                                 data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct->slug) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="افزودن به علاقه مندی">
@@ -98,25 +101,38 @@
                                                     @endif
                                                 @endauth
                                                 <a class="product-link"
-                                                   href="{{ route('customer.market.product', $mostVisitedProduct) }}">
+                                                   href="{{ route('customer.market.product', $mostVisitedProduct->slug) }}">
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}"
                                                              alt="{{ $mostVisitedProduct->name }}">
                                                     </section>
-                                                    <section class="product-colors"></section>
                                                     <section class="product-name">
-                                                        <h3>{{ Str::limit($mostVisitedProduct->name, 50)}}</h3>
+                                                        <h3>{{ $mostVisitedProduct->name }}</h3>
                                                     </section>
                                                     <section class="product-price-wrapper">
-                                                        {{--                                                        <section class="product-discount">--}}
-                                                        {{--                                                            <span class="product-old-price">6,895,000 </span>--}}
-                                                        {{--                                                            <span class="product-discount-amount">10%</span>--}}
-                                                        {{--                                                        </section>--}}
-                                                        <section
-                                                            class="product-price">{{ priceFormat($mostVisitedProduct->price) }}
-                                                            تومان
-                                                        </section>
+                                                        @php
+                                                            $mostVisitedProductAmazingSale = $mostVisitedProduct->amazingSales()->validAmazingSales()->first();
+                                                        @endphp
+                                                        @if(!empty($mostVisitedProductAmazingSale))
+                                                            <section class="product-price-wrapper">
+                                                                <section class="product-discount">
+                                                                    <span
+                                                                        class="product-old-price">{{ priceFormat($mostVisitedProduct->price) }}</span>
+                                                                    <span
+                                                                        class="product-discount-amount">{{ $mostVisitedProductAmazingSale->percentage }}%</span>
+                                                                </section>
+                                                                <section
+                                                                    class="product-price">{{ priceFormat($mostVisitedProduct->price - $mostVisitedProduct->price * ($mostVisitedProductAmazingSale->percentage / 100)) }}
+                                                                    تومان
+                                                                </section>
+                                                            </section>
+                                                        @else
+                                                            <section
+                                                                class="product-price">{{ priceFormat($mostVisitedProduct->price) }}
+                                                                تومان
+                                                            </section>
+                                                        @endif
                                                     </section>
                                                     <section class="product-colors">
                                                         @foreach($mostVisitedProduct->colors as $color)
@@ -181,16 +197,17 @@
                                     <section class="item">
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
-                                                {{--                                                <section class="product-add-to-cart">--}}
-                                                {{--                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"--}}
-                                                {{--                                                       title="افزودن به سبد خرید">--}}
-                                                {{--                                                        <i class="fa fa-cart-plus"></i>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                </section>--}}
+                                                <section class="product-add-to-cart">
+                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"
+                                                       title="افزودن به سبد خرید">
+                                                        <i class="fa fa-cart-plus"></i>
+                                                    </a>
+                                                </section>
                                                 @guest
                                                     <section class="product-add-to-favorite">
                                                         <button
                                                             class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
                                                             data-url="{{ route('customer.market.add-to-favorite', $offeredProduct->slug) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="افزودن به علاقه مندی">
@@ -203,6 +220,7 @@
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
                                                                 data-url="{{ route('customer.market.add-to-favorite', $offeredProduct->slug) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
@@ -213,6 +231,7 @@
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
+                                                                type="button"
                                                                 data-url="{{ route('customer.market.add-to-favorite', $offeredProduct->slug) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="افزودن به علاقه مندی">
@@ -222,25 +241,38 @@
                                                     @endif
                                                 @endauth
                                                 <a class="product-link"
-                                                   href="{{ route('customer.market.product', $offeredProduct) }}">
+                                                   href="{{ route('customer.market.product', $offeredProduct->slug) }}">
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ asset($offeredProduct->image['indexArray']['medium']) }}"
                                                              alt="{{ $offeredProduct->name }}">
                                                     </section>
-                                                    <section class="product-colors"></section>
                                                     <section class="product-name">
-                                                        <h3>{{ Str::limit($offeredProduct->name, 50)}}</h3>
+                                                        <h3>{{ $offeredProduct->name }}</h3>
                                                     </section>
                                                     <section class="product-price-wrapper">
-                                                        {{--                                                        <section class="product-discount">--}}
-                                                        {{--                                                            <span class="product-old-price">6,895,000 </span>--}}
-                                                        {{--                                                            <span class="product-discount-amount">10%</span>--}}
-                                                        {{--                                                        </section>--}}
-                                                        <section
-                                                            class="product-price">{{ priceFormat($offeredProduct->price) }}
-                                                            تومان
-                                                        </section>
+                                                        @php
+                                                            $offeredProductAmazingSale = $offeredProduct->amazingSales()->validAmazingSales()->first();
+                                                        @endphp
+                                                        @if(!empty($offeredProductAmazingSale))
+                                                            <section class="product-price-wrapper">
+                                                                <section class="product-discount">
+                                                                    <span
+                                                                        class="product-old-price">{{ priceFormat($offeredProduct->price) }}</span>
+                                                                    <span
+                                                                        class="product-discount-amount">{{ $offeredProductAmazingSale->percentage }}%</span>
+                                                                </section>
+                                                                <section
+                                                                    class="product-price">{{ priceFormat($offeredProduct->price - $offeredProduct->price * ($offeredProductAmazingSale->percentage / 100)) }}
+                                                                    تومان
+                                                                </section>
+                                                            </section>
+                                                        @else
+                                                            <section
+                                                                class="product-price">{{ priceFormat($offeredProduct->price) }}
+                                                                تومان
+                                                            </section>
+                                                        @endif
                                                     </section>
                                                     <section class="product-colors">
                                                         @foreach($offeredProduct->colors as $color)

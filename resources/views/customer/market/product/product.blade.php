@@ -340,10 +340,28 @@
                                                         <h3>{{ $relatedProduct->name }}</h3>
                                                     </section>
                                                     <section class="product-price-wrapper">
-                                                        <section
-                                                            class="product-price">{{ priceFormat($relatedProduct->price) }}
-                                                            تومان
-                                                        </section>
+                                                        @php
+                                                            $relatedProductAmazingSale = $relatedProduct->amazingSales()->validAmazingSales()->first();
+                                                        @endphp
+                                                        @if(!empty($relatedProductAmazingSale))
+                                                            <section class="product-price-wrapper">
+                                                                <section class="product-discount">
+                                                                    <span
+                                                                        class="product-old-price">{{ priceFormat($relatedProduct->price) }}</span>
+                                                                    <span
+                                                                        class="product-discount-amount">{{ $relatedProductAmazingSale->percentage }}%</span>
+                                                                </section>
+                                                                <section
+                                                                    class="product-price">{{ priceFormat($relatedProduct->price - $relatedProduct->price * ($relatedProductAmazingSale->percentage / 100)) }}
+                                                                    تومان
+                                                                </section>
+                                                            </section>
+                                                        @else
+                                                            <section
+                                                                class="product-price">{{ priceFormat($relatedProduct->price) }}
+                                                                تومان
+                                                            </section>
+                                                        @endif
                                                     </section>
                                                     <section class="product-colors">
                                                         @foreach($relatedProduct->colors as $color)
@@ -647,10 +665,10 @@
     </script>
     <script>
         //start product introduction, features and comment
-        $(document).ready(function() {
+        $(document).ready(function () {
             var s = $("#introduction-features-comments");
             var pos = s.position();
-            $(window).scroll(function() {
+            $(window).scroll(function () {
                 var windowpos = $(window).scrollTop();
 
                 if (windowpos >= pos.top) {
