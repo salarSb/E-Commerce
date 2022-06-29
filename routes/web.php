@@ -505,7 +505,7 @@ Route::prefix('/cart')->middleware('auth')->name('customer.sales-process.')->gro
     Route::get('/', [CartController::class, 'cart'])->name('cart');
     Route::post('/', [CartController::class, 'updateCart'])->name('update-cart');
     Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
-    Route::delete('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
+    Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

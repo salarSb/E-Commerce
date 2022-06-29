@@ -62,8 +62,11 @@
                                                            readonly="readonly">
                                                     <button class="cart-number cart-number-up" type="button">+</button>
                                                 </section>
-                                                <a class="text-decoration-none ms-4 cart-delete" href="#"><i
-                                                        class="fa fa-trash-alt"></i> حذف از سبد</a>
+                                                <a class="text-decoration-none ms-4 cart-delete"
+                                                   href="{{ route('customer.sales-process.removeFromCart', $cartItem->id) }}">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                    حذف از سبد
+                                                </a>
                                             </section>
                                         </section>
                                         <section class="align-self-end flex-shrink-1">

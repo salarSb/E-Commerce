@@ -50,8 +50,9 @@ class CartController extends Controller
         return back()->with('swal-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
-    public function removeFromCart()
+    public function removeFromCart(CartItem $cartItem)
     {
-
+        $cartItem->delete();
+        return back()->with('swal-success', 'محصول از سبد خرید حذف شد');
     }
 }
