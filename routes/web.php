@@ -38,7 +38,9 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
+use App\Http\Controllers\Customer\SalesProcess\ProfileCompletionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -501,13 +503,23 @@ Route::prefix('product')->name('customer.market.')->group(function () {
 });
 
 //sales process
-Route::prefix('/cart')->middleware('auth')->name('customer.sales-process.')->group(function () {
-    Route::get('/', [CartController::class, 'cart'])->name('cart');
-    Route::post('/', [CartController::class, 'updateCart'])->name('update-cart');
-    Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
-    Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
-});
+Route::middleware('auth')->name('customer.sales-process.')->group(function () {
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+    //cart
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+    Route::post('/cart', [CartController::class, 'updateCart'])->name('update-cart');
+    Route::post('/cart/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+    Route::get('/cart/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
+
+    //profile completion
+    Route::prefix('profile-completion')->name('profile-completion.')->group(function () {
+        Route::get('/', [ProfileCompletionController::class, 'profileCompletion'])->name('index');
+        Route::put('/', [ProfileCompletionController::class, 'update'])->name('update');
+    });
+
+    //address and delivery
+    Route::middleware('check.user.profile')->group(function () {
+        Route::get('/address-and-delivery', [AddressController::class, 'addressAndDelivery'])->name('address-and-delivery');
+        Route::post('/add-address', [AddressController::class, 'addAddress'])->name('add-address');
+    });
+});

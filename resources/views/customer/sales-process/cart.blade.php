@@ -54,7 +54,7 @@
                                                 <section class="cart-product-number d-inline-block ">
                                                     <button class="cart-number cart-number-down" type="button">-
                                                     </button>
-                                                    <input class="number"
+                                                    <input class="number" name="number[{{ $cartItem->id }}]"
                                                            data-product-price="{{ $cartItem->product_price }}"
                                                            data-product-discount="{{ $cartItem->product_discount }}"
                                                            type="number" min="1" max="5" step="1"
@@ -118,7 +118,10 @@
 
 
                                 <section class="">
-                                    <a href="address.html" class="btn btn-danger d-block">تکمیل فرآیند خرید</a>
+                                    <button onclick="document.getElementById('cart-items').submit();"
+                                            class="btn btn-danger d-block w-100">
+                                        تکمیل فرآیند خرید
+                                    </button>
                                 </section>
 
                             </section>
