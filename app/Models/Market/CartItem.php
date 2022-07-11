@@ -46,6 +46,12 @@ class CartItem extends Model
         return $this->product->price + $guaranteePriceIncrease + $colorPriceIncrease;
     }
 
+    // product price * number
+    public function getTotalProductPriceAttribute()
+    {
+        return $this->number * $this->product_price;
+    }
+
     // product price * (discount percentage / 100)
     public function getProductDiscountAttribute()
     {

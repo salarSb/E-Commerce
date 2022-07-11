@@ -98,7 +98,7 @@
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">تخفیف کالاها</p>
                                     <p class="text-danger fw-bolder"
-                                       id="total-discount">{{ priceFormat($totalDiscount) }} تومان</p>
+                                       id="total-discount">{{ priceFormat($totalDiscount) }}</p>
                                 </section>
                                 <section class="border-bottom mb-3"></section>
                                 <section class="d-flex justify-content-between align-items-center">
@@ -274,9 +274,9 @@
                 totalDiscount += number * productDiscount;
             });
             totalPrice = totalProductPrice - totalDiscount;
-            $('#total-product-price').html(toFarsiNumber(totalProductPrice));
-            $('#total-discount').html(toFarsiNumber(totalDiscount));
-            $('#total-price').html(toFarsiNumber(totalPrice));
+            $('#total-product-price').html(toFarsiNumber(totalProductPrice) + ' تومان');
+            $('#total-discount').html(toFarsiNumber(totalDiscount) + ' تومان');
+            $('#total-price').html(toFarsiNumber(totalPrice) + ' تومان');
 
             function toFarsiNumber(number) {
                 const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];

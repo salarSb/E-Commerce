@@ -16,7 +16,7 @@ class CheckUserProfile
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = $request->user()->id;
+        $user = $request->user();
         if (
             empty($user->mobile) ||
             empty($user->first_name) ||
