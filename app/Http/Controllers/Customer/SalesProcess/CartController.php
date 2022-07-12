@@ -36,7 +36,7 @@ class CartController extends Controller
                 ]);
             }
         }
-        return  redirect()->route('customer.sales-process.address-and-delivery');
+        return redirect()->route('customer.sales-process.address-and-delivery');
     }
 
     public function addToCart(Product $product, Request $request)
