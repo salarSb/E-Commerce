@@ -5,9 +5,10 @@ $(document).ready(function () {
         $('#sidebar-toggle-show').removeClass('d-inline');
         $('#sidebar-toggle-show').removeClass('d-md-none');
     }
+
     $('#sidebar-toggle-hide').click(function () {
         $('#sidebar').fadeOut(300);
-        $('#main-body').animate({ width: "100%" }, 300);
+        $('#main-body').animate({width: "100%"}, 300);
         setTimeout(() => {
             removeAllSidebarToggleClass();
             $('#sidebar-toggle-hide').addClass('d-none');
@@ -26,10 +27,10 @@ $(document).ready(function () {
     $('#search-toggle').click(function () {
         $('#search-toggle').removeClass('d-md-inline');
         $('#search-area').addClass('d-md-inline');
-        $('#search-input').animate({ width: '12rem' }, 300);
+        $('#search-input').animate({width: '12rem'}, 300);
     });
     $('#search-area-hide').click(function () {
-        $('#search-input').animate({ width: '0' }, 300);
+        $('#search-input').animate({width: '0'}, 300);
         setTimeout(() => {
             $('#search-toggle').addClass('d-md-inline');
             $('#search-area').removeClass('d-md-inline');
@@ -53,6 +54,7 @@ $(document).ready(function () {
         $(this).children('.sidebar-dropdown-toggle').children('.angle').addClass('fa-angle-down');
     });
 });
+
 function toggleFullScreen() {
     if ((document.fullScreenElement && document.fullScreenElement != null) ||
         (!document.mozFullScreen && !document.webkitIsFullScreen)) {
@@ -77,6 +79,7 @@ function toggleFullScreen() {
         $('#screen-expand').removeClass('d-none');
     }
 }
+
 $('#full-screen').click(function () {
     toggleFullScreen();
 });

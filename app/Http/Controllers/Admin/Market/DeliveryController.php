@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Market;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Market\DeiveryRequest;
 use App\Models\Market\Delivery;
-use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {

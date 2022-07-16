@@ -7,9 +7,6 @@ use App\Http\Requests\Admin\Content\PostRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 
 class PostController extends Controller
 {

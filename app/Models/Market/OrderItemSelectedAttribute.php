@@ -21,6 +21,6 @@ class OrderItemSelectedAttribute extends Model
 
     public function categoryAttributeValue()
     {
-        return $this->belongsTo(CategoryValue::class,'category_value_id');
+        return $this->belongsTo(CategoryValue::class, 'category_value_id');
     }
 }

@@ -18,26 +18,6 @@ class FileToolsService
         $this->file = $file;
     }
 
-    public function getExclusiveDirectory()
-    {
-        return $this->exclusiveDirectory;
-    }
-
-    public function setExclusiveDirectory($exclusiveDirectory)
-    {
-        $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
-    }
-
-    public function getFileDirectory()
-    {
-        return $this->fileDirectory;
-    }
-
-    public function setFileDirectory($fileDirectory)
-    {
-        $this->fileDirectory = trim($fileDirectory, '/\\');
-    }
-
     public function getFileSize()
     {
         return $this->fileSize;
@@ -48,39 +28,9 @@ class FileToolsService
         $this->fileSize = $file->getSize();
     }
 
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
-
-    public function setFileName($fileName)
-    {
-        $this->fileName = $fileName;
-    }
-
     public function setCurrentFileName()
     {
         return !empty($this->file) ? $this->setFileName(pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME)) : false;
-    }
-
-    public function getFileFormat()
-    {
-        return $this->fileFormat;
-    }
-
-    public function setFileFormat($fileFormat)
-    {
-        $this->fileFormat = $fileFormat;
-    }
-
-    public function getFinalFileDirectory()
-    {
-        return $this->finalFileDirectory;
-    }
-
-    public function setFinalFileDirectory($finalFileDirectory)
-    {
-        $this->finalFileDirectory = $finalFileDirectory;
     }
 
     public function getFinalFileName()
@@ -91,13 +41,6 @@ class FileToolsService
     public function setFinalFileName($finalFileName)
     {
         $this->finalFileName = $finalFileName;
-    }
-
-    protected function checkDirectory($fileDirectory)
-    {
-        if (!file_exists($fileDirectory)) {
-            mkdir($fileDirectory, 666, true);
-        }
     }
 
     public function getFileAddress()
@@ -125,5 +68,62 @@ class FileToolsService
 
         //check and create final file directory
         $this->checkDirectory($this->getFinalFileDirectory());
+    }
+
+    public function getFileDirectory()
+    {
+        return $this->fileDirectory;
+    }
+
+    public function setFileDirectory($fileDirectory)
+    {
+        $this->fileDirectory = trim($fileDirectory, '/\\');
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    public function getExclusiveDirectory()
+    {
+        return $this->exclusiveDirectory;
+    }
+
+    public function setExclusiveDirectory($exclusiveDirectory)
+    {
+        $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
+    }
+
+    public function getFileFormat()
+    {
+        return $this->fileFormat;
+    }
+
+    public function setFileFormat($fileFormat)
+    {
+        $this->fileFormat = $fileFormat;
+    }
+
+    protected function checkDirectory($fileDirectory)
+    {
+        if (!file_exists($fileDirectory)) {
+            mkdir($fileDirectory, 666, true);
+        }
+    }
+
+    public function getFinalFileDirectory()
+    {
+        return $this->finalFileDirectory;
+    }
+
+    public function setFinalFileDirectory($finalFileDirectory)
+    {
+        $this->finalFileDirectory = $finalFileDirectory;
     }
 }

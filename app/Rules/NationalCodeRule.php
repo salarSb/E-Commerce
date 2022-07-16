@@ -48,9 +48,9 @@ class NationalCodeRule implements Rule
      */
     public function message(): string
     {
-        if (config('app.locale')=='fa'){
+        if (config('app.locale') == 'fa') {
             return ':attribute باید 10 رقم و معتبر باشد.';
-        }else{
+        } else {
             return ':attribute must be must be 10 digits and valid.';
         }
 

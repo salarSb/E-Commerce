@@ -10,7 +10,7 @@ class FAQController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::orderby('created_at','desc')->simplePaginate(15);
+        $faqs = Faq::orderby('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.faq.index', compact('faqs'));
     }
 

@@ -36,14 +36,15 @@ class CouponRequest extends FormRequest
             'user_id' => ['required_if:type,1', 'min:1', 'regex:/^[0-9]+$/u', 'exists:users,id'],
         ];
     }
-public function attributes()
-{
-    return [
-        'type'=>'نوع کوپن',
-        'amount_type' => 'نوع تخفیف',
-        'amount' => 'میزان تخفیف'
-    ];
-}
+
+    public function attributes()
+    {
+        return [
+            'type' => 'نوع کوپن',
+            'amount_type' => 'نوع تخفیف',
+            'amount' => 'میزان تخفیف'
+        ];
+    }
 
     public function messages()
     {

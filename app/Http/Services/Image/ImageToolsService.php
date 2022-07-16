@@ -17,59 +17,9 @@ class ImageToolsService
         $this->image = $image;
     }
 
-    public function getExclusiveDirectory()
-    {
-        return $this->exclusiveDirectory;
-    }
-
-    public function setExclusiveDirectory($exclusiveDirectory)
-    {
-        $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
-    }
-
-    public function getImageDirectory()
-    {
-        return $this->imageDirectory;
-    }
-
-    public function setImageDirectory($imageDirectory)
-    {
-        $this->imageDirectory = trim($imageDirectory, '/\\');
-    }
-
-    public function getImageName()
-    {
-        return $this->imageName;
-    }
-
-    public function setImageName($imageName)
-    {
-        $this->imageName = $imageName;
-    }
-
     public function setCurrentImageName()
     {
         return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
-    }
-
-    public function getImageFormat()
-    {
-        return $this->imageFormat;
-    }
-
-    public function setImageFormat($imageFormat)
-    {
-        $this->imageFormat = $imageFormat;
-    }
-
-    public function getFinalImageDirectory()
-    {
-        return $this->finalImageDirectory;
-    }
-
-    public function setFinalImageDirectory($finalImageDirectory)
-    {
-        $this->finalImageDirectory = $finalImageDirectory;
     }
 
     public function getFinalImageName()
@@ -80,13 +30,6 @@ class ImageToolsService
     public function setFinalImageName($finalImageName)
     {
         $this->finalImageName = $finalImageName;
-    }
-
-    protected function checkDirectory($imageDirectory)
-    {
-        if (!file_exists($imageDirectory)) {
-            mkdir($imageDirectory, 666, true);
-        }
     }
 
     public function getImageAddress()
@@ -114,5 +57,62 @@ class ImageToolsService
 
         //check and create final image directory
         $this->checkDirectory($this->getFinalImageDirectory());
+    }
+
+    public function getImageDirectory()
+    {
+        return $this->imageDirectory;
+    }
+
+    public function setImageDirectory($imageDirectory)
+    {
+        $this->imageDirectory = trim($imageDirectory, '/\\');
+    }
+
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageFormat()
+    {
+        return $this->imageFormat;
+    }
+
+    public function setImageFormat($imageFormat)
+    {
+        $this->imageFormat = $imageFormat;
+    }
+
+    public function getExclusiveDirectory()
+    {
+        return $this->exclusiveDirectory;
+    }
+
+    public function setExclusiveDirectory($exclusiveDirectory)
+    {
+        $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
+    }
+
+    protected function checkDirectory($imageDirectory)
+    {
+        if (!file_exists($imageDirectory)) {
+            mkdir($imageDirectory, 666, true);
+        }
+    }
+
+    public function getFinalImageDirectory()
+    {
+        return $this->finalImageDirectory;
+    }
+
+    public function setFinalImageDirectory($finalImageDirectory)
+    {
+        $this->finalImageDirectory = $finalImageDirectory;
     }
 }

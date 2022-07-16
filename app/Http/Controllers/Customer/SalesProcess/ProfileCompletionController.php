@@ -20,6 +20,6 @@ class ProfileCompletionController extends Controller
         $inputs = $request->all();
         $user = auth()->user();
         $user->update($inputs);
-        return  redirect()->route('customer.sales-process.address-and-delivery');
+        return redirect()->route('customer.sales-process.address-and-delivery');
     }
 }

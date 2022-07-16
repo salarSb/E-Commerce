@@ -20,7 +20,7 @@ class GuaranteeController extends Controller
         return view('admin.market.product.guarantee.create', compact('product'));
     }
 
-    public function store(Request $request,Product $product)
+    public function store(Request $request, Product $product)
     {
         $inputs = $request->all();
         $request->validate([

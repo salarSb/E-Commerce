@@ -81,6 +81,7 @@ class CommentController extends Controller
             return redirect()->route('admin.market.comment.index')->with('swal-error', 'تغییر وضعیت تایید نظر با خطا مواجه شد');
         }
     }
+
     public function answer(CommentRequest $request, Comment $comment)
     {
         if (!$comment->parent_id) {
