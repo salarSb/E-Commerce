@@ -25,6 +25,7 @@ class NationalCodeRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
+        // checking that national code must be 10 digits is done in request validation with 'digits:10'
         $arrCode = str_split($value);
         if (count(array_unique($arrCode)) == 1) {
             return false;
