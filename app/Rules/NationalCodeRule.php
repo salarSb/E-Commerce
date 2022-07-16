@@ -26,7 +26,7 @@ class NationalCodeRule implements Rule
     public function passes($attribute, $value): bool
     {
         $arrCode = str_split($value);
-        if (count(array_unique($arrCode)) == 1 || count($arrCode) != 10) {
+        if (count(array_unique($arrCode)) == 1) {
             return false;
         }
         $a = $arrCode[9];

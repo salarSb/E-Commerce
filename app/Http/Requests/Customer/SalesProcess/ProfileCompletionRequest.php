@@ -29,7 +29,7 @@ class ProfileCompletionRequest extends FormRequest
             'last_name' => ['max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
             'mobile' => ['regex:/^09[\d]{9}$/u', 'unique:users'],
             'email' => ['string', 'email', 'unique:users'],
-            'national_code' => ['numeric', new NationalCodeRule, 'unique:users'],
+            'national_code' => ['digits:10',new NationalCodeRule, 'unique:users'],
         ];
     }
 }

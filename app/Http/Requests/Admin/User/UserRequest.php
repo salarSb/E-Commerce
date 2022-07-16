@@ -37,14 +37,14 @@ class UserRequest extends FormRequest
                 'password' => ['required', Password::min(8)
                     ->letters(), 'confirmed', 'unique:users'],
                 'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,gif'],
-                'national_code' => ['required', 'numeric', new NationalCodeRule, 'unique:users'],
+                'national_code' => ['required', 'digits:10', new NationalCodeRule, 'unique:users'],
             ];
         } else {
             return [
                 'first_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
                 'last_name' => ['required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
                 'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,gif'],
-                'national_code' => ['required', 'numeric', new NationalCodeRule, Rule::unique('users')->ignore($this->route('user')->id)],
+                'national_code' => ['required', 'digits:10', new NationalCodeRule, Rule::unique('users')->ignore($this->route('user')->id)],
             ];
         }
     }
