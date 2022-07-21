@@ -17,9 +17,31 @@ class ProfileCompletionController extends Controller
 
     public function update(ProfileCompletionRequest $request)
     {
-        $inputs = $request->all();
         $user = auth()->user();
-        $user->update($inputs);
+        $nationalCode = convertPersianToEnglish($request->input('national_code'));
+        $inputs = [
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'national_code' => $nationalCode,
+        ];
+        if (isset($request->mobile) && empty($user->mobile)) {
+            $mobile = convertPersianToEnglish($request->input('mobile'));
+            $type = 0; // 0 => mobile
+
+            // all mobile numbers in one format (9********)
+            $mobile = ltrim($mobile, '0');
+            $mobile = str_starts_with($mobile, '98') ? substr($mobile, 2) : $mobile;
+            $mobile = str_replace('+98', '', $mobile);
+            $inputs['mobile'] = $mobile;
+        }
+        if (isset($request->email) && empty($user->email)) {
+            $email = convertPersianToEnglish($request->input('email'));
+            $inputs['email'] = $email;
+        }
+        $inputs = array_filter($inputs);
+        if (!empty($inputs)) {
+            $user->update($inputs);
+        }
         return redirect()->route('customer.sales-process.address-and-delivery');
     }
 }

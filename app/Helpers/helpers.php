@@ -26,22 +26,6 @@ function convertPersianToEnglish($number)
     return $number;
 }
 
-function convertArabicToEnglish($number)
-{
-    $number = str_replace('۰', '0', $number);
-    $number = str_replace('۱', '1', $number);
-    $number = str_replace('۲', '2', $number);
-    $number = str_replace('۳', '3', $number);
-    $number = str_replace('۴', '4', $number);
-    $number = str_replace('۵', '5', $number);
-    $number = str_replace('۶', '6', $number);
-    $number = str_replace('۷', '7', $number);
-    $number = str_replace('۸', '8', $number);
-    $number = str_replace('۹', '9', $number);
-
-    return $number;
-}
-
 function convertEnglishToPersian($number)
 {
     $number = str_replace('0', '۰', $number);

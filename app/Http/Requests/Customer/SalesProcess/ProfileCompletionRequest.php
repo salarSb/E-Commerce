@@ -25,11 +25,11 @@ class ProfileCompletionRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
-            'last_name' => ['max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
-            'mobile' => ['regex:/^09[\d]{9}$/u', 'unique:users'],
-            'email' => ['string', 'email', 'unique:users'],
-            'national_code' => ['digits:10',new NationalCodeRule, 'unique:users'],
+            'first_name' => ['sometimes', 'required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
+            'last_name' => ['sometimes', 'required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
+            'mobile' => ['sometimes', 'nullable', 'regex:/^(\+98|98|0)9\d{9}$/u', 'unique:users'],
+            'email' => ['sometimes', 'nullable', 'string', 'email', 'unique:users'],
+            'national_code' => ['sometimes', 'required', new NationalCodeRule, 'unique:users'],
         ];
     }
 }
