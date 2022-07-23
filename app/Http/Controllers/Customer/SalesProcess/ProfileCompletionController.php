@@ -26,7 +26,7 @@ class ProfileCompletionController extends Controller
         ];
         if (isset($request->mobile) && empty($user->mobile)) {
             $mobile = convertPersianToEnglish($request->input('mobile'));
-            $type = 0; // 0 => mobile
+            $type = 0; // 0 => mobile TODO: send mobile verification sms
 
             // all mobile numbers in one format (9********)
             $mobile = ltrim($mobile, '0');
@@ -35,6 +35,7 @@ class ProfileCompletionController extends Controller
             $inputs['mobile'] = $mobile;
         }
         if (isset($request->email) && empty($user->email)) {
+            $type = 1; // 0 => email TODO: send email verification mail
             $email = convertPersianToEnglish($request->input('email'));
             $inputs['email'] = $email;
         }

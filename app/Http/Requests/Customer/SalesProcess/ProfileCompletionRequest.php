@@ -27,8 +27,8 @@ class ProfileCompletionRequest extends FormRequest
         return [
             'first_name' => ['sometimes', 'required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
             'last_name' => ['sometimes', 'required', 'max:120', 'min:1', 'regex:/^[ا-یa-zA-Zء-ي. ]+$/u'],
-            'mobile' => ['sometimes', 'nullable', 'regex:/^(\+98|98|0)9\d{9}$/u', 'unique:users'],
-            'email' => ['sometimes', 'nullable', 'string', 'email', 'unique:users'],
+            'mobile' => ['sometimes', 'regex:/^(\+98|98|0)9\d{9}$/u', 'unique:users'],
+            'email' => ['sometimes', 'string', 'email', 'unique:users'],
             'national_code' => ['sometimes', 'required', new NationalCodeRule, 'unique:users'],
         ];
     }
