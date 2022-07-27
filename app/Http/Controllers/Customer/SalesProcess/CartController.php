@@ -12,11 +12,9 @@ class CartController extends Controller
 {
     public function cart()
     {
-        $cartItems = CartItem::where('user_id', auth()->user()->id)->get();
-
         // TODO : get related products with lazy loading
         $relatedProducts = Product::all();
-        return view('customer.sales-process.cart', compact('cartItems', 'relatedProducts'));
+        return view('customer.sales-process.cart', compact( 'relatedProducts'));
     }
 
     public function updateCart(Request $request)

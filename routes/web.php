@@ -520,6 +520,7 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
     //address and delivery
     Route::middleware('check.user.profile')->group(function () {
         Route::get('/address-and-delivery', [AddressController::class, 'addressAndDelivery'])->name('address-and-delivery');
+        Route::get('/get-cities/{province}', [AddressController::class, 'getCities'])->name('get-cities');
         Route::post('/add-address', [AddressController::class, 'addAddress'])->name('add-address');
     });
 });

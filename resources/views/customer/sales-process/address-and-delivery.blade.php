@@ -46,46 +46,26 @@
 
 
                                 <section class="address-select">
-
-                                    <input type="radio" name="address" value="1" id="a1"/> <!--checked="checked"-->
-                                    <label for="a1" class="address-wrapper mb-2 p-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-map-marker-alt mx-1"></i>
-                                            آدرس : استان تهران، شهر تهران، تهران، خ. حافظ، پایینتر از تقاطع امام خمینی،
-                                            بن. هشمی، پلاک 3، واحد 4
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-user-tag mx-1"></i>
-                                            گیرنده : کامران محمدی
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-mobile-alt mx-1"></i>
-                                            موبایل گیرنده : 09129998877
-                                        </section>
-                                        <a class="" href="#"><i class="fa fa-edit"></i> ویرایش آدرس</a>
-                                        <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
-                                    </label>
-
-                                    <input type="radio" name="address" value="2" id="a2"/>
-                                    <label for="a2" class="address-wrapper mb-2 p-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-map-marker-alt mx-1"></i>
-                                            آدرس : استان تهران، شهر تهران، تهران، خ. پاسداران، کوچه غلامی پلاک 18، واحد
-                                            13
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-user-tag mx-1"></i>
-                                            گیرنده : کامران محمدی
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-mobile-alt mx-1"></i>
-                                            موبایل گیرنده : 09129998877
-                                        </section>
-                                        <a class="" href="#"><i class="fa fa-edit"></i> ویرایش آدرس</a>
-                                        <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
-                                    </label>
-
-
+                                    @foreach($addresses as $address)
+                                        <input type="radio" name="address" value="1" id="a1"/> <!--checked="checked"-->
+                                        <label for="a1" class="address-wrapper mb-2 p-2">
+                                            <section class="mb-2">
+                                                <i class="fa fa-map-marker-alt mx-1"></i>
+                                                آدرس : استان {{ $address->city->getProvince()->name }}
+                                                شهر {{ ($address->city->name ?? '-') . ' ' . ($address->address ?? '-') . ' پلاک ' . ($address->no ?? '-') . ' واحد ' . ($address->unit ?? '-')}}
+                                            </section>
+                                            <section class="mb-2">
+                                                <i class="fa fa-user-tag mx-1"></i>
+                                                گیرنده : {{ $address->recipient_full_name ?? '-' }}
+                                            </section>
+                                            <section class="mb-2">
+                                                <i class="fa fa-mobile-alt mx-1"></i>
+                                                موبایل گیرنده : {{ $address->mobile ?? '-' }}
+                                            </section>
+                                            <a class="" href="#"><i class="fa fa-edit"></i> ویرایش آدرس</a>
+                                            <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
+                                        </label>
+                                    @endforeach
                                     <section class="address-add-wrapper">
                                         <button class="address-add-button" type="button" data-bs-toggle="modal"
                                                 data-bs-target="#add-address"><i class="fa fa-plus"></i> ایجاد آدرس جدید
@@ -109,19 +89,19 @@
                                                                 <select class="form-select form-select-sm"
                                                                         id="province">
                                                                     <option selected>استان را انتخاب کنید</option>
-                                                                    <option value="1">آذربایجان شرقی</option>
-                                                                    <option value="2">آذربایجان غربی</option>
-                                                                    <option value="3">تهران</option>
+                                                                    @foreach($provinces as $province)
+                                                                        <option
+                                                                            data-url="{{ route('customer.sales-process.get-cities', $province->id) }}">
+                                                                            {{ $province->name }}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </section>
 
                                                             <section class="col-6 mb-2">
                                                                 <label for="city" class="form-label mb-1">شهر</label>
                                                                 <select class="form-select form-select-sm" id="city">
-                                                                    <option selected>استان را انتخاب کنید</option>
-                                                                    <option value="1">تبریز</option>
-                                                                    <option value="2">میانه</option>
-                                                                    <option value="3">آذرشهر</option>
+                                                                    <option selected>شهر را انتخاب کنید</option>
                                                                 </select>
                                                             </section>
                                                             <section class="col-12 mb-2">
@@ -259,40 +239,45 @@
                         </section>
                         <section class="col-md-3">
                             <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
+                                @php
+                                    $productPrice = 0;
+                                    $totalProductPrice = 0;
+                                    $totalDiscount = 0;
+                                @endphp
+                                @foreach($cartItems as $cartItem)
+                                    @php
+                                        $productPrice += $cartItem->total_product_price;
+                                        $totalProductPrice += $cartItem->final_price;
+                                        $totalDiscount += $cartItem->final_discount;
+                                    @endphp
+                                @endforeach
                                 <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">قیمت کالاها (2)</p>
-                                    <p class="text-muted">398,000 تومان</p>
+                                    <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
+                                    <p class="text-muted" id="total-product-price">{{ priceFormat($productPrice) }}
+                                        تومان</p>
                                 </section>
-
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">تخفیف کالاها</p>
-                                    <p class="text-danger fw-bolder">78,000 تومان</p>
+                                    <p class="text-danger fw-bolder"
+                                       id="total-discount">{{ priceFormat($totalDiscount) }} تومان</p>
                                 </section>
-
                                 <section class="border-bottom mb-3"></section>
-
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder">320,000 تومان</p>
+                                    <p class="fw-bolder"
+                                       id="total-price">{{ priceFormat($totalProductPrice) }}
+                                        تومان
+                                    </p>
                                 </section>
-
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">هزینه ارسال</p>
                                     <p class="text-warning">54,000 تومان</p>
                                 </section>
-
                                 <p class="my-3">
                                     <i class="fa fa-info-circle me-1"></i> کاربر گرامی کالاها بر اساس نوع ارسالی که
                                     انتخاب می کنید در مدت زمان ذکر شده ارسال می شود.
                                 </p>
-
                                 <section class="border-bottom mb-3"></section>
-
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">مبلغ قابل پرداخت</p>
-                                    <p class="fw-bold">374,000 تومان</p>
-                                </section>
-
                                 <section class="">
                                     <section id="address-button" href="address.html"
                                              class="text-warning border border-warning text-center py-2 pointer rounded-2 d-block">
@@ -301,7 +286,6 @@
                                     <a id="next-level" href="payment.html" class="btn btn-danger d-none">ادامه فرآیند
                                         خرید</a>
                                 </section>
-
                             </section>
                         </section>
                     </section>
@@ -312,3 +296,31 @@
     </section>
     <!-- end cart -->
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#province').change(function () {
+                const element = $('#province option:selected');
+                const url = element.attr('data-url');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.status){
+                            let cities = response.cities;
+                            $('#city').empty();
+                            cities.map(city => {
+                                $('#city').append($('<option/>').val(city.id).text(city.name));
+                            });
+                        }else {
+                            errorToast('شهری وجود ندارد');
+                        }
+                    },
+                    error: function (error) {
+                        errorToast('عملیات با خطا مواجه شد');
+                    }
+                });
+            })
+        });
+    </script>
+@endpush

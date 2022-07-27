@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Content\Comment;
+use App\Models\Market\Address;
 use App\Models\Market\CartItem;
 use App\Models\Market\Order;
 use App\Models\Market\Payment;
@@ -142,5 +143,10 @@ class User extends Authenticatable
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

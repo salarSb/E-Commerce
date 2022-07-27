@@ -29,6 +29,6 @@ class ComposerServiceProvider extends ServiceProvider
     {
         View::composer('admin.layouts.header', CommentComposer::class);
         View::composer('admin.layouts.header', NotificationComposer::class);
-        View::composer('customer.layouts.header', CartComposer::class);
+        View::composer(['customer.layouts.header', 'customer.sales-process.cart', 'customer.sales-process.address-and-delivery'], CartComposer::class);
     }
 }
