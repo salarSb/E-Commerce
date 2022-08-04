@@ -196,5 +196,9 @@ return [
         "otp"                       => "کد یکبار مصرف",
         "position"                  => "موقیعت",
         "color"                     => "رنگ",
+        "city_id"                   => "شهر",
+        "no"                        => "پلاک",
+        "recipient_first_name"      => "نام گیرنده",
+        "recipient_last_name"       => "نام خانوادگی گیرنده",
     ],
 ];

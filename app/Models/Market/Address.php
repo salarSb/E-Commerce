@@ -11,6 +11,12 @@ class Address extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+    ];
+
     public function getRecipientFullNameAttribute()
     {
         return $this->recipient_first_name . ' ' . $this->recipient_last_name;

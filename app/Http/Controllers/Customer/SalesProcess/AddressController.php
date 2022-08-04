@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer\SalesProcess;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\SalesProcess\StoreAddressRequest;
 use App\Models\Market\CartItem;
 use App\Models\Market\IranProvince;
 
@@ -34,8 +35,14 @@ class AddressController extends Controller
         ]);
     }
 
-    public function addAddress()
+    public function addAddress(StoreAddressRequest $request)
     {
-
+        $inputs = $request->validated();
+        $inputs['postal_code'] = convertPersianToEnglish($request->input('postal_code'));
+        $inputs['no'] = convertPersianToEnglish($request->input('no'));
+        $inputs['unit'] = convertPersianToEnglish($request->input('unit'));
+        $inputs['mobile'] = convertPersianToEnglish($request->input('mobile'));
+        auth()->user()->addresses()->create($inputs);
+        return redirect()->back();
     }
 }

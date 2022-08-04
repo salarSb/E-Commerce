@@ -21,6 +21,13 @@
                     </section>
 
                     <section class="row mt-4">
+                        @if($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
                         <section class="col-md-9">
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
 
@@ -82,7 +89,9 @@
                                                                 aria-label="Close"></button>
                                                     </section>
                                                     <section class="modal-body">
-                                                        <form class="row" action="#">
+                                                        <form class="row" method="post"
+                                                              action="{{ route('customer.sales-process.add-address') }}">
+                                                            @csrf
                                                             <section class="col-6 mb-2">
                                                                 <label for="province"
                                                                        class="form-label mb-1">استان</label>
@@ -100,34 +109,37 @@
 
                                                             <section class="col-6 mb-2">
                                                                 <label for="city" class="form-label mb-1">شهر</label>
-                                                                <select class="form-select form-select-sm" id="city">
+                                                                <select class="form-select form-select-sm" id="city"
+                                                                        name="city_id">
                                                                     <option selected>شهر را انتخاب کنید</option>
                                                                 </select>
                                                             </section>
                                                             <section class="col-12 mb-2">
                                                                 <label for="address"
                                                                        class="form-label mb-1">نشانی</label>
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="address" placeholder="نشانی">
+                                                                <textarea class="form-control form-control-sm"
+                                                                          id="address" name="address"
+                                                                          placeholder="نشانی"></textarea>
                                                             </section>
 
                                                             <section class="col-6 mb-2">
                                                                 <label for="postal_code" class="form-label mb-1">کد
                                                                     پستی</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="postal_code" placeholder="کد پستی">
+                                                                       id="postal_code" name="postal_code"
+                                                                       placeholder="کد پستی">
                                                             </section>
 
                                                             <section class="col-3 mb-2">
                                                                 <label for="no" class="form-label mb-1">پلاک</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="no" placeholder="پلاک">
+                                                                       id="no" name="no" placeholder="پلاک">
                                                             </section>
 
                                                             <section class="col-3 mb-2">
                                                                 <label for="unit" class="form-label mb-1">واحد</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="unit" placeholder="واحد">
+                                                                       id="unit" name="unit" placeholder="واحد">
                                                             </section>
 
                                                             <section class="border-bottom mt-2 mb-3"></section>
@@ -135,9 +147,9 @@
                                                             <section class="col-12 mb-2">
                                                                 <section class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                           value="" id="receiver">
+                                                                           id="receiver" name="receiver">
                                                                     <label class="form-check-label" for="receiver">
-                                                                        گیرنده سفارش خودم هستم
+                                                                        گیرنده سفارش خودم نیستم (اطلاعات زیر تکمیل شود)
                                                                     </label>
                                                                 </section>
                                                             </section>
@@ -146,33 +158,35 @@
                                                                 <label for="first_name" class="form-label mb-1">نام
                                                                     گیرنده</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="first_name" placeholder="نام گیرنده">
+                                                                       id="first_name" name="recipient_first_name"
+                                                                       placeholder="نام گیرنده">
                                                             </section>
 
                                                             <section class="col-6 mb-2">
                                                                 <label for="last_name" class="form-label mb-1">نام
                                                                     خانوادگی گیرنده</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="last_name" placeholder="نام خانوادگی گیرنده">
+                                                                       id="last_name" name="recipient_last_name"
+                                                                       placeholder="نام خانوادگی گیرنده">
                                                             </section>
 
                                                             <section class="col-6 mb-2">
                                                                 <label for="mobile" class="form-label mb-1">شماره
                                                                     موبایل</label>
                                                                 <input type="text" class="form-control form-control-sm"
-                                                                       id="mobile" placeholder="شماره موبایل">
+                                                                       id="mobile" name="mobile"
+                                                                       placeholder="شماره موبایل">
                                                             </section>
 
-
-                                                        </form>
                                                     </section>
                                                     <section class="modal-footer py-1">
-                                                        <button type="button" class="btn btn-sm btn-primary">ثبت آدرس
+                                                        <button type="submit" class="btn btn-sm btn-primary">ثبت آدرس
                                                         </button>
                                                         <button type="button" class="btn btn-sm btn-danger"
                                                                 data-bs-dismiss="modal">بستن
                                                         </button>
                                                     </section>
+                                                    </form>
                                                 </section>
                                             </section>
                                         </section>
@@ -306,13 +320,13 @@
                     url: url,
                     type: 'GET',
                     success: function (response) {
-                        if (response.status){
+                        if (response.status) {
                             let cities = response.cities;
                             $('#city').empty();
                             cities.map(city => {
                                 $('#city').append($('<option/>').val(city.id).text(city.name));
                             });
-                        }else {
+                        } else {
                             errorToast('شهری وجود ندارد');
                         }
                     },
