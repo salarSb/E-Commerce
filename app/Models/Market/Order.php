@@ -11,6 +11,13 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [
+        'id',
+        'create_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -40,6 +40,7 @@ use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
+use App\Http\Controllers\Customer\Salesprocess\PaymentController as CustomerPaymentController;
 use App\Http\Controllers\Customer\SalesProcess\ProfileCompletionController;
 use Illuminate\Support\Facades\Route;
 
@@ -523,5 +524,9 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
         Route::get('/get-cities/{province}', [AddressController::class, 'getCities'])->name('get-cities');
         Route::post('/add-address', [AddressController::class, 'addAddress'])->name('add-address');
         Route::put('/update-address/{address}', [AddressController::class, 'updateAddress'])->name('update-address');
+        Route::post('/choose-address-and-delivery', [AddressController::class, 'chooseAddressAndDelivery'])->name('choose-address-and-delivery');
+
+        //payment
+        Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('payment');
     });
 });

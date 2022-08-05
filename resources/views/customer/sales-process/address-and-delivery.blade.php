@@ -49,8 +49,9 @@
                                 </section>
                                 <section class="address-select">
                                     @foreach($addresses as $address)
-                                        <input type="radio" name="address" value="1" id="a1"/> <!--checked="checked"-->
-                                        <label for="a1" class="address-wrapper mb-2 p-2">
+                                        <input form="myForm" type="radio" name="address_id" value="{{ $address->id }}"
+                                               id="a-{{ $address->id }}"/> <!--checked="checked"-->
+                                        <label for="a-{{ $address->id }}" class="address-wrapper mb-2 p-2">
                                             <section class="mb-2">
                                                 <i class="fa fa-map-marker-alt mx-1"></i>
                                                 آدرس : استان {{ $address->city->getProvince()->name }}
@@ -337,28 +338,24 @@
                                             بگیرید.
                                         </secrion>
                                     </section>
-                                    <input type="radio" name="delivery_type" value="1" id="d1"/>
-                                    <label for="d1" class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-shipping-fast mx-1"></i>
-                                            پست پیشتاز
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-calendar-alt mx-1"></i>
-                                            تامین کالا از 4 روز کاری آینده
-                                        </section>
-                                    </label>
-                                    <input type="radio" name="delivery_type" value="2" id="d2"/>
-                                    <label for="d2" class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-shipping-fast mx-1"></i>
-                                            تیپاکس
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-calendar-alt mx-1"></i>
-                                            تامین کالا از 2 روز کاری آینده
-                                        </section>
-                                    </label>
+                                    @foreach($deliveryMethods as $deliveryMethod)
+                                        <input form="myForm" type="radio" name="delivery_id"
+                                               value="{{ $deliveryMethod->id }}"
+                                               id="d-{{ $deliveryMethod->id }}"/>
+                                        <label for="d-{{ $deliveryMethod->id }}"
+                                               class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
+                                            <section class="mb-2">
+                                                <i class="fa fa-shipping-fast mx-1"></i>
+                                                {{ $deliveryMethod->name }}
+                                            </section>
+                                            <section class="mb-2">
+                                                <i class="fa fa-calendar-alt mx-1"></i>
+                                                تامین کالا
+                                                از {{ $deliveryMethod->delivery_time }} {{ $deliveryMethod->delivery_time_unit }}
+                                                کاری آینده
+                                            </section>
+                                        </label>
+                                    @endforeach
                                 </section>
                             </section>
                         </section>
@@ -403,14 +400,15 @@
                                     انتخاب می کنید در مدت زمان ذکر شده ارسال می شود.
                                 </p>
                                 <section class="border-bottom mb-3"></section>
-                                <section class="">
-                                    <section id="address-button" href="address.html"
-                                             class="text-warning border border-warning text-center py-2 pointer rounded-2 d-block">
-                                        آدرس و نحوه ارسال را انتخاب کن
-                                    </section>
-                                    <a id="next-level" href="payment.html" class="btn btn-danger d-none">ادامه فرآیند
-                                        خرید</a>
-                                </section>
+                                <form action="{{route('customer.sales-process.choose-address-and-delivery')}}"
+                                      id="myForm" method="post">
+                                    @csrf
+                                </form>
+                                <button
+                                    class="btn btn-danger w-100"
+                                    type="button" onclick="document.getElementById('myForm').submit();">
+                                    ادامه فرایند خرید
+                                </button>
                             </section>
                         </section>
                     </section>

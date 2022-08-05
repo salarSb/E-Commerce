@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Customer\SalesProcess;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\SalesProcess\AddressRequest;
+use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
+use App\Models\Market\Delivery;
 use App\Models\Market\IranProvince;
 
 class AddressController extends Controller
@@ -18,7 +20,8 @@ class AddressController extends Controller
         }
         $addresses = $user->addresses;
         $provinces = IranProvince::getAllActive();
-        return view('customer.sales-process.address-and-delivery', compact('addresses', 'provinces'));
+        $deliveryMethods = Delivery::where('status', 1)->get();
+        return view('customer.sales-process.address-and-delivery', compact('addresses', 'provinces', 'deliveryMethods'));
     }
 
     public function getCities(IranProvince $province)
@@ -56,5 +59,13 @@ class AddressController extends Controller
         $inputs['mobile'] = convertPersianToEnglish($request->input('mobile'));
         $address->update($inputs);
         return redirect()->back();
+    }
+
+    public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
+    {
+        $user = auth()->user();
+        $inputs = $request->validated();
+        $order = $user->orders()->updateOrCreate(['user_id' => $user->id, 'order_status' => 0], $inputs);
+        return redirect()->route('customer.sales-process.payment');
     }
 }
