@@ -26,4 +26,9 @@ class CommonDiscount extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function scopeValidCommonDiscounts($query)
+    {
+        return $query->where('status', 1)->where('start_date', '<', now())->where('end_date', '>', now())->latest();
+    }
 }

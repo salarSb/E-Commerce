@@ -91,7 +91,7 @@ class DiscountController extends Controller
 
     public function commonDiscount()
     {
-        $commonDiscounts = CommonDiscount::all();
+        $commonDiscounts = CommonDiscount::latest()->get();
         return view('admin.market.discount.common-discount', compact('commonDiscounts'));
     }
 

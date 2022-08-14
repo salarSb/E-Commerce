@@ -7,6 +7,7 @@ use App\Http\Requests\Customer\SalesProcess\AddressRequest;
 use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
+use App\Models\Market\CommonDiscount;
 use App\Models\Market\Delivery;
 use App\Models\Market\IranProvince;
 
@@ -65,7 +66,32 @@ class AddressController extends Controller
     {
         $user = auth()->user();
         $inputs = $request->validated();
-        $order = $user->orders()->updateOrCreate(['user_id' => $user->id, 'order_status' => 0], $inputs);
+
+        //calc price
+        $cartItems = CartItem::where('user_id', $user->id)->get();
+        $totalProductPrice = 0;
+        $totalDiscount = 0;
+        $totalFinalPrice = 0;
+        $totalFinalDiscountPriceWithNumber = 0;
+        foreach ($cartItems as $cartItem) {
+            $totalProductPrice += $cartItem->product_price;
+            $totalDiscount += $cartItem->product_discount;
+            $totalFinalPrice += $cartItem->final_price;
+            $totalFinalDiscountPriceWithNumber += $cartItem->final_discount;
+        }
+        $commonDiscount = CommonDiscount::validCommonDiscounts()->first();
+        if (isset($commonDiscount) && $totalFinalPrice >= $commonDiscount->minimal_order_amount) {
+            $commonDiscountAmount = min($totalFinalPrice * ($commonDiscount->percentage / 100), $commonDiscount->discount_ceiling);
+            $totalFinalPrice = $totalFinalPrice - $commonDiscountAmount;
+        }
+
+        // create order
+        $order = $user->orders()->updateOrCreate(['user_id' => $user->id, 'order_status' => 0], array_merge($inputs, [
+            'order_final_amount' => $totalFinalPrice, // TODO : must refactor because coupon and common discounts aren't affected
+            'order_discount_amount' => $totalFinalDiscountPriceWithNumber,
+            'order_common_discount_amount' => $commonDiscountAmount ?? null,
+            'order_total_products_discount_amount' => $totalFinalDiscountPriceWithNumber + ($commonDiscountAmount ?? null),
+        ]));
         return redirect()->route('customer.sales-process.payment');
     }
 }
