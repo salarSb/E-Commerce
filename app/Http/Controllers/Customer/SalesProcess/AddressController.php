@@ -68,10 +68,11 @@ class AddressController extends Controller
         $inputs = $request->validated();
 
         //calc price
+        $deliveryAmount = Delivery::find($inputs['delivery_id'])->amount;
         $cartItems = CartItem::where('user_id', $user->id)->get();
         $totalProductPrice = 0;
         $totalDiscount = 0;
-        $totalFinalPrice = 0;
+        $totalFinalPrice = $deliveryAmount;
         $totalFinalDiscountPriceWithNumber = 0;
         foreach ($cartItems as $cartItem) {
             $totalProductPrice += $cartItem->product_price;
@@ -87,6 +88,7 @@ class AddressController extends Controller
 
         // create order
         $order = $user->orders()->updateOrCreate(['user_id' => $user->id, 'order_status' => 0], array_merge($inputs, [
+            'delivery_amount' => $deliveryAmount,
             'order_final_amount' => $totalFinalPrice, // TODO : must refactor because coupon and common discounts aren't affected
             'order_discount_amount' => $totalFinalDiscountPriceWithNumber,
             'order_common_discount_amount' => $commonDiscountAmount ?? null,

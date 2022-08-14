@@ -339,7 +339,8 @@
                                         </secrion>
                                     </section>
                                     @foreach($deliveryMethods as $deliveryMethod)
-                                        <input form="myForm" type="radio" name="delivery_id"
+                                        <input form="myForm" type="radio" name="delivery_id" class="method"
+                                               data-delivery-method-price="{{ $deliveryMethod->amount }}"
                                                value="{{ $deliveryMethod->id }}"
                                                id="d-{{ $deliveryMethod->id }}"/>
                                         <label for="d-{{ $deliveryMethod->id }}"
@@ -393,7 +394,7 @@
                                 </section>
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">هزینه ارسال</p>
-                                    <p class="text-warning">54,000 تومان</p>
+                                    <p id="delivery-price" class="text-warning"></p>
                                 </section>
                                 <p class="my-3">
                                     <i class="fa fa-info-circle me-1"></i> کاربر گرامی کالاها بر اساس نوع ارسالی که
@@ -474,5 +475,34 @@
                 })
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            bill();
+            $('.method').click(function () {
+                bill();
+            });
+        });
+
+        function bill() {
+            if (!$('.method').is(':checked')) {
+                $('#delivery-price').html('انتخاب نشده');
+            } else {
+                let deliveryMethodPrice = parseFloat($('input[name="delivery_id"]:checked').data('delivery-method-price'));
+                if (deliveryMethodPrice === 0) {
+                    $('#delivery-price').html('رایگان');
+                } else {
+                    $('#delivery-price').html(toFarsiNumber(deliveryMethodPrice) + ' تومان');
+                }
+            }
+
+            function toFarsiNumber(number) {
+                const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                // add comma
+                number = new Intl.NumberFormat().format(number);
+                //convert to persian
+                return number.toString().replace(/\d/g, x => farsiDigits[x]);
+            }
+        }
     </script>
 @endpush
