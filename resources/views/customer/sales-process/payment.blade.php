@@ -21,6 +21,13 @@
                     </section>
 
                     <section class="row mt-4">
+                        @if($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
                         <section class="col-md-9">
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
 
@@ -46,10 +53,13 @@
 
                                 <section class="row">
                                     <section class="col-md-5">
-                                        <section class="input-group input-group-sm">
-                                            <input type="text" class="form-control" placeholder="کد تخفیف را وارد کنید">
-                                            <button class="btn btn-primary" type="button">اعمال کد</button>
-                                        </section>
+                                        <form action="{{ route('customer.sales-process.coupon-discount') }}"
+                                              method="post" class="input-group input-group-sm">
+                                            @csrf
+                                            <input type="text" name="code" class="form-control"
+                                                   placeholder="کد تخفیف را وارد کنید">
+                                            <button class="btn btn-primary" type="submit">اعمال کد</button>
+                                        </form>
                                     </section>
 
                                 </section>

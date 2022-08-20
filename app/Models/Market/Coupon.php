@@ -32,4 +32,21 @@ class Coupon extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function scopeValidCoupons($query)
+    {
+        return $query
+            ->where('status', 1)
+            ->where('end_date', '>', now())
+            ->where('start_date', '<', now());
+    }
+
+    public function scopeValidUserCoupons($query)
+    {
+        return $query
+            ->where('status', 1)
+            ->where('end_date', '>', now())
+            ->where('start_date', '<', now())
+            ->where('user_id', auth()->user()->id);
+    }
 }
