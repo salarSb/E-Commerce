@@ -91,7 +91,8 @@ class AddressController extends Controller
             'delivery_amount' => $deliveryAmount,
             'order_final_amount' => $totalFinalPrice, // TODO : must refactor because coupon and common discounts aren't affected
             'order_discount_amount' => $totalFinalDiscountPriceWithNumber,
-            'order_common_discount_amount' => $commonDiscountAmount ?? null,
+            'common_discount_id' => $commonDiscount->id ?? null,
+            'order_common_discount_amount' => $commonDiscountAmount ?? 0,
             'order_total_products_discount_amount' => $totalFinalDiscountPriceWithNumber + ($commonDiscountAmount ?? null),
         ]));
         return redirect()->route('customer.sales-process.payment');

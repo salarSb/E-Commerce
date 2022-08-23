@@ -160,21 +160,29 @@
                                     <p class="text-danger fw-bolder"
                                        id="total-discount">{{ priceFormat($totalDiscount) }} تومان</p>
                                 </section>
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <p class="text-muted">تخفیف عمومی</p>
+                                    <p class="text-danger fw-bolder" id="total-discount">
+                                        {{ priceFormat($order->order_common_discount_amount) }} تومان
+                                    </p>
+                                </section>
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <p class="text-muted">کد تخفیف</p>
+                                    <p class="text-danger fw-bolder" id="total-discount">
+                                        {{ priceFormat($order->order_coupon_discount_amount) }} تومان
+                                    </p>
+                                </section>
                                 <section class="border-bottom mb-3"></section>
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">جمع سبد خرید</p>
                                     <p class="fw-bolder"
-                                       id="total-price">{{ priceFormat($totalProductPrice) }}
+                                       id="total-price">{{ priceFormat($order->order_final_amount - $order->delivery_amount) }}
                                         تومان
                                     </p>
                                 </section>
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">هزینه ارسال</p>
-                                    <p class="text-warning">54,000 تومان</p>
-                                </section>
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">تخفیف اعمال شده</p>
-                                    <p class="text-danger">100,000 تومان</p>
+                                    <p class="text-warning">{{ priceFormat($order->delivery_amount) }} تومان</p>
                                 </section>
                                 <p class="my-3">
                                     <i class="fa fa-info-circle me-1"></i> کاربر گرامی کالاها بر اساس نوع ارسالی که
@@ -183,7 +191,7 @@
                                 <section class="border-bottom mb-3"></section>
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">مبلغ قابل پرداخت</p>
-                                    <p class="fw-bold">274,000 تومان</p>
+                                    <p class="fw-bold">{{ priceFormat($order->order_final_amount) }} تومان</p>
                                 </section>
                                 <form action="{{route('customer.sales-process.choose-address-and-delivery')}}"
                                       id="myForm" method="post">

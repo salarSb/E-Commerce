@@ -10,7 +10,9 @@ class PaymentController extends Controller
 {
     public function payment()
     {
-        return view('customer.sales-process.payment');
+        $user = auth()->user();
+        $order = $user->orders()->where('order_status', 0)->firstOrFail();
+        return view('customer.sales-process.payment', compact('order'));
     }
 
     public function couponDiscount(CouponDiscountRequest $request)
