@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Customer\Salesprocess;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\SalesProcess\CouponDiscountRequest;
+use App\Http\Requests\Customer\SalesProcess\PaymentSubmitRequest;
 use App\Models\Market\Coupon;
+use App\Models\Market\Order;
 
 class PaymentController extends Controller
 {
@@ -31,7 +33,7 @@ class PaymentController extends Controller
                 ]);
             }
         }
-        $order = auth()->user()->orders()->where('order_status', 0)->whereNull('coupon_id')->first();
+        $order = Order::userOpenOrder()->whereNull('coupon_id')->first();
         if (!is_null($order)) {
             $couponDiscountAmount = $coupon->amount_type === 0 ? $order->order_final_amount * ($coupon->amount / 100) : $coupon->amount;
             $couponDiscountAmount = min($couponDiscountAmount, $coupon->discount_ceiling);
@@ -44,5 +46,24 @@ class PaymentController extends Controller
             return back()->with('swal-success', 'کد تخفیف اعمال شد');
         }
         return back()->with('swal-error', 'برای این سفارش قبلا کد تخفیف اعمال شده است');
+    }
+
+    public function paymentSubmit(PaymentSubmitRequest $request)
+    {
+        $order = Order::userOpenOrder()->first();
+        $cartItems = auth()->user()->cartItems;
+        switch ($request->input('payment_type')) {
+            case '1':
+                dd('online');
+                break;
+            case '2':
+                dd('offline');
+                break;
+            case '3':
+                dd('cash');
+                break;
+            default:
+                return back()->withErrors('payment_type', 'نحوه ی پرداخت معتبر نیست');
+        }
     }
 }

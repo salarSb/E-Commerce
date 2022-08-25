@@ -93,4 +93,9 @@ class Order extends Model
             5 => 'مرجوعی',
         };
     }
+
+    public function scopeUserOpenOrder($query)
+    {
+        return $query->where('user_id', auth()->user()->id)->where('order_status', 0);
+    }
 }

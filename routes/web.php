@@ -530,5 +530,6 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
         //payment
         Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('payment');
         Route::post('/coupon-discount', [CustomerPaymentController::class, 'couponDiscount'])->name('coupon-discount');
+        Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('payment-submit');
     });
 });

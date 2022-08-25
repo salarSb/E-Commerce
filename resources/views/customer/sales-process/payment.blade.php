@@ -19,7 +19,6 @@
                             </section>
                         </section>
                     </section>
-
                     <section class="row mt-4">
                         @if($errors->any())
                             <ul>
@@ -30,7 +29,6 @@
                         @endif
                         <section class="col-md-9">
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
-
                                 <!-- start vontent header -->
                                 <section class="content-header mb-3">
                                     <section class="d-flex justify-content-between align-items-center">
@@ -42,7 +40,6 @@
                                         </section>
                                     </section>
                                 </section>
-
                                 <section class="payment-alert alert alert-primary d-flex align-items-center p-2"
                                          role="alert">
                                     <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
@@ -50,7 +47,6 @@
                                         کد تخفیف خود را در این بخش وارد کنید.
                                     </secrion>
                                 </section>
-
                                 <section class="row">
                                     <section class="col-md-5">
                                         <form action="{{ route('customer.sales-process.coupon-discount') }}"
@@ -64,10 +60,7 @@
 
                                 </section>
                             </section>
-
-
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
-
                                 <!-- start vontent header -->
                                 <section class="content-header mb-3">
                                     <section class="d-flex justify-content-between align-items-center">
@@ -79,17 +72,15 @@
                                         </section>
                                     </section>
                                 </section>
-                                <section class="payment-select">
-
+                                <form action="{{ route('customer.sales-process.payment-submit') }}" method="post"
+                                      id="payment-submit" class="payment-select">
+                                    @csrf
                                     <section class="payment-alert alert alert-primary d-flex align-items-center p-2"
                                              role="alert">
                                         <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
-                                        <secrion>
-                                            برای پیشگیری از انتقال ویروس کرونا پیشنهاد می کنیم روش پرداخت اینترنتی رو
-                                            پرداخت کنید.
-                                        </secrion>
+                                        برای پیشگیری از انتقال ویروس کرونا پیشنهاد می کنیم روش پرداخت اینترنتی رو
+                                        پرداخت کنید.
                                     </section>
-
                                     <input type="radio" name="payment_type" value="1" id="d1"/>
                                     <label for="d1" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
@@ -101,9 +92,7 @@
                                             درگاه پرداخت زرین پال
                                         </section>
                                     </label>
-
                                     <section class="mb-2"></section>
-
                                     <input type="radio" name="payment_type" value="2" id="d2"/>
                                     <label for="d2" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
@@ -115,9 +104,7 @@
                                             حداکثر در 2 روز کاری بررسی می شود
                                         </section>
                                     </label>
-
                                     <section class="mb-2"></section>
-
                                     <input type="radio" name="payment_type" value="3" id="d3"/>
                                     <label for="d3" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
@@ -129,12 +116,8 @@
                                             پرداخت به پیک هنگام دریافت کالا
                                         </section>
                                     </label>
-
-
-                                </section>
+                                </form>
                             </section>
-
-
                         </section>
                         <section class="col-md-3">
                             <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
@@ -206,7 +189,7 @@
                                     <button
                                         id="final-level"
                                         class="w-100 btn btn-danger d-none"
-                                        type="button" onclick="document.getElementById('myForm').submit();">
+                                        type="button" onclick="document.getElementById('payment-submit').submit();">
                                         ثبت سفارش و گرفتن کد رهگیری
                                     </button>
                                 </section>

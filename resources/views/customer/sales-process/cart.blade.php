@@ -22,70 +22,79 @@
 
                     <section class="row mt-4">
                         <section class="col-md-9 mb-3">
-                            <form id="cart-items" method="post" class="content-wrapper bg-white p-3 rounded-2">
-                                @csrf
-                                @php
-                                    $totalProductPrice = 0;
-                                    $totalDiscount = 0;
-                                @endphp
-                                @foreach($cartItems as $cartItem)
-                                    @php
-                                        $totalProductPrice += $cartItem->product_price;
-                                        $totalDiscount += $cartItem->product_discount;
-                                    @endphp
-                                    <section class="cart-item d-md-flex py-3">
-                                        <section class="cart-img align-self-start flex-shrink-1"><img
-                                                src="{{ asset($cartItem->product->image['indexArray']['medium']) }}"
-                                                alt="{{ $cartItem->product->name }}"></section>
-                                        <section class="align-self-start w-100">
-                                            <p class="fw-bold">{{ $cartItem->product->name }}</p>
-                                            @if(!empty($cartItem->color))
-                                                <p><span style="background-color: {{ $cartItem->color->color }};"
-                                                         class="cart-product-selected-color me-1"></span>
-                                                    <span>{{ $cartItem->color->name }}</span></p>
-                                            @endif
-                                            @if(!empty($cartItem->guarantee))
-                                                <p><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                                    <span>{{ $cartItem->guarantee->name }}</span></p>
-                                            @endif
-                                            <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span>
-                                            </p>
-                                            <section>
-                                                <section class="cart-product-number d-inline-block ">
-                                                    <button class="cart-number cart-number-down" type="button">-
-                                                    </button>
-                                                    <input class="number" name="number[{{ $cartItem->id }}]"
-                                                           data-product-price="{{ $cartItem->product_price }}"
-                                                           data-product-discount="{{ $cartItem->product_discount }}"
-                                                           type="number" min="1" max="5" step="1"
-                                                           value="{{ $cartItem->number }}"
-                                                           readonly="readonly">
-                                                    <button class="cart-number cart-number-up" type="button">+</button>
+                            @php
+                                $totalProductPrice = 0;
+                                $totalDiscount = 0;
+                            @endphp
+                            @if($cartItems->count() > 0)
+                                <form id="cart-items" method="post" class="content-wrapper bg-white p-3 rounded-2">
+                                    @csrf
+                                    @foreach($cartItems as $cartItem)
+                                        @php
+                                            $totalProductPrice += $cartItem->product_price;
+                                            $totalDiscount += $cartItem->product_discount;
+                                        @endphp
+                                        <section class="cart-item d-md-flex py-3">
+                                            <section class="cart-img align-self-start flex-shrink-1"><img
+                                                    src="{{ asset($cartItem->product->image['indexArray']['medium']) }}"
+                                                    alt="{{ $cartItem->product->name }}"></section>
+                                            <section class="align-self-start w-100">
+                                                <p class="fw-bold">{{ $cartItem->product->name }}</p>
+                                                @if(!empty($cartItem->color))
+                                                    <p><span style="background-color: {{ $cartItem->color->color }};"
+                                                             class="cart-product-selected-color me-1"></span>
+                                                        <span>{{ $cartItem->color->name }}</span></p>
+                                                @endif
+                                                @if(!empty($cartItem->guarantee))
+                                                    <p>
+                                                        <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
+                                                        <span>{{ $cartItem->guarantee->name }}</span></p>
+                                                @endif
+                                                <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i>
+                                                    <span>کالا موجود در انبار</span>
+                                                </p>
+                                                <section>
+                                                    <section class="cart-product-number d-inline-block ">
+                                                        <button class="cart-number cart-number-down" type="button">-
+                                                        </button>
+                                                        <input class="number" name="number[{{ $cartItem->id }}]"
+                                                               data-product-price="{{ $cartItem->product_price }}"
+                                                               data-product-discount="{{ $cartItem->product_discount }}"
+                                                               type="number" min="1" max="5" step="1"
+                                                               value="{{ $cartItem->number }}"
+                                                               readonly="readonly">
+                                                        <button class="cart-number cart-number-up" type="button">+
+                                                        </button>
+                                                    </section>
+                                                    <a class="text-decoration-none ms-4 cart-delete"
+                                                       href="{{ route('customer.sales-process.removeFromCart', $cartItem->id) }}">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                        حذف از سبد
+                                                    </a>
                                                 </section>
-                                                <a class="text-decoration-none ms-4 cart-delete"
-                                                   href="{{ route('customer.sales-process.removeFromCart', $cartItem->id) }}">
-                                                    <i class="fa fa-trash-alt"></i>
-                                                    حذف از سبد
-                                                </a>
+                                            </section>
+                                            <section class="align-self-end flex-shrink-1">
+                                                @php
+                                                    $amazingSale = $cartItem->product->amazingSales()->validAmazingSales()->first();
+                                                @endphp
+                                                @if(!empty($amazingSale))
+                                                    <section class="cart-item-discount text-danger text-nowrap mb-1">
+                                                        تخفیف
+                                                        {{ priceFormat($cartItem->product_discount) }}
+                                                    </section>
+                                                @endif
+                                                <section
+                                                    class="text-nowrap fw-bold">{{ priceFormat($cartItem->product_price) }}
+                                                    تومان
+                                                </section>
                                             </section>
                                         </section>
-                                        <section class="align-self-end flex-shrink-1">
-                                            @php
-                                                $amazingSale = $cartItem->product->amazingSales()->validAmazingSales()->first();
-                                            @endphp
-                                            @if(!empty($amazingSale))
-                                                <section class="cart-item-discount text-danger text-nowrap mb-1">تخفیف
-                                                    {{ priceFormat($cartItem->product_discount) }}
-                                                </section>
-                                            @endif
-                                            <section
-                                                class="text-nowrap fw-bold">{{ priceFormat($cartItem->product_price) }}
-                                                تومان
-                                            </section>
-                                        </section>
-                                    </section>
-                                @endforeach
-                            </form>
+                                    @endforeach
+                                </form>
+                            @else
+                                <p class="text-center fw-bold">سبد خرید شما خالی است :(</p>
+                            @endif
+
                         </section>
                         <section class="col-md-3">
                             <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
@@ -118,8 +127,10 @@
 
 
                                 <section class="">
-                                    <button onclick="document.getElementById('cart-items').submit();"
-                                            class="btn btn-danger d-block w-100">
+                                    <button
+                                        @if($cartItems->count() >0) onclick="document.getElementById('cart-items').submit()"
+                                        @endif
+                                        class="btn btn-danger d-block w-100">
                                         تکمیل فرآیند خرید
                                     </button>
                                 </section>
