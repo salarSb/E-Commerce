@@ -18,7 +18,7 @@ class CreateOfflinePaymentsTable extends Migration
             $table->decimal('amount', 20, 3);
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('transaction_id')->nullable();
-            $table->timestamp('pay_date');
+            $table->timestamp('pay_date')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Models\Content\Comment;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
+use App\Models\Market\CashPayment;
+use App\Models\Market\OfflinePayment;
+use App\Models\Market\OnlinePayment;
 use App\Models\Market\Order;
 use App\Models\Market\Payment;
 use App\Models\Market\Product;
@@ -113,6 +116,21 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function onlinePayments()
+    {
+        return $this->hasMany(OnlinePayment::class);
+    }
+
+    public function offlinePayments()
+    {
+        return $this->hasMany(OfflinePayment::class);
+    }
+
+    public function CashPayments()
+    {
+        return $this->hasMany(CashPayment::class);
     }
 
     public function payments()
