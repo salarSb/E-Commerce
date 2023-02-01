@@ -531,5 +531,6 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
         Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('payment');
         Route::post('/coupon-discount', [CustomerPaymentController::class, 'couponDiscount'])->name('coupon-discount');
         Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('payment-submit');
+        Route::any('/payment-callback/{order}/{onlinePayment}', [CustomerPaymentController::class, 'paymentCallback'])->name('payment-callback');
     });
 });

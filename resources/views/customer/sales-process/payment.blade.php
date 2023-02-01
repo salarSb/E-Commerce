@@ -81,8 +81,8 @@
                                         برای پیشگیری از انتقال ویروس کرونا پیشنهاد می کنیم روش پرداخت اینترنتی رو
                                         پرداخت کنید.
                                     </section>
-                                    <input type="radio" name="payment_type" value="1" id="d1"/>
-                                    <label for="d1" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
+                                    <input type="radio" name="payment_type" value="1" id="online-payment"/>
+                                    <label for="online-payment" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
                                             <i class="fa fa-credit-card mx-1"></i>
                                             پرداخت آنلاین
@@ -93,8 +93,8 @@
                                         </section>
                                     </label>
                                     <section class="mb-2"></section>
-                                    <input type="radio" name="payment_type" value="2" id="d2"/>
-                                    <label for="d2" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
+                                    <input type="radio" name="payment_type" value="2" id="offline-payment"/>
+                                    <label for="offline-payment" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
                                             <i class="fa fa-id-card-alt mx-1"></i>
                                             پرداخت آفلاین
@@ -105,8 +105,8 @@
                                         </section>
                                     </label>
                                     <section class="mb-2"></section>
-                                    <input type="radio" name="payment_type" value="3" id="d3"/>
-                                    <label for="d3" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
+                                    <input type="radio" name="payment_type" value="3" id="cash-payment"/>
+                                    <label for="cash-payment" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
                                             <i class="fa fa-money-check mx-1"></i>
                                             پرداخت در محل
@@ -203,3 +203,27 @@
     </section>
     <!-- end cart -->
 @endsection
+@push('script')
+    <script>
+        $(function () {
+            $('#cash-payment').click(function () {
+                if ($('#receiver-name').length == 0) {
+                    let newDiv = document.createElement('div');
+                    newDiv.setAttribute('id', 'receiver-name');
+                    newDiv.innerHTML = `
+                    <section class="input-group input-group-sm">
+                        <input type="text" name="cash_receiver" class="form-control" form="payment-submit" placeholder="نام و نام خانوادگی دریافت کننده">
+                    </section>
+                `;
+                    document.getElementsByClassName('content-wrapper')[1].appendChild(newDiv);
+                }
+            });
+            $('#online-payment').click(function () {
+                $("#receiver-name").remove();
+            });
+            $('#offline-payment').click(function () {
+                $("#receiver-name").remove();
+            });
+        });
+    </script>
+@endpush
