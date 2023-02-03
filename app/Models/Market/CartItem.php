@@ -59,6 +59,12 @@ class CartItem extends Model
         return empty($amazingSale) ? 0 : $this->product_price * ($amazingSale->percentage / 100);
     }
 
+    // product price - product discount
+    public function getFinalProductPriceAttribute()
+    {
+        return $this->product_price - $this->product_discount;
+    }
+
     // number * (product price - product discount)
     public function getFinalPriceAttribute()
     {

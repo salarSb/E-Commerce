@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\SalesProcess\CouponDiscountRequest;
 use App\Http\Requests\Customer\SalesProcess\PaymentSubmitRequest;
 use App\Http\Services\Payment\PaymentService;
+use App\Models\Market\CartItem;
 use App\Models\Market\CashPayment;
 use App\Models\Market\Coupon;
 use App\Models\Market\OfflinePayment;
@@ -79,10 +80,6 @@ class PaymentController extends Controller
         }
         DB::beginTransaction();
         try {
-
-            // TODO : in offline and cash payments after the payment has been paid the pay_date has to take value
-            // TODO : in offline payments transaction_id had to take value
-            // TODO : in cash payments cash_receiver must take value
             $paymented = $targetModel::create([
                 'amount' => $order->order_final_amount,
                 'user_id' => $user->id,
@@ -90,7 +87,6 @@ class PaymentController extends Controller
                 'status' => 1,
             ]);
 
-            // TODO : in offline and cash payments after the payment has been paid the status has to take value=1(paid)
             $paymented->payments()->create([
                 'amount' => $paymented->amount,
                 'user_id' => $paymented->user_id,
@@ -103,11 +99,11 @@ class PaymentController extends Controller
                 $paymentService->zarinpal($paymented->amount, $order, $paymented);
             }
 
-            // TODO : when order approved the order_status mast take value=3
             $order->update([
                 'order_status' => 3,
             ]);
             foreach ($cartItems as $cartItem) {
+                $this->fillOrderItems($order, $cartItem);
                 $cartItem->delete();
             }
             DB::commit();
@@ -126,6 +122,7 @@ class PaymentController extends Controller
         DB::beginTransaction();
         try {
             foreach ($cartItems as $cartItem) {
+                $this->fillOrderItems($order, $cartItem);
                 $cartItem->delete();
             }
             if ($result['success']) {
@@ -140,5 +137,21 @@ class PaymentController extends Controller
             DB::rollBack();
             return redirect()->route('customer.home')->with('swal-error', 'پرداخت شما ناموفق بود');
         }
+    }
+
+    private function fillOrderItems(Order $order, CartItem $cartItem)
+    {
+        $order->orderItems()->create([
+            'product_id' => $cartItem->product_id,
+            'product' => $cartItem->product,
+            'amazing_sale_id' => $cartItem->product->amazingSales()->validAmazingSales()->first()->id ?? null,
+            'amazing_sale_object' => $cartItem->product->amazingSales()->validAmazingSales()->first() ?? null,
+            'amazing_sale_discount_amount' => $cartItem->final_discount,
+            'number' => $cartItem->number,
+            'final_product_price' => $cartItem->final_product_price,
+            'final_total_price' => $cartItem->final_price,
+            'color_id' => $cartItem->color_id,
+            'guarantee_id' => $cartItem->guarantee_id,
+        ]);
     }
 }

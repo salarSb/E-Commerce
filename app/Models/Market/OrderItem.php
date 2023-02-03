@@ -10,6 +10,24 @@ class OrderItem extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'product',
+        'amazing_sale_id',
+        'amazing_sale_object',
+        'amazing_sale_discount_amount',
+        'number',
+        'final_product_price',
+        'final_total_price',
+        'color_id',
+        'guarantee_id'
+    ];
+
+    protected $dates = [
+        'deleted_at',
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);

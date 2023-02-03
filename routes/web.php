@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Customer\Salesprocess\PaymentController as CustomerPaymentController;
@@ -532,5 +533,10 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
         Route::post('/coupon-discount', [CustomerPaymentController::class, 'couponDiscount'])->name('coupon-discount');
         Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('payment-submit');
         Route::any('/payment-callback/{order}/{onlinePayment}', [CustomerPaymentController::class, 'paymentCallback'])->name('payment-callback');
+    });
+
+    //profile
+    Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/order', [ProfileOrderController::class, 'index'])->name('order');
     });
 });
