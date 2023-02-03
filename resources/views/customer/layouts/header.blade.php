@@ -56,7 +56,7 @@
                             </button>
                             <section class="dropdown-menu dropdown-menu-end custom-drop-down"
                                      aria-labelledby="dropdownMenuButton1">
-                                <section><a class="dropdown-item" href="my-profile.html"><i
+                                <section><a class="dropdown-item" href="{{ route('customer.sales-process.profile.index') }}"><i
                                             class="fa fa-user-circle"></i>پروفایل
                                         کاربری</a></section>
                                 <section><a class="dropdown-item"

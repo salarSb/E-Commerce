@@ -21,8 +21,11 @@
                 </span>
             </section>
             <section class="sidebar-nav-item">
-                <span class="sidebar-nav-item-title"><a class="p-3" href="my-profile.html">ویرایش
-                        حساب</a></span>
+                <span class="sidebar-nav-item-title">
+                    <a class="p-3" href="{{ route('customer.sales-process.profile.index') }}">
+                        ویرایش حساب
+                    </a>
+                </span>
             </section>
             <section class="sidebar-nav-item">
                 <span class="sidebar-nav-item-title"><a class="p-3" href="#">خروج از حساب

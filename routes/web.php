@@ -40,6 +40,7 @@ use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
 use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
+use App\Http\Controllers\Customer\Profile\ProfileController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Customer\Salesprocess\PaymentController as CustomerPaymentController;
@@ -538,6 +539,8 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
 
     //profile
     Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
         Route::get('/order', [ProfileOrderController::class, 'index'])->name('order');
         Route::prefix('/my-favorites')->name('my-favorites.')->group(function () {
             Route::get('/', [FavoriteController::class, 'index'])->name('index');
