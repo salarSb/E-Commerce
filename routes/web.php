@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
@@ -538,5 +539,9 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
     //profile
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/order', [ProfileOrderController::class, 'index'])->name('order');
+        Route::prefix('/my-favorites')->name('my-favorites.')->group(function () {
+            Route::get('/', [FavoriteController::class, 'index'])->name('index');
+            Route::delete('/{product}', [FavoriteController::class, 'delete'])->name('delete');
+        });
     });
 });
