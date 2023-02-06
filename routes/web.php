@@ -64,7 +64,7 @@ use Illuminate\Support\Facades\Route;
 | Admin
 |--------------------------------------------------------------------------
 */
-Route::prefix('/admin')->namespace('Admin')->name('admin.')->group(function () {
+Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/', [AminDashboardController::class, 'index'])->name('home');
 
     //market

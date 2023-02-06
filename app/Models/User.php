@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Content\Comment;
+use App\Models\Content\Post;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
 use App\Models\Market\CashPayment;
@@ -13,6 +14,7 @@ use App\Models\Market\Payment;
 use App\Models\Market\Product;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
+use App\Models\User\Permission;
 use App\Models\User\Role;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -103,6 +105,11 @@ class User extends Authenticatable
         return 'slug';
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
     public function ticketAdmin()
     {
         return $this->hasOne(TicketAdmin::class);
@@ -116,6 +123,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
     }
 
     public function onlinePayments()

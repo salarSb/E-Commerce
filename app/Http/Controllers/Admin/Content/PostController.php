@@ -40,8 +40,7 @@ class PostController extends Controller
             }
             $inputs['image'] = $result;
         }
-        $inputs['author_id'] = 1;
-        Post::create($inputs);
+        auth()->user()->posts()->create($inputs);
         return redirect()->route('admin.content.post.index')
             ->with('swal-success', 'پست جدید با موفقیت ثبت شد');
     }
