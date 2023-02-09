@@ -17,7 +17,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::status(1)->get();
         return view('admin.user.role.create', compact('permissions'));
     }
 
@@ -53,6 +53,7 @@ class RoleController extends Controller
         $role->delete();
         return redirect(route('admin.user.role.index'))->with('swal-success', 'نقش با موفقیت حذف شد');
     }
+
     public function status(Role $role)
     {
         $role->status = $role->status == 0 ? 1 : 0;
@@ -73,9 +74,10 @@ class RoleController extends Controller
             'status' => false
         ]);
     }
+
     public function permissionForm(Role $role)
     {
-        $permissions = Permission::all();
+        $permissions = Permission::status(1)->get();
         return view('admin.user.role.set-permission', compact(['role', 'permissions']));
     }
 

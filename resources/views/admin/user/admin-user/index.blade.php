@@ -35,8 +35,9 @@
                             <th>نام خانوادگی</th>
                             <th>فعالسازی(کاربر ایمیل خود را فعال کرده یا خیر)</th>
                             <th>وضعیت</th>
-                            <th>نقش</th>
-                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
+                            <th>نقش ها</th>
+                            <th>دسترسی ها</th>
+                            <th class="max-width-18-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,14 +64,30 @@
                                                @if($admin->status === 1) checked @endif>
                                     </label>
                                 </td>
-                                <td>سوپر ادمین</td>
+                                <td>
+                                    @forelse($admin->roles as $role)
+                                        {{ $role->name }}<br>
+                                    @empty
+                                        <span class="text-danger">برای این کاربر هیچ نقشی تعریف نشده</span>
+                                    @endforelse
+                                </td>
+                                <td>
+                                    @forelse($admin->permissions as $permission)
+                                        {{ $permission->name }}<br>
+                                    @empty
+                                        <span class="text-danger">برای این کاربر هیچ سطح دسترسی تعریف نشده</span>
+                                    @endforelse
+                                </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-edit ml-1"></i>نقش</a>
-                                    <a href="{{ route('admin.user.adminUser.edit', $admin->slug) }}"
-                                       class="btn btn-sm btn-primary">
-                                        <i class="fa fa-edit ml-1"></i>
-                                        ویرایش
-                                    </a>
+                                        <a href="{{ route('admin.user.adminUser.roles.create', $admin->slug) }}"
+                                           class="btn btn-sm btn-warning"><i class="fa fa-edit ml-1"></i>نقش</a>
+                                        <a href="{{ route('admin.user.adminUser.permissions.create', $admin->slug) }}"
+                                           class="btn btn-sm btn-warning"><i class="fa fa-edit ml-1"></i>دسترسی</a>
+                                        <a href="{{ route('admin.user.adminUser.edit', $admin->slug) }}"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit ml-1"></i>
+                                            ویرایش
+                                        </a>
                                     <form action="{{ route('admin.user.adminUser.destroy',$admin->slug) }}"
                                           method="post" class="d-inline">
                                         @csrf

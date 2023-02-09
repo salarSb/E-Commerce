@@ -26,4 +26,9 @@ class Permission extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
 }

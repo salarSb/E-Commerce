@@ -341,6 +341,14 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::delete('/destroy/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
             Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('activation');
             Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('status');
+            Route::prefix('roles')->name('roles.')->group(function (){
+                Route::get('/{user}', [AdminUserController::class, 'roles'])->name('create');
+                Route::post('/{user}', [AdminUserController::class, 'rolesStore'])->name('store');
+            });
+            Route::prefix('permissions')->name('permissions.')->group(function (){
+                Route::get('/{user}', [AdminUserController::class, 'permissions'])->name('create');
+                Route::post('/{user}', [AdminUserController::class, 'permissionsStore'])->name('store');
+            });
         });
 
         //customer
