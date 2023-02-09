@@ -40,9 +40,8 @@ class RoleRequest extends FormRequest
             return [
                 'permissions.*' => 'exists:permissions,id',
             ];
-        } else {
-            return [];
         }
+        return [];
     }
 
     public function attributes()

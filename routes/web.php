@@ -363,6 +363,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::get('/edit/{role}', [RoleController::class, 'edit'])->name('edit');
             Route::put('/update/{role}', [RoleController::class, 'update'])->name('update');
             Route::delete('/destroy/{role}', [RoleController::class, 'destroy'])->name('destroy');
+            Route::get('status/{role}', [RoleController::class, 'status'])->name('status');
             Route::get('/permission-form/{role}', [RoleController::class, 'permissionForm'])->name('permission-form');
             Route::put('/permission-update/{role}', [RoleController::class, 'permissionUpdate'])->name('permission-update');
         });
@@ -372,9 +373,10 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::get('/', [PermissionController::class, 'index'])->name('index');
             Route::get('/create', [PermissionController::class, 'create'])->name('create');
             Route::post('/store', [PermissionController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('edit');
-            Route::put('/update/{id}', [PermissionController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{permission}', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('/update/{permission}', [PermissionController::class, 'update'])->name('update');
+            Route::delete('/destroy/{permission}', [PermissionController::class, 'destroy'])->name('destroy');
+            Route::get('status/{permission}', [PermissionController::class, 'status'])->name('status');
         });
     });
 

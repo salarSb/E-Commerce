@@ -53,7 +53,26 @@ class RoleController extends Controller
         $role->delete();
         return redirect(route('admin.user.role.index'))->with('swal-success', 'نقش با موفقیت حذف شد');
     }
-
+    public function status(Role $role)
+    {
+        $role->status = $role->status == 0 ? 1 : 0;
+        $result = $role->save();
+        if ($result) {
+            if ($role->status == 0) {
+                return response()->json([
+                    'status' => true,
+                    'checked' => false
+                ]);
+            }
+            return response()->json([
+                'status' => true,
+                'checked' => true
+            ]);
+        }
+        return response()->json([
+            'status' => false
+        ]);
+    }
     public function permissionForm(Role $role)
     {
         $permissions = Permission::all();
