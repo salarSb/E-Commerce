@@ -25,7 +25,7 @@ class UserPermissionRequest extends FormRequest
     {
         return [
             'permissions' => ['array'],
-            'permissions.*' => ['integer', 'exists:roles,id']
+            'permissions.*' => ['integer', 'exists:permissions,id']
         ];
     }
 }

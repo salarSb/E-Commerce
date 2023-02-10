@@ -16,6 +16,7 @@ use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
 use App\Models\User\Permission;
 use App\Models\User\Role;
+use App\Traits\Permissions\HasPermission;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +35,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use Sluggable;
     use softDeletes;
+    use HasPermission;
 
     /**
      * The attributes that are mass assignable.
@@ -118,16 +120,6 @@ class User extends Authenticatable
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
     }
 
     public function onlinePayments()

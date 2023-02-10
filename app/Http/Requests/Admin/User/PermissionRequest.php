@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Route;
 
 class PermissionRequest extends FormRequest
 {
@@ -25,7 +24,7 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:120', 'min:2'],
+            'name' => ['required', 'unique:permissions,name', 'max:120', 'min:2'],
             'description' => ['required', 'max:200', 'min:2'],
         ];
     }

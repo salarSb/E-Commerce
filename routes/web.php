@@ -250,7 +250,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
     Route::prefix('/content')->namespace('Content')->name('content.')->group(function () {
 
         //category
-        Route::prefix('/category')->name('category.')->group(function () {
+        Route::prefix('/category')->middleware('role.permission:operator,writer')->name('category.')->group(function () {
             Route::get('/', [ContentCategoryController::class, 'index'])->name('index');
             Route::get('/create', [ContentCategoryController::class, 'create'])->name('create');
             Route::post('/store', [ContentCategoryController::class, 'store'])->name('store');
@@ -341,11 +341,11 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::delete('/destroy/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
             Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('activation');
             Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('status');
-            Route::prefix('roles')->name('roles.')->group(function (){
+            Route::prefix('roles')->name('roles.')->group(function () {
                 Route::get('/{user}', [AdminUserController::class, 'roles'])->name('create');
                 Route::post('/{user}', [AdminUserController::class, 'rolesStore'])->name('store');
             });
-            Route::prefix('permissions')->name('permissions.')->group(function (){
+            Route::prefix('permissions')->name('permissions.')->group(function () {
                 Route::get('/{user}', [AdminUserController::class, 'permissions'])->name('create');
                 Route::post('/{user}', [AdminUserController::class, 'permissionsStore'])->name('store');
             });

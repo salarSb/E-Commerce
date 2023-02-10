@@ -80,6 +80,7 @@ class PaymentController extends Controller
         }
         DB::beginTransaction();
         try {
+            // ToDo: stock update
             $paymented = $targetModel::create([
                 'amount' => $order->order_final_amount,
                 'user_id' => $user->id,
@@ -116,6 +117,7 @@ class PaymentController extends Controller
 
     public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService)
     {
+        // ToDo: stock update
         $amount = $onlinePayment->amount * 10;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
         $cartItems = auth()->user()->cartItems;

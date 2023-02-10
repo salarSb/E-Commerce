@@ -25,7 +25,7 @@
                     </div>
                 </section>
                 <section class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover h-150">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -37,7 +37,7 @@
                             <th>وضعیت</th>
                             <th>نقش ها</th>
                             <th>دسترسی ها</th>
-                            <th class="max-width-18-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
+                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -79,22 +79,25 @@
                                     @endforelse
                                 </td>
                                 <td class="width-22-rem text-left">
-                                        <a href="{{ route('admin.user.adminUser.roles.create', $admin->slug) }}"
-                                           class="btn btn-sm btn-warning"><i class="fa fa-edit ml-1"></i>نقش</a>
-                                        <a href="{{ route('admin.user.adminUser.permissions.create', $admin->slug) }}"
-                                           class="btn btn-sm btn-warning"><i class="fa fa-edit ml-1"></i>دسترسی</a>
-                                        <a href="{{ route('admin.user.adminUser.edit', $admin->slug) }}"
-                                           class="btn btn-sm btn-primary">
-                                            <i class="fa fa-edit ml-1"></i>
-                                            ویرایش
-                                        </a>
-                                    <form action="{{ route('admin.user.adminUser.destroy',$admin->slug) }}"
-                                          method="post" class="d-inline">
+                                    <a href="{{ route('admin.user.adminUser.roles.create', $admin->slug) }}"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="fa fa-user-check"></i>
+                                    </a>
+                                    <a href="{{ route('admin.user.adminUser.permissions.create', $admin->slug) }}"
+                                       class="btn btn-info btn-sm">
+                                        <i class="fa fa-user-shield"></i>
+                                    </a>
+                                    <a href="{{ route('admin.user.adminUser.edit', $admin->slug) }}"
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <form class="d-inline"
+                                          action="{{ route('admin.user.adminUser.destroy',$admin->slug) }}"
+                                          method="post">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm delete"><i
-                                                class="fa fa-trash-alt ml-1"></i>
-                                            حذف
+                                        <button class="btn btn-danger btn-sm delete" type="submit">
+                                            <i class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

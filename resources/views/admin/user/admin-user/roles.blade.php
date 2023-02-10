@@ -42,7 +42,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('roles')
+                                @error('roles.*')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

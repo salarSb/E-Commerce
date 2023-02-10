@@ -9,6 +9,11 @@ use App\Models\Content\PostCategory;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role.permission:show_category')->only(['index']);
+    }
+
     public function index()
     {
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
