@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Salesprocess;
+namespace App\Http\Controllers\Customer\SalesProcess;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\SalesProcess\CouponDiscountRequest;

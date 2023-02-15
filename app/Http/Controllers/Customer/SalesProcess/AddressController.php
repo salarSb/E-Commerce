@@ -16,7 +16,7 @@ class AddressController extends Controller
     public function addressAndDelivery()
     {
         $user = auth()->user();
-        if (empty(CartItem::where('user_id', $user->id)->count())) {
+        if (empty(CartItem::where('user_id', $user->id)->get())) {
             return redirect()->route('customer.sales-process.cart');
         }
         $addresses = $user->addresses;
