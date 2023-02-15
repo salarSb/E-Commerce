@@ -75,12 +75,12 @@
 
 
             <section class="sidebar-part-title">بخش محتوا</section>
-            @role('operator')
+            @can('show_category')
                 <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                     <i class="fas fa-bars"></i>
                     <span>دسته بندی</span>
                 </a>
-            @endrole()
+            @endcan()
             <a href="{{ route('admin.content.post.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>پست ها</span>

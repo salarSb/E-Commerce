@@ -36,11 +36,5 @@ class PermissionServiceProvider extends ServiceProvider
         } catch (Exception $exception) {
             report($exception);
         }
-        Blade::directive('role', function ($role) {
-            return "<?php if(auth()->check() && auth()->user()->hasRole($role) :?>";
-        });
-        Blade::directive('endrole', function () {
-            return "<?php endif; ?>";
-        });
     }
 }
