@@ -17,6 +17,6 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request)
     {
         Auth::user()->update($request->validated());
-        return redirect()->route('customer.sales-process.profile.index')->with('swal-success', 'پروفایل شما با موفقیت ویرایش شد');
+        return redirect()->route('profile.index')->with('swal-success', 'پروفایل شما با موفقیت ویرایش شد');
     }
 }

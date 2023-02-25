@@ -1,12 +1,15 @@
 <aside id="sidebar" class="sidebar">
     <section class="sidebar-container">
         <section class="sidebar-wrapper">
-
+            <a href="{{ route('customer.home') }}" class="sidebar-link" target="_blank">
+                <i class="fas fa-shopping-cart"></i>
+                <span>فروشگاه</span>
+            </a>
+            <hr>
             <a href="{{ route('admin.home') }}" class="sidebar-link">
                 <i class="fas fa-home"></i>
                 <span>خانه</span>
             </a>
-
             <section class="sidebar-part-title">بخش فروش</section>
 
             <section class="sidebar-group-link">

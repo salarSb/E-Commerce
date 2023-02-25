@@ -74,7 +74,7 @@
                                     </section>
                                     <section class="modal-body">
                                         <form class="row" method="post" id="update-profile"
-                                              action="{{ route('customer.sales-process.profile.update') }}">
+                                              action="{{ route('profile.update') }}">
                                             @csrf
                                             @method('PUT')
                                             <section class="col-6 mb-2">

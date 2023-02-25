@@ -43,11 +43,10 @@
                             <section class="col-12 my-2">
                                 <div class="form-group">
                                     <label for="description">پاسخ تیکت</label>
-                                    <textarea id="description" name="description" class="form-control form-control-sm" rows="4">
-                                        {{ old('description') }}
-                                    </textarea>
+                                    <textarea id="description" name="description" class="form-control form-control-sm"
+                                              rows="4">{{ old('description') }}</textarea>
                                 </div>
-                                @error('body')
+                                @error('description')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

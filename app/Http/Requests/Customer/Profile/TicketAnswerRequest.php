@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Ticket;
+namespace App\Http\Requests\Customer\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,7 +19,7 @@ class TicketAnswerRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {

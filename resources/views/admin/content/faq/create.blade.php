@@ -41,8 +41,7 @@
                             <section class="col-12 my-2">
                                 <div class="form-group">
                                     <label for="answer">پاسخ</label>
-                                    <textarea class="form-control form-control-sm" rows="6" id="answer"
-                                              name="answer">{{ old('answer') }}</textarea>
+                                    <textarea class="form-control form-control-sm" rows="6" id="answer" name="answer">{{ old('answer') }}</textarea>
                                 </div>
                                 @error('answer')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">

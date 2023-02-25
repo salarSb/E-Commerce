@@ -66,7 +66,7 @@
                                     <section>
                                         <form
                                             id="delete-form-{{ $product->id }}"
-                                            action="{{ route('customer.sales-process.profile.my-favorites.delete', $product->slug) }}"
+                                            action="{{ route('profile.my-favorites.delete', $product->slug) }}"
                                             method="post">
                                             @method('delete')
                                             @csrf

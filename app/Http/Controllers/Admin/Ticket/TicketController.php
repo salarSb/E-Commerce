@@ -58,7 +58,7 @@ class TicketController extends Controller
         $inputs['description'] = $request->input('description');
         $inputs['seen'] = 1;
         $inputs['reference_id'] = $ticket->reference_id;
-        $inputs['user_id'] = 7;
+        $inputs['user_id'] = auth()->id();
         $inputs['category_id'] = $ticket->category_id;
         $inputs['priority_id'] = $ticket->priority_id;
         $inputs['ticket_id'] = $ticket->id;

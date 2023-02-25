@@ -22,31 +22,31 @@
                     <!-- end vontent header -->
                     <section class="d-flex justify-content-center my-4">
                         <a class="btn btn-outline-success btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order') }}">
+                           href="{{ route('profile.order') }}">
                             همه
                         </a>
                         <a class="btn btn-primary btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=0') }}">
+                           href="{{ route('profile.order','type=0') }}">
                             بررسی نشده
                         </a>
                         <a class="btn btn-outline-danger btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=1') }}">
+                           href="{{ route('profile.order','type=1') }}">
                             در انتظار تایید
                         </a>
                         <a class="btn btn-warning btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=2') }}">
+                           href="{{ route('profile.order','type=2') }}">
                             تاییده نشده
                         </a>
                         <a class="btn btn-outline-info btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=3') }}">
+                           href="{{ route('profile.order','type=3') }}">
                             تایید شده
                         </a>
                         <a class="btn btn-danger btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=4') }}">
+                           href="{{ route('profile.order','type=4') }}">
                             باطل شده
                         </a>
                         <a class="btn btn-outline-primary btn-sm mx-1"
-                           href="{{ route('customer.sales-process.profile.order','type=5') }}">
+                           href="{{ route('profile.order','type=5') }}">
                             مرجوع شده
                         </a>
                     </section>

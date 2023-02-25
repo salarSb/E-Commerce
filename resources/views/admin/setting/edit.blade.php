@@ -56,9 +56,7 @@
                                 <div class="form-group">
                                     <label for="description">توضیحات</label>
                                     <textarea class="form-control form-control-sm" rows="6" id="description"
-                                              name="description">
-                                        {{ old('description', $setting->description) }}
-                                    </textarea>
+                                              name="description">{{ old('description', $setting->description) }}</textarea>
                                 </div>
                                 @error('description')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">

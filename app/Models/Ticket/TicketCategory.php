@@ -14,4 +14,9 @@ class TicketCategory extends Model
         'name',
         'status',
     ];
+
+    public function scopeValid($query)
+    {
+        return $query->where('status', 1);
+    }
 }

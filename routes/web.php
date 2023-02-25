@@ -42,6 +42,7 @@ use App\Http\Controllers\Customer\Profile\AddressController as ProfileAddressCon
 use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Customer\Profile\ProfileController;
+use App\Http\Controllers\Customer\Profile\TicketController as CustomerTicketController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Customer\Salesprocess\PaymentController as CustomerPaymentController;
@@ -518,35 +519,38 @@ Route::prefix('product')->name('customer.market.')->group(function () {
 });
 
 //sales process
-Route::middleware('auth')->name('customer.sales-process.')->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::name('customer.sales-process.')->group(function () {
 
-    //cart
-    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-    Route::post('/cart', [CartController::class, 'updateCart'])->name('update-cart');
-    Route::post('/cart/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
-    Route::get('/cart/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
+        //cart
+        Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+        Route::post('/cart', [CartController::class, 'updateCart'])->name('update-cart');
+        Route::post('/cart/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+        Route::get('/cart/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 
-    //profile completion
-    Route::prefix('profile-completion')->name('profile-completion.')->group(function () {
-        Route::get('/', [ProfileCompletionController::class, 'profileCompletion'])->name('index');
-        Route::put('/', [ProfileCompletionController::class, 'update'])->name('update');
+        //profile completion
+        Route::prefix('profile-completion')->name('profile-completion.')->group(function () {
+            Route::get('/', [ProfileCompletionController::class, 'profileCompletion'])->name('index');
+            Route::put('/', [ProfileCompletionController::class, 'update'])->name('update');
+        });
+
+        Route::middleware('check.user.profile')->group(function () {
+
+            //address and delivery
+            Route::get('/address-and-delivery', [AddressController::class, 'addressAndDelivery'])->name('address-and-delivery');
+            Route::get('/get-cities/{province}', [AddressController::class, 'getCities'])->name('get-cities');
+            Route::post('/add-address', [AddressController::class, 'addAddress'])->name('add-address');
+            Route::put('/update-address/{address}', [AddressController::class, 'updateAddress'])->name('update-address');
+            Route::post('/choose-address-and-delivery', [AddressController::class, 'chooseAddressAndDelivery'])->name('choose-address-and-delivery');
+
+            //payment
+            Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('payment');
+            Route::post('/coupon-discount', [CustomerPaymentController::class, 'couponDiscount'])->name('coupon-discount');
+            Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('payment-submit');
+            Route::any('/payment-callback/{order}/{onlinePayment}', [CustomerPaymentController::class, 'paymentCallback'])->name('payment-callback');
+        });
     });
 
-    Route::middleware('check.user.profile')->group(function () {
-
-        //address and delivery
-        Route::get('/address-and-delivery', [AddressController::class, 'addressAndDelivery'])->name('address-and-delivery');
-        Route::get('/get-cities/{province}', [AddressController::class, 'getCities'])->name('get-cities');
-        Route::post('/add-address', [AddressController::class, 'addAddress'])->name('add-address');
-        Route::put('/update-address/{address}', [AddressController::class, 'updateAddress'])->name('update-address');
-        Route::post('/choose-address-and-delivery', [AddressController::class, 'chooseAddressAndDelivery'])->name('choose-address-and-delivery');
-
-        //payment
-        Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('payment');
-        Route::post('/coupon-discount', [CustomerPaymentController::class, 'couponDiscount'])->name('coupon-discount');
-        Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('payment-submit');
-        Route::any('/payment-callback/{order}/{onlinePayment}', [CustomerPaymentController::class, 'paymentCallback'])->name('payment-callback');
-    });
 
     //profile
     Route::prefix('/profile')->name('profile.')->group(function () {
@@ -556,6 +560,14 @@ Route::middleware('auth')->name('customer.sales-process.')->group(function () {
         Route::prefix('/my-favorites')->name('my-favorites.')->group(function () {
             Route::get('/', [FavoriteController::class, 'index'])->name('index');
             Route::delete('/{product}', [FavoriteController::class, 'delete'])->name('delete');
+        });
+        Route::prefix('/my-tickets')->name('my-tickets.')->group(function () {
+            Route::get('/', [CustomerTicketController::class, 'index'])->name('index');
+            Route::get('/create', [CustomerTicketController::class, 'create'])->name('create');
+            Route::get('/store', [CustomerTicketController::class, 'store'])->name('store');
+            Route::get('/show/{ticket}', [CustomerTicketController::class, 'show'])->name('show');
+            Route::get('/change/{ticket}', [CustomerTicketController::class, 'change'])->name('change');
+            Route::post('/answer/{ticket}', [CustomerTicketController::class, 'answer'])->name('answer');
         });
         Route::prefix('/my-addresses')->name('my-addresses.')->group(function () {
             Route::get('/', [ProfileAddressController::class, 'index'])->name('index');
