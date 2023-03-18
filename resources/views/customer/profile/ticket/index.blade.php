@@ -49,11 +49,11 @@
                                 <tr>
                                     <th>#</th>
                                     <th>عنوان</th>
+                                    <th>متن</th>
                                     <th>وضعیت</th>
                                     <th>دسته</th>
                                     <th>اولویت</th>
                                     <th>ارجاع شده به</th>
-                                    <th>تیکت مرجع</th>
                                     <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                                 </tr>
                                 </thead>
@@ -62,11 +62,11 @@
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
                                         <td>{{ $ticket->subject }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($ticket->description,25) }}</td>
                                         <td>{{ $ticket->status === 0 ? 'باز' : 'بسته' }}</td>
                                         <td>{{ $ticket->category->name }}</td>
                                         <td>{{ $ticket->priority->name }}</td>
                                         <td>{{ $ticket->admin->user->full_name }}</td>
-                                        <td>{{ $ticket->parent->subject ?? '-' }}</td>
                                         <td class="width-16-rem text-left">
                                             <a href="{{ route('profile.my-tickets.show', $ticket->id) }}"
                                                class="btn btn-sm btn-info mb-1">

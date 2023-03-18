@@ -26,7 +26,7 @@
                             @csrf
                             <section class="row">
                                 <section class="col-12 col-md-4  my-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-2">
                                         <label for="subject">موضوع</label>
                                         <input id="subject" name="subject"
                                                class="form-control form-control-sm" value="{{ old('subject') }}">
@@ -38,7 +38,7 @@
                                     @enderror
                                 </section>
                                 <section class="col-12 col-md-4 my-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-2">
                                         <label for="category_id">انتخاب دسته</label>
                                         <select class="form-control form-control-sm" name="category_id"
                                                 id="category_id">
@@ -57,7 +57,7 @@
                                     @enderror
                                 </section>
                                 <section class="col-12 col-md-4 my-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-2">
                                         <label for="priority_id">انتخاب اولویت</label>
                                         <select class="form-control form-control-sm" name="priority_id"
                                                 id="priority_id">
@@ -76,7 +76,7 @@
                                     @enderror
                                 </section>
                                 <section class="col-12 my-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-2">
                                         <label for="description">متن</label>
                                         <textarea id="description" name="description"
                                                   class="form-control form-control-sm"
@@ -89,7 +89,7 @@
                                     @enderror
                                 </section>
                                 <section class="col-12 col-md-6 my-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-2">
                                         <label for="file">فایل</label>
                                         <input class="form-control form-control-sm" type="file" name="file" id="file">
                                     </div>

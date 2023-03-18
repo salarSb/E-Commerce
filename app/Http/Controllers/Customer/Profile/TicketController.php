@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Customer\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\Profile\StoreTicketRequest;
 use App\Http\Requests\Customer\Profile\TicketAnswerRequest;
+use App\Http\Services\File\FileService;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
     public function index(Request $request)
     {
-        $query = auth()->user()->tickets()->orderBy('id', 'desc');
+        $query = auth()->user()->tickets()->orderBy('id', 'desc')->whereNull('ticket_id');
         $type = $request->query('type');
         $tickets = isset($type) ? $query->where('status', $type)->get() : $query->get();
         return view('customer.profile.ticket.index', compact('tickets'));
@@ -25,6 +28,40 @@ class TicketController extends Controller
         $ticketCategories = TicketCategory::valid()->get();
         $ticketPriorities = TicketPriority::valid()->get();
         return view('customer.profile.ticket.create', compact('ticketCategories', 'ticketPriorities'));
+    }
+
+    public function store(StoreTicketRequest $request, FileService $fileService)
+    {
+        $user = auth()->user();
+        $inputs = $request->validated();
+        $inputs['reference_id'] = 2;
+        DB::beginTransaction();
+        try {
+            $ticket = $user->tickets()->create($inputs);
+
+            //file
+            if ($request->hasFile('file')) {
+                $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'ticket-files');
+                $fileService->setFileSize($request->file('file'));
+                $fileSize = $fileService->getFileSize();
+                $result = $fileService->moveToPublic($request->file('file'));
+                $fileFormat = $fileService->getFileFormat();
+                if ($result === false) {
+                    return back()->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                }
+                $inputs['file_path'] = $result;
+                $inputs['file_size'] = $fileSize;
+                $inputs['file_type'] = $fileFormat;
+                $inputs['status'] = 1;
+                $inputs['ticket_id'] = $ticket->id;
+            }
+            $user->ticketFiles()->create($inputs);
+            DB::commit();
+            return to_route('profile.my-tickets.index')->with('swal-success', 'تیکت شما با موفقیت ثبت شد');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return to_route('profile.my-tickets.index')->with('swal-error', 'ثبت تیکت با خطا مواجه شد');
+        }
     }
 
     public function show(Ticket $ticket)
@@ -56,5 +93,14 @@ class TicketController extends Controller
         $inputs['ticket_id'] = $ticket->id;
         Ticket::create($inputs);
         return redirect()->back()->with('swal-success', 'پاسخ شما با موفقیت ثبت شد');
+    }
+
+    public function download(Ticket $ticket)
+    {
+        if ($ticket->ticketFile) {
+            $filePath = public_path($ticket->ticketFile->file_path);
+            return response()->download($filePath);
+        }
+        return to_route('profile.my-tickets.show', $ticket->id)->with('swall-error', 'برای این تیکت فایلی وجود ندارد');
     }
 }

@@ -33,6 +33,12 @@
                                 {{ $ticket->description }}
                             </p>
                         </section>
+                        @if($ticket->ticketFile)
+                            <section class="card-footer">
+                                <a href="{{ route('profile.my-tickets.download', $ticket->id) }}"
+                                   class="btn btn-success">دانلود ضمیمه</a>
+                            </section>
+                        @endif
                     </section>
                     <hr>
                     <div class="border">
@@ -47,6 +53,12 @@
                                         {{ $ticketAnswer->description }}
                                     </p>
                                 </section>
+                                @if($ticketAnswer->ticketFile)
+                                    <section class="card-footer">
+                                        <a href="{{ route('profile.my-tickets.download', $ticketAnswer->id) }}"
+                                           class="btn btn-success">دانلود ضمیمه</a>
+                                    </section>
+                                @endif
                             </section>
                         @endforeach
                     </div>

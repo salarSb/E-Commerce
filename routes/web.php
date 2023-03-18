@@ -564,10 +564,11 @@ Route::middleware('auth')->group(function () {
         Route::prefix('/my-tickets')->name('my-tickets.')->group(function () {
             Route::get('/', [CustomerTicketController::class, 'index'])->name('index');
             Route::get('/create', [CustomerTicketController::class, 'create'])->name('create');
-            Route::get('/store', [CustomerTicketController::class, 'store'])->name('store');
+            Route::post('/store', [CustomerTicketController::class, 'store'])->name('store');
             Route::get('/show/{ticket}', [CustomerTicketController::class, 'show'])->name('show');
             Route::get('/change/{ticket}', [CustomerTicketController::class, 'change'])->name('change');
             Route::post('/answer/{ticket}', [CustomerTicketController::class, 'answer'])->name('answer');
+            Route::get('/download/{ticket}', [CustomerTicketController::class, 'download'])->name('download');
         });
         Route::prefix('/my-addresses')->name('my-addresses.')->group(function () {
             Route::get('/', [ProfileAddressController::class, 'index'])->name('index');

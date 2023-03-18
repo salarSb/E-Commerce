@@ -14,8 +14,7 @@ use App\Models\Market\Payment;
 use App\Models\Market\Product;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
-use App\Models\User\Permission;
-use App\Models\User\Role;
+use App\Models\Ticket\TicketFile;
 use App\Traits\Permissions\HasPermission;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -120,6 +119,11 @@ class User extends Authenticatable
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function ticketFiles()
+    {
+        return $this->hasMany(TicketFile::class);
     }
 
     public function onlinePayments()

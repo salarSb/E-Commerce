@@ -23,6 +23,11 @@ class Ticket extends Model
         'ticket_id',
     ];
 
+    protected $with = [
+        'children',
+        'ticketFile',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -51,5 +56,10 @@ class Ticket extends Model
     public function children()
     {
         return $this->hasMany($this, 'ticket_id')->with('children');
+    }
+
+    public function ticketFile()
+    {
+        return $this->hasOne(TicketFile::class);
     }
 }
