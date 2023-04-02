@@ -25,6 +25,7 @@ class TicketCategoryAndPriorityRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'display_name' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
             'status' => ['required', 'numeric', 'in:0,1'],
         ];
     }

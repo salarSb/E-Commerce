@@ -4,24 +4,35 @@ namespace App\Http\Controllers\Admin\Ticket;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Ticket\TicketAnswerRequest;
+use App\Http\Services\File\FileService;
 use App\Models\Ticket\Ticket;
+use App\Traits\TicketHasFile;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
+    use TicketHasFile;
+
+    public function __construct()
+    {
+        $this->middleware('role.permission:answer_ticket')->only(['answer']);
+    }
+
     public function index()
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::whereNull('ticket_id')->get();
         return view('admin.ticket.index', compact('tickets'));
     }
 
     public function show(Ticket $ticket)
     {
-        return view('admin.ticket.show', compact('ticket'));
+        $ticketAnswers = $ticket->children;
+        return view('admin.ticket.show', compact('ticket', 'ticketAnswers'));
     }
 
     public function newTickets()
     {
-        $tickets = Ticket::where('seen', 0)->get();
+        $tickets = Ticket::where('seen', 0)->whereNull('ticket_id')->get();
         foreach ($tickets as $ticket) {
             $ticket->update(['seen' => 1]);
         }
@@ -30,13 +41,13 @@ class TicketController extends Controller
 
     public function openTickets()
     {
-        $tickets = Ticket::where('status', 0)->get();
+        $tickets = Ticket::where('status', 0)->whereNull('ticket_id')->get();
         return view('admin.ticket.index', compact('tickets'));
     }
 
     public function closeTickets()
     {
-        $tickets = Ticket::where('status', 1)->get();
+        $tickets = Ticket::where('status', 1)->whereNull('ticket_id')->get();
         return view('admin.ticket.index', compact('tickets'));
     }
 
@@ -51,18 +62,39 @@ class TicketController extends Controller
         }
     }
 
-    public function answer(TicketAnswerRequest $request, Ticket $ticket)
+    public function answer(TicketAnswerRequest $request, Ticket $ticket, FileService $fileService)
     {
-        $inputs = $request->all();
-        $inputs['subject'] = $ticket->subject;
-        $inputs['description'] = $request->input('description');
-        $inputs['seen'] = 1;
-        $inputs['reference_id'] = $ticket->reference_id;
-        $inputs['user_id'] = auth()->id();
-        $inputs['category_id'] = $ticket->category_id;
-        $inputs['priority_id'] = $ticket->priority_id;
-        $inputs['ticket_id'] = $ticket->id;
-        Ticket::create($inputs);
-        return redirect()->route('admin.ticket.index')->with('swal-success', 'پاسخ شما با موفقیت ثبت شد');
+        DB::beginTransaction();
+        try {
+            $inputs = $request->all();
+            $inputs['subject'] = $ticket->subject;
+            $inputs['description'] = $request->input('description');
+            $inputs['seen'] = 1;
+            $inputs['user_id'] = auth()->id();
+            $inputs['category_id'] = $ticket->category_id;
+            $inputs['priority_id'] = $ticket->priority_id;
+            $inputs['ticket_id'] = $ticket->id;
+            $answerTicket = Ticket::create($inputs);
+            if ($request->hasFile('file')) {
+                $this->setFileService($fileService)->moveFileAndSetData(
+                    'files' . DIRECTORY_SEPARATOR . 'ticket-files',
+                    $request->file('file')
+                );
+                if ($this->fileMoveResult === false) {
+                    return back()->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                }
+                $this->createTicketFile($answerTicket->id);
+            }
+            $ticket->update([
+                'reference_id' => auth()->user()->ticketAdmin->id,
+                'status' => 1,
+            ]);
+            DB::commit();
+            return redirect()->route('admin.ticket.index')->with('swal-success', 'پاسخ شما با موفقیت ثبت شد');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return redirect()->route('admin.ticket.index')->with('swal-error', 'ثبت پاسح با خطا مواجه شد');
+        }
+
     }
 }

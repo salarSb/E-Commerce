@@ -45,7 +45,7 @@
                                             @foreach($ticketCategories as $ticketCategory)
                                                 <option value="{{ $ticketCategory->id }}"
                                                         @if(old('category_id') == $ticketCategory->id) selected @endif>
-                                                    {{ $ticketCategory->name }}
+                                                    {{ $ticketCategory->display_name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -64,7 +64,7 @@
                                             @foreach($ticketPriorities as $ticketPriority)
                                                 <option value="{{ $ticketPriority->id }}"
                                                         @if(old('priority_id') == $ticketPriority->id) selected @endif>
-                                                    {{ $ticketPriority->name }}
+                                                    {{ $ticketPriority->display_name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -94,9 +94,9 @@
                                         <input class="form-control form-control-sm" type="file" name="file" id="file">
                                     </div>
                                     @error('file')
-                                    <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                        <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </section>
                             </section>

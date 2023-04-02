@@ -26,6 +26,7 @@ class Ticket extends Model
     protected $with = [
         'children',
         'ticketFile',
+        'admin',
     ];
 
     public function user()

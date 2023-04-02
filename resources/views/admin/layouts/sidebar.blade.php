@@ -119,47 +119,53 @@
                 <i class="fas fa-bars"></i>
                 <span>مشتریان</span>
             </a>
-            <section class="sidebar-group-link">
-                <section class="sidebar-dropdown-toggle">
-                    <i class="fas fa-chart-bar icon"></i>
-                    <span>سطوح دسترسی</span>
-                    <i class="fas fa-angle-left angle"></i>
+            @if(auth()->user()->hasRole('super_admin'))
+                <section class="sidebar-group-link">
+                    <section class="sidebar-dropdown-toggle">
+                        <i class="fas fa-chart-bar icon"></i>
+                        <span>سطوح دسترسی</span>
+                        <i class="fas fa-angle-left angle"></i>
+                    </section>
+                    <section class="sidebar-dropdown">
+                        <a href="{{ route('admin.user.role.index') }}">مدیریت نقش ها</a>
+                        <a href="{{ route('admin.user.permission.index') }}">مدیریت دسترسی ها</a>
+                    </section>
                 </section>
-                <section class="sidebar-dropdown">
-                    <a href="{{ route('admin.user.role.index') }}">مدیریت نقش ها</a>
-                    <a href="{{ route('admin.user.permission.index') }}">مدیریت دسترسی ها</a>
-                </section>
-            </section>
+            @endif
 
-            <section class="sidebar-part-title">تیکت ها</section>
-            <a href="{{ route('admin.ticket.category.index') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>دسته بندی تیکت ها</span>
-            </a>
-            <a href="{{ route('admin.ticket.priority.index') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>اولویت تیکت ها</span>
-            </a>
-            <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>ادمین تیکت ها</span>
-            </a>
-            <a href="{{ route('admin.ticket.newTickets') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>تیکت های جدید</span>
-            </a>
-            <a href="{{ route('admin.ticket.openTickets') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>تیکت های باز</span>
-            </a>
-            <a href="{{ route('admin.ticket.closeTickets') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>تیکت های بسته</span>
-            </a>
-            <a href="{{ route('admin.ticket.index') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>تیکت ها</span>
-            </a>
+            @if(auth()->user()->hasRole('super_admin','ticket_manager'))
+                <section class="sidebar-part-title">تیکت ها</section>
+                @if(auth()->user()->hasRole('super_admin'))
+                    <a href="{{ route('admin.ticket.category.index') }}" class="sidebar-link">
+                        <i class="fas fa-bars"></i>
+                        <span>دسته بندی تیکت ها</span>
+                    </a>
+                    <a href="{{ route('admin.ticket.priority.index') }}" class="sidebar-link">
+                        <i class="fas fa-bars"></i>
+                        <span>اولویت تیکت ها</span>
+                    </a>
+                    <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
+                        <i class="fas fa-bars"></i>
+                        <span>ادمین تیکت ها</span>
+                    </a>
+                @endif
+                <a href="{{ route('admin.ticket.newTickets') }}" class="sidebar-link">
+                    <i class="fas fa-bars"></i>
+                    <span>تیکت های جدید</span>
+                </a>
+                <a href="{{ route('admin.ticket.openTickets') }}" class="sidebar-link">
+                    <i class="fas fa-bars"></i>
+                    <span>تیکت های باز</span>
+                </a>
+                <a href="{{ route('admin.ticket.closeTickets') }}" class="sidebar-link">
+                    <i class="fas fa-bars"></i>
+                    <span>تیکت های بسته</span>
+                </a>
+                <a href="{{ route('admin.ticket.index') }}" class="sidebar-link">
+                    <i class="fas fa-bars"></i>
+                    <span>تیکت ها</span>
+                </a>
+            @endif
 
 
             <section class="sidebar-part-title">اطلاع رسانی</section>

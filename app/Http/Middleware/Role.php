@@ -17,6 +17,7 @@ class Role
      */
     public function handle(Request $request, Closure $next, ...$names)
     {
+        if ($request->user()->hasRole('super_admin')) return $next($request);
         foreach ($names as $name) {
             if (
                 Permission::status(1)->get()->contains('name', $name) &&

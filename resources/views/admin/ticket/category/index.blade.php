@@ -30,6 +30,7 @@
                         <tr>
                             <th>#</th>
                             <th>نام</th>
+                            <th>نام نمایشی</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs ml-1"></i>تنظیمات</th>
                         </tr>
@@ -39,6 +40,7 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $ticketCategory->name }}</td>
+                                <td>{{ $ticketCategory->display_name }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $ticketCategory->id }}"

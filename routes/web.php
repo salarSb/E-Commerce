@@ -251,7 +251,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
     Route::prefix('/content')->namespace('Content')->name('content.')->group(function () {
 
         //category
-        Route::prefix('/category')->middleware('role.permission:operator,writer')->name('category.')->group(function () {
+        Route::prefix('/category')->name('category.')->group(function () {
             Route::get('/', [ContentCategoryController::class, 'index'])->name('index');
             Route::get('/create', [ContentCategoryController::class, 'create'])->name('create');
             Route::post('/store', [ContentCategoryController::class, 'store'])->name('store');
@@ -427,7 +427,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
     });
 
     //ticket
-    Route::prefix('/ticket')->namespace('Ticket')->name('ticket.')->group(function () {
+    Route::prefix('/ticket')->namespace('Ticket')->middleware('role.permission:ticket_manager')->name('ticket.')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('index');
         Route::get('/show/{ticket}', [TicketController::class, 'show'])->name('show');
         Route::get('/new-tickets', [TicketController::class, 'newTickets'])->name('newTickets');
@@ -437,7 +437,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
         Route::get('/change/{ticket}', [TicketController::class, 'change'])->name('change');
 
         //category
-        Route::prefix('/category')->name('category.')->group(function () {
+        Route::prefix('/category')->middleware('role.permission:super_admin')->name('category.')->group(function () {
             Route::get('/', [TicketCategoryController::class, 'index'])->name('index');
             Route::get('/create', [TicketCategoryController::class, 'create'])->name('create');
             Route::post('/store', [TicketCategoryController::class, 'store'])->name('store');
@@ -448,7 +448,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
         });
 
         //priority
-        Route::prefix('/priority')->name('priority.')->group(function () {
+        Route::prefix('/priority')->middleware('role.permission:super_admin')->name('priority.')->group(function () {
             Route::get('/', [TicketPriorityController::class, 'index'])->name('index');
             Route::get('/create', [TicketPriorityController::class, 'create'])->name('create');
             Route::post('/store', [TicketPriorityController::class, 'store'])->name('store');
@@ -459,7 +459,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
         });
 
         //admin
-        Route::prefix('/admin')->name('admin.')->group(function () {
+        Route::prefix('/admin')->middleware('role.permission:super_admin')->name('admin.')->group(function () {
             Route::get('/', [TicketAdminController::class, 'index'])->name('index');
             Route::get('/set/{user}', [TicketAdminController::class, 'set'])->name('set');
         });

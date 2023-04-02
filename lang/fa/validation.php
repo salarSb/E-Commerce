@@ -202,7 +202,8 @@ return [
         "recipient_last_name"       => "نام خانوادگی گیرنده",
         "address_id"                => "آدرس",
         "delivery_id"               => "نحوه ارسال",
-        "roles.*"                     => "نقش",
-        "permissions.*"               => "دسترسی",
+        "roles.*"                   => "نقش",
+        "permissions.*"             => "دسترسی",
+        "display_name"              => "نام نمایشی",
     ],
 ];

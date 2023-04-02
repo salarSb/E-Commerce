@@ -36,12 +36,34 @@
                         </p>
                     </section>
                 </section>
+                <div class="border">
+                    @foreach($ticketAnswers as $ticketAnswer)
+                        <section class="card m-4">
+                            <section class="card-header bg-light d-flex justify-content-between">
+                                <div>{{ $ticketAnswer->user->full_name }}</div>
+                                <small>{{ convertEnglishToPersian(jalaliDate($ticketAnswer->created_at,'%A, %d %B %Y ساعت H:m:s')) }}</small>
+                            </section>
+                            <section class="card-body">
+                                <p class="card-text">
+                                    {{ $ticketAnswer->description }}
+                                </p>
+                            </section>
+                            @if($ticketAnswer->ticketFile)
+                                <section class="card-footer">
+                                    <a href="{{ route('profile.my-tickets.download', $ticketAnswer->id) }}"
+                                       class="btn btn-success">دانلود ضمیمه</a>
+                                </section>
+                            @endif
+                        </section>
+                    @endforeach
+                </div>
                 <section>
-                    <form action="{{ route('admin.ticket.answer', $ticket->id) }}" method="post">
+                    <form action="{{ route('admin.ticket.answer', $ticket->id) }}" method="post"
+                          enctype="multipart/form-data">
                         @csrf
                         <section class="row">
                             <section class="col-12 my-2">
-                                <div class="form-group">
+                                <div class="form-group my-2">
                                     <label for="description">پاسخ تیکت</label>
                                     <textarea id="description" name="description" class="form-control form-control-sm"
                                               rows="4">{{ old('description') }}</textarea>
@@ -50,6 +72,17 @@
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group my-2">
+                                    <label for="file">فایل</label>
+                                    <input class="form-control form-control-sm" type="file" name="file" id="file">
+                                </div>
+                                @error('file')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                 @enderror
                             </section>
                         </section>

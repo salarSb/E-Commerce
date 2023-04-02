@@ -41,6 +41,18 @@
                             </section>
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
+                                    <label for="display_name">نام نمایشی</label>
+                                    <input id="display_name" name="display_name" class="form-control form-control-sm"
+                                           type="text" value="{{ old('display_name', $ticketCategory->display_name) }}">
+                                </div>
+                                @error('display_name')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" id="status" class="form-control form-control-sm">
                                         <option value="1"

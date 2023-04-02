@@ -19,9 +19,17 @@ class TicketAdminController extends Controller
             $user->ticketAdmin()->create([
                 'user_id' => $user->id,
             ]);
+            if (!$user->roles->contains('name', 'ticket_manager')) {
+                $ticketManagerRole = User\Role::where('name', 'ticket_manager')->first();
+                $user->roles()->attach($ticketManagerRole->id);
+            }
             return redirect()->route('admin.ticket.admin.index')->with('swal-success', 'ادمین می تواند به تیکت ها پاسخ دهد');
         } else {
             $user->ticketAdmin()->forceDelete();
+            if ($user->roles->contains('name', 'ticket_manager')) {
+                $ticketManagerRole = User\Role::where('name', 'ticket_manager')->first();
+                $user->roles()->detach($ticketManagerRole->id);
+            }
             return redirect()->route('admin.ticket.admin.index')->with('swal-success', 'دسترسی ادمین برای پاسخ به تیکت ها برداشته شد');
         }
     }

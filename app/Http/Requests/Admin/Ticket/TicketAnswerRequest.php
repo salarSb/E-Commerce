@@ -25,6 +25,7 @@ class TicketAnswerRequest extends FormRequest
     {
         return [
             'description' => ['required', 'max:120', 'min:2'],
+            'file' => ['nullable', 'mimes:png,jpg,jpeg,gif,zip,docx,pdf,doc'],
         ];
     }
 }

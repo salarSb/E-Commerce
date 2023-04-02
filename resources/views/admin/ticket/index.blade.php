@@ -44,9 +44,9 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $ticket->user->full_name }}</td>
                                 <td>{{ $ticket->subject }}</td>
-                                <td>{{ $ticket->category->name }}</td>
-                                <td>{{ $ticket->priority->name }}</td>
-                                <td>{{ $ticket->admin->user->full_name }}</td>
+                                <td>{{ $ticket->category->display_name }}</td>
+                                <td>{{ $ticket->priority->display_name }}</td>
+                                <td>{{ $ticket->admin ? $ticket->admin->user->full_name : 'نامشخص' }}</td>
                                 <td>{{ $ticket->parent->subject ?? '-' }}</td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('admin.ticket.show', $ticket->id) }}"

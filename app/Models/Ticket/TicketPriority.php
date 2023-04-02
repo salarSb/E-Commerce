@@ -12,6 +12,7 @@ class TicketPriority extends Model
 
     protected $fillable = [
         'name',
+        'display_name',
         'status',
     ];
 

@@ -66,7 +66,7 @@
                                         <td>{{ $ticket->status === 0 ? 'باز' : 'بسته' }}</td>
                                         <td>{{ $ticket->category->name }}</td>
                                         <td>{{ $ticket->priority->name }}</td>
-                                        <td>{{ $ticket->admin->user->full_name }}</td>
+                                        <td>{{ $ticket->admin ? $ticket->admin->user->full_name : 'نامشخص' }}</td>
                                         <td class="width-16-rem text-left">
                                             <a href="{{ route('profile.my-tickets.show', $ticket->id) }}"
                                                class="btn btn-sm btn-info mb-1">
