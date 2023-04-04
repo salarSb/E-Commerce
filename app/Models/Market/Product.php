@@ -106,4 +106,18 @@ class Product extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+    public function scopeSearch($query, $keywords)
+    {
+        $keywords = explode(' ', $keywords);
+        foreach ($keywords as $keyword) {
+            $query->where('name', 'LIKE', '%' . $keyword . '%')
+                ->orWhereHas('metas', function ($query) use ($keyword) {
+                    $query->where('meta_value', 'LIKE', '%' . $keyword . '%');
+                })->orWhereHas('colors', function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', '%' . $keyword . '%');
+                });
+        }
+        return $query;
+    }
 }
