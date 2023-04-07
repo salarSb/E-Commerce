@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Banner;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function home()
+    public function home(): Factory|View|Application
     {
         $slideShowImages = Banner::where('position', 0)->where('status', 1)->get();
         $topBanners = Banner::where('position', 1)->where('status', 1)->take(2)->get();
@@ -28,12 +31,22 @@ class HomeController extends Controller
             'bottomBanner', 'brands', 'mostVisitedProducts', 'offeredProducts'));
     }
 
-    public function products(Request $request)
+    public function products(Request $request): Factory|View|Application
     {
+//        TODO : when a product sold make sold number increase by one
+//        TODO : when a user or an ip sees a product it view must increase
+        [$column, $direction] = match ((int)$request->query('sort')) {
+            1 => ['created_at', 'DESC'],
+            2 => ['price', 'DESC'],
+            3 => ['price', 'ASC'],
+            4 => ['view', 'DESC'],
+            5 => ['sold_number', 'DESC'],
+            default => ['created_at', 'ASC'],
+        };
         if ($request->query('search')) {
-            $products = Product::search($request->query('search'))->latest()->get();
+            $products = Product::search($request->query('search'))->orderBy($column, $direction)->get();
         } else {
-            $products = Product::all();
+            $products = Product::orderBy($column, $direction)->get();
         }
         return view('customer.market.products', compact('products'));
     }
