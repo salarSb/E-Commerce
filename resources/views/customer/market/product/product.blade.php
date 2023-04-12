@@ -106,10 +106,14 @@
                                         @endif
                                         <p>
                                             <i class="fa fa-store-alt cart-product-selected-store me-1"></i>
-                                            @if($product->marketable_number > 0)
-                                                <span>کالا موجود در انبار</span>
+                                            @if($product->marketable)
+                                                @if($product->marketable_number > 0)
+                                                    <span>کالا موجود در انبار</span>
+                                                @else
+                                                    <span>کالا ناموجود</span>
+                                                @endif
                                             @else
-                                                <span>کالا ناموجود</span>
+                                                <span>کالا غیر قابل فروش</span>
                                             @endif
                                         </p>
                                         @guest
@@ -237,15 +241,21 @@
                                     </section>
                                 @endif
                                 <section class="">
-                                    @if($product->marketable_number > 0)
-                                        <button id="next-level" class="btn btn-danger d-block w-100"
-                                                onclick="document.getElementById('add-to-cart').submit()">
-                                            افزودن به سبد خرید
-                                        </button>
+                                    @if($product->marketable)
+                                        @if($product->marketable_number > 0)
+                                            <button id="next-level" class="btn btn-danger d-block w-100"
+                                                    onclick="document.getElementById('add-to-cart').submit()">
+                                                افزودن به سبد خرید
+                                            </button>
+                                        @else
+                                            <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول
+                                                ناموجود می
+                                                باشد
+                                            </a>
+                                        @endif
                                     @else
-                                        <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول
-                                            ناموجود می
-                                            باشد
+                                        <a id="next-level" href="#" class="btn btn-secondary disabled d-block">
+                                            محصول غیر قابل فروش
                                         </a>
                                     @endif
                                 </section>

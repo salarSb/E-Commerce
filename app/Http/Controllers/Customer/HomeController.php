@@ -35,6 +35,7 @@ class HomeController extends Controller
     {
 //        TODO : when a product sold make sold number increase by one
 //        TODO : when a user or an ip sees a product it view must increase
+        $brands = Brand::status(1)->get();
         [$column, $direction] = match ((int)$request->query('sort')) {
             1 => ['created_at', 'DESC'],
             2 => ['price', 'DESC'],
@@ -58,10 +59,26 @@ class HomeController extends Controller
             $query->where('price', '>=', $request->query('min_price'));
         })->when($request->query('max_price'), function ($query) use ($request) {
             $query->where('price', '<=', $request->query('max_price'));
-        })->when(!($request->query('min_price') && $request->query('max_price')), function ($query) {
-
         });
-        $products = $builder->orderBy($column, $direction)->paginate()->withQueryString();
-        return view('customer.market.products', compact('products'));
+        $builder->when($request->query('brands'), function ($query) use ($request) {
+            $query->whereIn('brand_id', $request->query('brands'));
+        });
+        $products = $builder->status(1)->orderBy($column, $direction)->paginate()->withQueryString();
+        return view('customer.market.products', compact('products', 'brands'));
+    }
+
+    public function getBrands(Request $request)
+    {
+        $brands = Brand::status(1)->search($request->query('brand_search'))->get();
+        if (!empty($brands)) {
+            return response()->json([
+                'status' => true,
+                'brands' => $brands,
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'cities' => null,
+        ]);
     }
 }

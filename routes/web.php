@@ -515,6 +515,8 @@ Route::prefix('/products')->name('customer.')->group(function () {
     Route::get('/', [HomeController::class, 'products'])->name('products');
 });
 
+Route::get('/get-brands', [HomeController::class, 'getBrands'])->name('get-brands');
+
 //product page
 Route::prefix('product')->name('customer.market.')->group(function () {
     Route::get('/{product}', [CustomerProductController::class, 'product'])->name('product');

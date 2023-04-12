@@ -38,6 +38,21 @@ class Brand extends Model
         return 'slug';
     }
 
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeSearch($query, $keywords)
+    {
+        $keywords = explode(' ', $keywords);
+        foreach ($keywords as $keyword) {
+            $query->where('persian_name', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('original_name', 'LIKE', '%' . $keyword . '%');
+        }
+        return $query;
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);

@@ -10,6 +10,8 @@
                 <aside id="sidebar" class="sidebar col-md-3">
                     <form action="{{ route('customer.products') }}"
                           method="get">
+                        <input type="hidden" name="search" value="{{ request()->query('search') }}">
+                        <input type="hidden" name="sort" value="{{ request()->query('sort') }}">
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                             <!-- start sidebar nav-->
                             <section class="sidebar-nav">
@@ -562,18 +564,16 @@
                             <section class="content-header mb-3">
                                 <section class="d-flex justify-content-between align-items-center">
                                     <h2 class="content-header-title content-header-title-small">
-                                        جستجو در نتایج
+                                        جستجوی برند
                                     </h2>
                                     <section class="content-header-link">
                                         <!--<a href="#">مشاهده همه</a>-->
                                     </section>
                                 </section>
                             </section>
-
-                            <section class="">
-                                <input class="sidebar-input-text" type="text" placeholder="جستجو بر اساس ..."
-                                       name="search" value="{{ request()->query('search') }}">
-                            </section>
+                            <input id="brand-search"
+                                   class="sidebar-input-text" type="text"
+                                   placeholder="برند خاصی مد نظرته ...">
                         </section>
 
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
@@ -587,75 +587,25 @@
                                     </section>
                                 </section>
                             </section>
-
-                            <section class="sidebar-brand-wrapper">
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="1" id="1">
-                                    <label class="form-check-label d-flex justify-content-between" for="1">
-                                        <span>شیائومی</span>
-                                        <span>xiaomi</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="2" id="2">
-                                    <label class="form-check-label d-flex justify-content-between" for="2">
-                                        <span>سامسونگ</span>
-                                        <span>samsung</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="3" id="3">
-                                    <label class="form-check-label d-flex justify-content-between" for="3">
-                                        <span>سونی</span>
-                                        <span>sony</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="4" id="4">
-                                    <label class="form-check-label d-flex justify-content-between" for="4">
-                                        <span>امرسان</span>
-                                        <span>emersun</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="5" id="5">
-                                    <label class="form-check-label d-flex justify-content-between" for="5">
-                                        <span>ال جی</span>
-                                        <span>lg</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="6" id="6">
-                                    <label class="form-check-label d-flex justify-content-between" for="6">
-                                        <span>جی پلاس</span>
-                                        <span>g+</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="7" id="7">
-                                    <label class="form-check-label d-flex justify-content-between" for="7">
-                                        <span>پارس خزر</span>
-                                        <span>pars khazar</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="8" id="8">
-                                    <label class="form-check-label d-flex justify-content-between" for="8">
-                                        <span>دیاموند</span>
-                                        <span>diamond</span>
-                                    </label>
-                                </section>
-                            </section>
+                            <div id="brands" style="height: 150px; overflow-y: scroll;">
+                                @forelse($brands as $brand)
+                                    <section class="sidebar-brand-wrapper">
+                                        <section class="form-check sidebar-brand-item">
+                                            <input class="form-check-input" name="brands[]" type="checkbox"
+                                                   value="{{ $brand->id }}" id="{{ $brand->id }}"
+                                                   @if(request()->query('brands')) @foreach(request()->query('brands') as $brandId) @if($brand->id == $brandId) checked @endif @endforeach @endif>
+                                            <label class="form-check-label d-flex justify-content-between"
+                                                   for="{{ $brand->id }}">
+                                                <span>{{ $brand->persian_name }}</span>
+                                                <span>{{ $brand->original_name }}</span>
+                                            </label>
+                                        </section>
+                                    </section>
+                                @empty
+                                    چیری پیدا نشد
+                                @endforelse
+                            </div>
                         </section>
-
-
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                             <section class="content-header mb-3">
                                 <section class="d-flex justify-content-between align-items-center">
@@ -676,8 +626,6 @@
                                 </section>
                             </section>
                         </section>
-
-
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                             <section class="sidebar-filter-btn d-grid gap-2">
                                 <button class="btn btn-danger" type="submit">اعمال فیلتر</button>
@@ -698,7 +646,6 @@
                                     class="badge bg-info text-dark">25,000 تومان</span></span>
                             <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span
                                     class="badge bg-info text-dark">360,000 تومان</span></span>
-
                         </section>
                         <section class="sort ">
                             <span>مرتب سازی بر اساس : </span>
@@ -798,10 +745,7 @@
                                     </nav>
                                 </section>
                             </section>
-
                         </section>
-
-
                     </section>
                 </main>
             </section>
@@ -829,5 +773,47 @@
                 }
             });
         });
+    </script>
+    <script>
+        let searchTimeout;
+        let input = $('#brand-search');
+        input.keypress(function () {
+            if (searchTimeout !== undefined) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(callServerScript, 1000);
+        });
+
+        function callServerScript() {
+            let inputValue = input.val();
+            let url = "{{ route('get-brands',['brand_search' => ':inputValue']) }}";
+            url = url.replace('%3AinputValue', inputValue);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    if (response.status) {
+                        let brands = response.brands;
+                        $('#brands').empty();
+                        brands.map(brand => {
+                            $('#brands').append(`<section class="sidebar-brand-wrapper">
+                                                    <section class="form-check sidebar-brand-item">
+                                                        <input class="form-check-input" name="brands[]" type="checkbox"
+                                                            value="${brand.id}" id="${brand.id}">
+                                                        <label class="form-check-label d-flex justify-content-between"
+                                                               for="${brand.id}">
+                                                            <span>${brand.persian_name}</span>
+                                                            <span>${brand.original_name}</span>
+                                                        </label>
+                                                    </section>
+                                                </section>`);
+                        });
+                    } else {
+                        errorToast('برندی یافت نشد');
+                    }
+                },
+                error: function (error) {
+                    errorToast('عملیات با خطا مواجه شد');
+                }
+            });
+        }
     </script>
 @endpush

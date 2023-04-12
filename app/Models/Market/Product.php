@@ -120,4 +120,10 @@ class Product extends Model
         }
         return $query;
     }
+
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
 }
