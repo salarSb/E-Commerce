@@ -593,7 +593,7 @@
                                         <section class="form-check sidebar-brand-item">
                                             <input class="form-check-input" name="brands[]" type="checkbox"
                                                    value="{{ $brand->id }}" id="{{ $brand->id }}"
-                                                   @if(request()->query('brands')) @foreach(request()->query('brands') as $brandId) @if($brand->id == $brandId) checked @endif @endforeach @endif>
+                                                   @if(in_array($brand->id, request()->query('brands') ?? [])) checked @endif>
                                             <label class="form-check-label d-flex justify-content-between"
                                                    for="{{ $brand->id }}">
                                                 <span>{{ $brand->persian_name }}</span>

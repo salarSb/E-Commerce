@@ -112,10 +112,22 @@ class Product extends Model
         $keywords = explode(' ', $keywords);
         foreach ($keywords as $keyword) {
             $query->where('name', 'LIKE', '%' . $keyword . '%')
-                ->orWhereHas('metas', function ($query) use ($keyword) {
+                ->orWhere('tags', 'LIKE', '%' . $keyword . '%')
+                ->orWhereHas('category', function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('description', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('tags', 'LIKE', '%' . $keyword . '%')
+                        ->orWhereHas('parent', function ($query) use ($keyword) {
+                            $query->where('name', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('description', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('tags', 'LIKE', '%' . $keyword . '%');
+                        })->orWhereHas('children', function ($query) use ($keyword) {
+                            $query->where('name', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('description', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('tags', 'LIKE', '%' . $keyword . '%');
+                        });
+                })->orWhereHas('metas', function ($query) use ($keyword) {
                     $query->where('meta_value', 'LIKE', '%' . $keyword . '%');
-                })->orWhereHas('colors', function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', '%' . $keyword . '%');
                 });
         }
         return $query;
