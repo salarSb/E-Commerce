@@ -64,7 +64,8 @@ class HomeController extends Controller
             $query->whereIn('brand_id', $request->query('brands'));
         });
         $products = $builder->status(1)->orderBy($column, $direction)->paginate()->withQueryString();
-        return view('customer.market.products', compact('products', 'brands'));
+        $selectedBrands = $request->query('brands') ? $brands->whereIn('id', $request->query('brands'))->pluck('original_name')->toArray() : [];
+        return view('customer.market.products', compact('products', 'brands', 'selectedBrands'));
     }
 
     public function getBrands(Request $request)

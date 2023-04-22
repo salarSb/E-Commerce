@@ -636,16 +636,46 @@
                 <main id="main-body" class="main-body col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
                         <section class="filters mb-3">
-                            <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای : <span
-                                    class="badge bg-info text-dark">"کتاب اثر مرک"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">برند : <span
-                                    class="badge bg-info text-dark">"کتاب"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">دسته : <span
-                                    class="badge bg-info text-dark">"کتاب"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span
-                                    class="badge bg-info text-dark">25,000 تومان</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span
-                                    class="badge bg-info text-dark">360,000 تومان</span></span>
+                            @if(request()->query('search'))
+                                <span class="d-inline-block border p-1 rounded bg-light">
+                                    نتیجه جستجو برای :
+                                    <span class="badge bg-info text-dark">
+                                        {{ request()->query('search') }}
+                                    </span>
+                                </span>
+                            @endif
+                            @if(request()->query('brands'))
+                                <span class="d-inline-block border p-1 rounded bg-light">
+                                    برند :
+                                    <span class="badge bg-info text-dark">
+                                        {{ implode(', ', $selectedBrands) }}
+                                    </span>
+                                </span>
+                            @endif
+                            @if(request()->query('categories'))
+                                <span class="d-inline-block border p-1 rounded bg-light">
+                                دسته :
+                                    <span class="badge bg-info text-dark">
+                                    "کتاب"
+                                    </span>
+                                </span>
+                            @endif
+                            @if(request()->query('min_price'))
+                                <span class="d-inline-block border p-1 rounded bg-light">
+                                قیمت از :
+                                    <span class="badge bg-info text-dark">
+                                        {{request()->query('min_price')}} تومان
+                                    </span>
+                                </span>
+                            @endif
+                            @if(request()->query('max_price'))
+                                <span class="d-inline-block border p-1 rounded bg-light">
+                                    قیمت تا :
+                                    <span class="badge bg-info text-dark">
+                                        {{ request()->query('max_price') }} تومان
+                                    </span>
+                                </span>
+                            @endif
                         </section>
                         <section class="sort ">
                             <span>مرتب سازی بر اساس : </span>
