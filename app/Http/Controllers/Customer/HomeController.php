@@ -63,7 +63,7 @@ class HomeController extends Controller
         $builder->when($request->query('brands'), function ($query) use ($request) {
             $query->whereIn('brand_id', $request->query('brands'));
         });
-        $products = $builder->status(1)->orderBy($column, $direction)->paginate()->withQueryString();
+        $products = $builder->status(1)->orderBy($column, $direction)->paginate(12)->withQueryString();
         $selectedBrands = $request->query('brands') ? $brands->whereIn('id', $request->query('brands'))->pluck('original_name')->toArray() : [];
         return view('customer.market.products', compact('products', 'brands', 'selectedBrands'));
     }
