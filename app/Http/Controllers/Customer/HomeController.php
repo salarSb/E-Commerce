@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Banner;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
+use App\Models\Market\ProductCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -31,11 +32,14 @@ class HomeController extends Controller
             'bottomBanner', 'brands', 'mostVisitedProducts', 'offeredProducts'));
     }
 
-    public function products(Request $request): Factory|View|Application
+    public function products(Request $request, ?ProductCategory $category = null): Factory|View|Application
     {
 //        TODO : when a product sold make sold number increase by one
 //        TODO : when a user or an ip sees a product it view must increase
+//        TODO : if a category has no products and is parent of other categories build a page to shoe its children categories that has products
+//        dd($request->all());
         $brands = Brand::status(1)->get();
+        $categories = ProductCategory::active()->whereNull('parent_id')->get();
         [$column, $direction] = match ((int)$request->query('sort')) {
             1 => ['created_at', 'DESC'],
             2 => ['price', 'DESC'],
@@ -44,18 +48,17 @@ class HomeController extends Controller
             5 => ['sold_number', 'DESC'],
             default => ['created_at', 'ASC'],
         };
+        $productModel = $category ? $category->products() : Product::query();
         if ($request->query('search')) {
-            $query = Product::search($request->query('search'));
-        } else {
-            $query = Product::query();
+            $productModel = $productModel->search($request->query('search'));
         }
-        $builder = $request->query('min_price') && $request->query('max_price') ? $query->whereBetween(
+        $builder = $request->query('min_price') && $request->query('max_price') ? $productModel->whereBetween(
             'price',
             [
                 $request->query('min_price'),
                 $request->query('max_price')
             ]
-        ) : $query->when($request->query('min_price'), function ($query) use ($request) {
+        ) : $productModel->when($request->query('min_price'), function ($query) use ($request) {
             $query->where('price', '>=', $request->query('min_price'));
         })->when($request->query('max_price'), function ($query) use ($request) {
             $query->where('price', '<=', $request->query('max_price'));
@@ -65,7 +68,7 @@ class HomeController extends Controller
         });
         $products = $builder->status(1)->orderBy($column, $direction)->paginate(12)->withQueryString();
         $selectedBrands = $request->query('brands') ? $brands->whereIn('id', $request->query('brands'))->pluck('original_name')->toArray() : [];
-        return view('customer.market.products', compact('products', 'brands', 'selectedBrands'));
+        return view('customer.market.products', compact('products', 'brands', 'selectedBrands', 'categories'));
     }
 
     public function getBrands(Request $request)

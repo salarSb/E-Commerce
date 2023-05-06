@@ -25,6 +25,10 @@ class ProductCategory extends Model
         'image' => 'array'
     ];
 
+    protected $with = [
+        'children',
+    ];
+
     public function sluggable(): array
     {
         return [
@@ -57,5 +61,10 @@ class ProductCategory extends Model
     public function attributes()
     {
         return $this->hasMany(CategoryAttribute::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1)->where('show_in_menu', 1);
     }
 }

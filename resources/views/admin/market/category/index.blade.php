@@ -49,10 +49,12 @@
                                 <td>{!! $productCategory->description !!}</td>
                                 <td>{{ $productCategory->slug }}</td>
                                 <td>
-                                    <img
-                                        src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}"
-                                        alt="category image"
-                                        width="50" height="50">
+                                    @if(isset($productCategory->image))
+                                        <img
+                                            src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}"
+                                            alt="category image"
+                                            width="50" height="50">
+                                    @endif
                                 </td>
                                 <td>{{ $productCategory->tags }}</td>
                                 <td>

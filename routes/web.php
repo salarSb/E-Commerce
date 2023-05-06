@@ -512,7 +512,7 @@ Route::get('/logout', [LoginRegisterController::class, 'logout'])->name('auth.cu
 Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 
 Route::prefix('/products')->name('customer.')->group(function () {
-    Route::get('/', [HomeController::class, 'products'])->name('products');
+    Route::get('/{category?}', [HomeController::class, 'products'])->name('products');
 });
 
 Route::get('/get-brands', [HomeController::class, 'getBrands'])->name('get-brands');

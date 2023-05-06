@@ -20,7 +20,9 @@
                 <section class="mt-3 mt-md-auto search-wrapper">
                     <section class="search-box">
                         <section class="search-textbox">
-                            <form class="d-flex w-100" action="{{ route('customer.products') }}" method="get">
+                            <form class="d-flex w-100"
+                                  action="{{ route('customer.products') }}"
+                                  method="get">
                                 <button type="submit" class="border-0 flex-row mx-1">
                                     <span><i class="fa fa-search"></i></span>
                                 </button>

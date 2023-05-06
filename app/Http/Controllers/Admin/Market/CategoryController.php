@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $productCategories = ProductCategory::where('parent_id', null)->get();
+        $productCategories = ProductCategory::active()->get();
         return view('admin.market.category.create', compact('productCategories'));
     }
 
@@ -45,7 +45,7 @@ class CategoryController extends Controller
 
     public function edit(ProductCategory $productCategory)
     {
-        $parent_categories = ProductCategory::where('parent_id', null)->get()->except($productCategory->id);
+        $parent_categories = ProductCategory::active()->get()->except($productCategory->id);
         return view('admin.market.category.edit', compact('productCategory', 'parent_categories'));
     }
 
