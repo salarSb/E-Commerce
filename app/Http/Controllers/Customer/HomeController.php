@@ -37,7 +37,6 @@ class HomeController extends Controller
 //        TODO : when a product sold make sold number increase by one
 //        TODO : when a user or an ip sees a product it view must increase
 //        TODO : if a category has no products and is parent of other categories build a page to shoe its children categories that has products
-//        dd($request->all());
         $brands = Brand::status(1)->get();
         $categories = ProductCategory::active()->whereNull('parent_id')->get();
         [$column, $direction] = match ((int)$request->query('sort')) {
