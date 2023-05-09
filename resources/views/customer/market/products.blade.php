@@ -7,92 +7,7 @@
     <section class="">
         <section id="main-body-two-col" class="container-xxl body-container">
             <section class="row">
-                <aside id="sidebar" class="sidebar col-md-3">
-                    <form action="{{ route('customer.products',request()->category?->slug) }}"
-                          method="get">
-                        <input type="hidden" name="search" value="{{ request()->query('search') }}">
-                        <input type="hidden" name="sort" value="{{ request()->query('sort') }}">
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                            <!-- start sidebar nav-->
-                            <section class="sidebar-nav">
-                                <section class="sidebar-nav-item">
-                                    @include('customer.layouts.partials.categories', ['categories' => $categories])
-                                </section>
-                            </section>
-                            <!--end sidebar nav-->
-                        </section>
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                            <section class="content-header mb-3">
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <h2 class="content-header-title content-header-title-small">
-                                        جستجوی برند
-                                    </h2>
-                                    <section class="content-header-link">
-                                        <!--<a href="#">مشاهده همه</a>-->
-                                    </section>
-                                </section>
-                            </section>
-                            <input id="brand-search"
-                                   class="sidebar-input-text" type="text"
-                                   placeholder="برند خاصی مد نظرته ...">
-                        </section>
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                            <section class="content-header mb-3">
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <h2 class="content-header-title content-header-title-small">
-                                        برند
-                                    </h2>
-                                    <section class="content-header-link">
-                                        <!--<a href="#">مشاهده همه</a>-->
-                                    </section>
-                                </section>
-                            </section>
-                            <div id="brands" style="height: 150px; overflow-y: scroll;">
-                                @forelse($brands as $brand)
-                                    <section class="sidebar-brand-wrapper">
-                                        <section class="form-check sidebar-brand-item">
-                                            <input class="form-check-input" name="brands[]" type="checkbox"
-                                                   value="{{ $brand->id }}" id="{{ $brand->id }}"
-                                                   @if(in_array($brand->id, request()->query('brands') ?? [])) checked @endif>
-                                            <label class="form-check-label d-flex justify-content-between"
-                                                   for="{{ $brand->id }}">
-                                                <span>{{ $brand->persian_name }}</span>
-                                                <span>{{ $brand->original_name }}</span>
-                                            </label>
-                                        </section>
-                                    </section>
-                                @empty
-                                    چیری پیدا نشد
-                                @endforelse
-                            </div>
-                        </section>
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                            <section class="content-header mb-3">
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <h2 class="content-header-title content-header-title-small">
-                                        محدوده قیمت
-                                    </h2>
-                                    <section class="content-header-link">
-                                        <!--<a href="#">مشاهده همه</a>-->
-                                    </section>
-                                </section>
-                            </section>
-                            <section class="sidebar-price-range d-flex justify-content-between">
-                                <section class="p-1"><input type="text" placeholder="قیمت از ..." name="min_price"
-                                                            value="{{ request()->query('min_price') }}">
-                                </section>
-                                <section class="p-1"><input type="text" placeholder="قیمت تا ..." name="max_price"
-                                                            value="{{ request()->query('max_price') }}">
-                                </section>
-                            </section>
-                        </section>
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                            <section class="sidebar-filter-btn d-grid gap-2">
-                                <button class="btn btn-danger" type="submit">اعمال فیلتر</button>
-                            </section>
-                        </section>
-                    </form>
-                </aside>
+                @include('customer.layouts.partials.product-sidebar')
                 <main id="main-body" class="main-body col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
                         <section class="filters mb-3">
@@ -112,11 +27,11 @@
                                     </span>
                                 </span>
                             @endif
-                            @if(request()->query('categories'))
+                            @if(isset($category))
                                 <span class="d-inline-block border p-1 rounded bg-light">
                                 دسته :
                                     <span class="badge bg-info text-dark">
-                                    "کتاب"
+                                    {{ $category->name }}
                                     </span>
                                 </span>
                             @endif
@@ -169,14 +84,60 @@
                             @forelse($products as $product)
                                 <section class="col-md-3 p-0">
                                     <section class="product">
-                                        <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                                                data-bs-placement="left"
-                                                                                title="افزودن به سبد خرید"><i
-                                                    class="fa fa-cart-plus"></i></a></section>
-                                        <section class="product-add-to-favorite"><a href="#" data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="left"
-                                                                                    title="افزودن به علاقه مندی"><i
-                                                    class="fa fa-heart"></i></a></section>
+                                        <section class="product-add-to-cart">
+                                            <form
+                                                action="{{ route('customer.sales-process.add-to-cart', ['product' => $product->slug, 'number'=> 1]) }}"
+                                                method="post"
+                                                id="product-form-{{$product->id}}">
+                                                @csrf
+                                                <button class="btn btn-light btn-sm text-decoration-none"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        type="button"
+                                                        title="افزودن به سبد خرید"
+                                                        @if(!$product->marketable || !$product->marketable_number > 0) disabled
+                                                        @endif
+                                                        id="product-button-{{$product->id}}">
+                                                    <i class="fa fa-cart-plus"></i>
+                                                </button>
+                                            </form>
+                                        </section>
+                                        @guest
+                                            <section class="product-add-to-favorite">
+                                                <button
+                                                    class="btn btn-light btn-sm text-decoration-none"
+                                                    type="button"
+                                                    data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
+                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                    title="افزودن به علاقه مندی">
+                                                    <i class="fa fa-heart"></i>
+                                                </button>
+                                            </section>
+                                        @endguest
+                                        @auth
+                                            @if($product->users->contains('id', auth()->user()->id))
+                                                <section class="product-add-to-favorite">
+                                                    <button
+                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                        type="button"
+                                                        data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="حذف از علاقه مندی">
+                                                        <i class="fa fa-heart text-danger"></i>
+                                                    </button>
+                                                </section>
+                                            @else
+                                                <section class="product-add-to-favorite">
+                                                    <button
+                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                        type="button"
+                                                        data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به علاقه مندی">
+                                                        <i class="fa fa-heart"></i>
+                                                    </button>
+                                                </section>
+                                            @endif
+                                        @endauth
                                         <a class="product-link"
                                            href="{{ route('customer.market.product', $product->slug) }}">
                                             <section class="product-image">
@@ -254,11 +215,14 @@
     <script>
         let searchTimeout;
         let input = $('#brand-search');
-        input.keypress(function () {
+        input.on('input', function () {
             if (searchTimeout !== undefined) clearTimeout(searchTimeout);
             searchTimeout = setTimeout(callServerScript, 1000);
         });
-
+        $('button[id^="product-button-"]').click(function (e) {
+            let formId = $(this).prop('id').replace('button', 'form');
+            $('#' + formId).submit();
+        });
         function callServerScript() {
             let inputValue = input.val();
             let url = "{{ route('get-brands',['brand_search' => ':inputValue']) }}";
@@ -267,11 +231,12 @@
                 url: url,
                 type: 'GET',
                 success: function (response) {
+                    let brandsSection = $('#brands');
                     if (response.status) {
                         let brands = response.brands;
-                        $('#brands').empty();
+                        brandsSection.empty();
                         brands.map(brand => {
-                            $('#brands').append(`<section class="sidebar-brand-wrapper">
+                            brandsSection.append(`<section class="sidebar-brand-wrapper">
                                                     <section class="form-check sidebar-brand-item">
                                                         <input class="form-check-input" name="brands[]" type="checkbox"
                                                             value="${brand.id}" id="${brand.id}">
@@ -284,7 +249,8 @@
                                                 </section>`);
                         });
                     } else {
-                        errorToast('برندی یافت نشد');
+                        brandsSection.empty();
+                        brandsSection.append(`<p>برندی یافت نشد</p>`);
                     }
                 },
                 error: function (error) {

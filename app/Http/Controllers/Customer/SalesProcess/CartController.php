@@ -47,8 +47,8 @@ class CartController extends Controller
             $request->guarantee = null;
         }
         foreach ($cartItems as $cartItem) {
-            if ($cartItem->color_id === (int)$request->color_id && $cartItem->guarantee_id === (int)$request->guarantee_id) {
-                if ($cartItem->number !== (int)$request->number) {
+            if ($cartItem->color_id == $request->color_id && $cartItem->guarantee_id == $request->guarantee_id) {
+                if ($cartItem->number != $request->number) {
                     $cartItem->update([
                         'number' => (int)$request->number
                     ]);

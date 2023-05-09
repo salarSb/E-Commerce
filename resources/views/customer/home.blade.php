@@ -69,10 +69,21 @@
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
                                                 <section class="product-add-to-cart">
-                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"
-                                                       title="افزودن به سبد خرید">
-                                                        <i class="fa fa-cart-plus"></i>
-                                                    </a>
+                                                    <form
+                                                        action="{{ route('customer.sales-process.add-to-cart', ['product' => $mostVisitedProduct->slug, 'number'=> 1]) }}"
+                                                        method="post"
+                                                        id="most-visited-product-form-{{$mostVisitedProduct->id}}">
+                                                        @csrf
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                type="button"
+                                                                title="افزودن به سبد خرید"
+                                                                @if(!$mostVisitedProduct->marketable || !$mostVisitedProduct->marketable_number > 0) disabled
+                                                                @endif
+                                                                id="most-visited-product-button-{{$mostVisitedProduct->id}}">
+                                                            <i class="fa fa-cart-plus"></i>
+                                                        </button>
+                                                    </form>
                                                 </section>
                                                 @guest
                                                     <section class="product-add-to-favorite">
@@ -209,10 +220,21 @@
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
                                                 <section class="product-add-to-cart">
-                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="left"
-                                                       title="افزودن به سبد خرید">
-                                                        <i class="fa fa-cart-plus"></i>
-                                                    </a>
+                                                    <form
+                                                        action="{{ route('customer.sales-process.add-to-cart', ['product' => $offeredProduct->slug, 'number'=> 1]) }}"
+                                                        method="post"
+                                                        id="offered-product-form-{{$offeredProduct->id}}">
+                                                        @csrf
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                type="button"
+                                                                title="افزودن به سبد خرید"
+                                                                @if(!$offeredProduct->marketable || !$offeredProduct->marketable_number > 0) disabled
+                                                                @endif
+                                                                id="offered-product-button-{{$offeredProduct->id}}">
+                                                            <i class="fa fa-cart-plus"></i>
+                                                        </button>
+                                                    </form>
                                                 </section>
                                                 @guest
                                                     <section class="product-add-to-favorite">
@@ -343,9 +365,9 @@
                             @foreach($brands as $brand)
                                 <section class="item">
                                     <section class="brand-item">
-                                        <a href="#">
+                                        <a href="{{ route('customer.products',['brands[]' => $brand->id]) }}">
                                             <img class="rounded-2" src="{{ $brand->logo['indexArray']['medium'] }}"
-                                                 alt="">
+                                                 alt="{{ $brand->original_name }}">
                                         </a>
                                     </section>
                                 </section>
@@ -394,6 +416,16 @@
                     }
                 }
             });
+        });
+    </script>
+    <script>
+        $('button[id^="most-visited-product-button-"]').click(function (e) {
+            let formId = $(this).prop('id').replace('button', 'form');
+            $('#' + formId).submit();
+        });
+        $('button[id^="offered-product-button-"]').click(function (e) {
+            let formId = $(this).prop('id').replace('button', 'form');
+            $('#' + formId).submit();
         });
     </script>
 @endpush
