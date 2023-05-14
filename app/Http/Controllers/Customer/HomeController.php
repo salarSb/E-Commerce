@@ -24,12 +24,8 @@ class HomeController extends Controller
 
         //TODO : get special brands. taking last 10 for now
         $brands = Brand::status(1)->limit(10)->get();
-
-        //TODO : get most visited products and show them with lazy loading
-        $mostVisitedProducts = Product::latest()->take(10)->get();
-
-        //TODO : we can take most commented products or most sold products we take last 10 for now
-        $offeredProducts = Product::latest()->take(10)->get();
+        $mostVisitedProducts = Product::status(1)->orderBy('view', 'DESC')->take(10)->get();
+        $offeredProducts = Product::status(1)->orderBy('sold_number', 'DESC')->take(10)->get();
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners',
             'bottomBanner', 'brands', 'mostVisitedProducts', 'offeredProducts'));
     }
