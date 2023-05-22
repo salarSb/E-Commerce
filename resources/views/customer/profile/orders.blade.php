@@ -5,7 +5,7 @@
 @section('content')
     <section id="main-body-two-col" class="container-xxl body-container">
         <section class="row">
-                @include('customer.layouts.partials.profile-sidebar')
+            @include('customer.layouts.partials.profile-sidebar')
             <main id="main-body" class="main-body col-md-9">
                 <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
                     <!-- start vontent header -->
@@ -68,19 +68,22 @@
                                 <section class="d-flex justify-content-between">
                                     <section>
                                         <section class="order-item-date"><i class="fa fa-calendar-alt"></i>
-                                            {{ jdate($order->created_at) }}
+                                            {{ convertEnglishToPersian(str_replace('-', '/', jdate($order->created_at))) }}
                                         </section>
                                         <section class="order-item-id"><i class="fa fa-id-card-alt"></i>
-                                            کد سفارش : {{ $order->id }}
+                                            کد سفارش : {{ convertEnglishToPersian($order->id) }}
                                         </section>
                                         <section class="order-item-status"><i class="fa fa-clock"></i>
                                             {{ $order->paymentStatusText }}
                                         </section>
                                         <section class="order-item-products">
                                             @foreach ($order->orderItems as $orderItem)
+                                                @php
+                                                    $orderItemProduct = json_decode($orderItem->product);
+                                                @endphp
                                                 <a href="#"><img
-                                                        src="{{ asset($orderItem->singleProduct->image['indexArray']['small']) }}"
-                                                        alt=""></a>
+                                                        src="{{ asset($orderItemProduct->image->indexArray->small) }}"
+                                                        alt="{{ $orderItemProduct->name }}"></a>
                                             @endforeach
                                         </section>
                                     </section>

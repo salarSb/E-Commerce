@@ -1,6 +1,44 @@
 @extends('customer.layouts.master-two-col')
 @section('head-tag')
     <title>{{ $product->name }}</title>
+    <style>
+        /* TODO: dont use cdn */
+        /*@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);*/
+
+        /* Styling h1 and links
+    ––––––––––––––––––––––––––––––––– */
+        .starrating > input {
+            display: none;
+        }
+
+        /* Remove radio buttons */
+
+        .starrating > label:before {
+            content: "\f005";
+            /* Star */
+            margin: 2px;
+            font-size: 2em;
+            font-family: FontAwesome;
+            display: inline-block;
+        }
+
+        .starrating > label {
+            color: #222222;
+            /* Start color when not clicked */
+        }
+
+        .starrating > input:checked ~ label {
+            color: #ffca08;
+        }
+
+        /* Set yellow color when star checked */
+
+        .starrating > input:hover ~ label {
+            color: #ffca08;
+        }
+
+        /* Set yellow color when star hover */
+    </style>
 @endsection
 @section('content')
     <!-- start cart -->
@@ -408,6 +446,7 @@
                                                               href="#introduction">معرفی</a></span>
                                         <span class="me-2"><a class="text-decoration-none text-dark" href="#features">ویژگی ها</a></span>
                                         <span class="me-2"><a class="text-decoration-none text-dark" href="#comments">دیدگاه ها</a></span>
+                                        <span class="me-2"><a class="text-decoration-none text-dark" href="#ratings">امتیاز ها</a></span>
                                     </h2>
                                     <section class="content-header-link">
                                         <!--<a href="#">مشاهده همه</a>-->
@@ -566,6 +605,69 @@
                                     </section>
                                 @endforeach
                             </section>
+                            <!-- start rating -->
+                            <section id="ratings" class="content-header mt-2 mb-4">
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <h2 class="content-header-title content-header-title-small">
+                                        امتیاز ها
+                                    </h2>
+                                    <section class="content-header-link">
+                                    </section>
+                                </section>
+                            </section>
+                            @auth
+                                <section class="product-rating mb-4">
+                                    <div class="container">
+                                        <h5 class="text-danger">
+                                            امتیاز خود را به این محصول انتخاب نمایید
+                                        </h5>
+                                        <form
+                                            class="starrating risingstar d-flex justify-content-end flex-row-reverse align-items-center"
+                                            action="{{ route('customer.market.add-rate', $product) }}" method="post">
+                                            @csrf
+                                            <div class="mx-3">
+                                                <button class="btn btn-info btn-sm">ثبت امتیاز</button>
+                                            </div>
+                                            <input type="radio" id="star5" name="rating" value="5"/>
+                                            <label for="star5" title="5 star"></label>
+                                            <input type="radio" id="star4" name="rating" value="4"/>
+                                            <label for="star4" title="4 star"></label>
+                                            <input type="radio" id="star3" name="rating" value="3"/>
+                                            <label for="star3" title="3 star"></label>
+                                            <input type="radio" id="star2" name="rating" value="2"/>
+                                            <label for="star2" title="2 star"></label>
+                                            <input type="radio" id="star1" name="rating" value="1"/>
+                                            <label for="star1" title="1 star"></label>
+                                            @error('rating')
+                                            <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                            @enderror
+                                        </form>
+
+                                        @if($product->ratingsCount() != 0)
+                                            <h6>
+                                                میانگین امتیاز : {{ convertEnglishToPersian(number_format($product->ratingsAvg(), 1, '/')) }}
+                                            </h6>
+                                            <h6>
+                                                تعداد امتیاز : {{ convertEnglishToPersian($product->ratingsCount()) }}
+                                            </h6>
+                                        @else
+                                            <h6>اولین امتیاز را ثبت کنید</h6>
+                                        @endif
+                                    </div>
+                                </section>
+                            @endauth
+                            @guest
+                                <section class="modal-body">
+                                    <p>کاربر گرامی لطفا برای ثبت امتیاز ابتدا وارد حساب کاربری خود
+                                        شوید.</p>
+                                    <p>برای ثبت نام و یا ورود به حساب کاربری
+                                        <a href="{{ route('auth.customer.login-register-form') }}">اینجا</a>
+                                        کلیک کنید
+                                    </p>
+                                </section>
+                            @endguest
                         </section>
 
                     </section>

@@ -24,6 +24,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Nagy\LaravelRating\Traits\CanRate;
 
 class User extends Authenticatable
 {
@@ -35,6 +36,7 @@ class User extends Authenticatable
     use Sluggable;
     use softDeletes;
     use HasPermission;
+    use CanRate;
 
     /**
      * The attributes that are mass assignable.
@@ -174,5 +176,15 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function isPurchasedProduct($productId)
+    {
+//        // TODO : consider paid payment status and fill payment fields in order instance.
+        return $this->orders()
+                ->where('order_status', 3)
+                ->whereHas('orderItems', function ($query) use ($productId) {
+                    $query->where('product_id', $productId);
+                })->count() > 0;
     }
 }

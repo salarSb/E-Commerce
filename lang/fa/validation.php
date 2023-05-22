@@ -205,5 +205,6 @@ return [
         "roles.*"                   => "نقش",
         "permissions.*"             => "دسترسی",
         "display_name"              => "نام نمایشی",
+        "rating"                    => "امتیاز",
     ],
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer\Market;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\AddRateRequest;
 use App\Models\Market\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,5 +56,15 @@ class ProductController extends Controller
                 'status' => 3,
             ]);
         }
+    }
+
+    public function addRate(AddRateRequest $request, Product $product)
+    {
+        $user = auth()->user();
+        if ($user->isPurchasedProduct($product->id)) {
+            auth()->user()->rate($product, $request->input('rating'));
+            return back()->with('swal-success', 'امتیاز شما با موفقیت ثبت گردید');
+        }
+        return back()->with('swal-error', 'برای ثبت امتیاز باید محصول را خریده باشید');
     }
 }
