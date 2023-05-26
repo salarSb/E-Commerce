@@ -7,6 +7,7 @@ use App\Models\Content\Post;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
 use App\Models\Market\CashPayment;
+use App\Models\Market\Compare;
 use App\Models\Market\OfflinePayment;
 use App\Models\Market\OnlinePayment;
 use App\Models\Market\Order;
@@ -176,6 +177,11 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function compare()
+    {
+        return $this->hasOne(Compare::class);
     }
 
     public function isPurchasedProduct($productId)

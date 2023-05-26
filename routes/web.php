@@ -522,6 +522,7 @@ Route::prefix('product')->name('customer.market.')->group(function () {
     Route::get('/{product}', [CustomerProductController::class, 'product'])->name('product');
     Route::post('/{product}/add-comment', [CustomerProductController::class, 'addComment'])->name('add-comment');
     Route::get('/{product}/add-to-favorite', [CustomerProductController::class, 'addToFavorite'])->name('add-to-favorite');
+    Route::get('/{product}/add-to-compare', [CustomerProductController::class, 'addToCompare'])->name('add-to-compare');
     Route::post('/{product}/add-rate', [CustomerProductController::class, 'addRate'])->middleware('auth')->name('add-rate');
 });
 

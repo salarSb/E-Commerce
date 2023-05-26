@@ -108,6 +108,11 @@ class Product extends Model
         return $this->hasMany(CartItem::class);
     }
 
+    public function compares()
+    {
+        return $this->belongsToMany(Compare::class);
+    }
+
     public function scopeSearch($query, $keywords)
     {
         $keywords = explode(' ', $keywords);

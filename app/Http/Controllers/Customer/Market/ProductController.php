@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer\Market;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\AddRateRequest;
+use App\Models\Market\Compare;
 use App\Models\Market\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,8 @@ class ProductController extends Controller
     {
         // TODO : get related products correctly and with lazy loading
         $relatedProducts = Product::all();
-
-        return view('customer.market.product.product', compact('product', 'relatedProducts'));
+        $compare = Auth::user()->compare;
+        return view('customer.market.product.product', compact('product', 'relatedProducts', 'compare'));
     }
 
     public function addComment(Request $request, Product $product)
@@ -66,5 +67,27 @@ class ProductController extends Controller
             return back()->with('swal-success', 'امتیاز شما با موفقیت ثبت گردید');
         }
         return back()->with('swal-error', 'برای ثبت امتیاز باید محصول را خریده باشید');
+    }
+
+    public function addToCompare(Product $product)
+    {
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $compare = Compare::firstOrCreate(['user_id' => $userId]);
+            $product->compares()->toggle([$compare->id]);
+            if ($product->compares->contains('id', $compare->id)) {
+                return response()->json([
+                    'status' => 1,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 2,
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 3,
+            ]);
+        }
     }
 }

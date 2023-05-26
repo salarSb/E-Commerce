@@ -155,30 +155,7 @@
                                             @endif
                                         </p>
                                         @guest
-                                            <section class="product-add-to-favorite position-relative mb-2"
-                                                     style="top: 0">
-                                                <button
-                                                    class="btn btn-light btn-sm text-decoration-none" type="button"
-                                                    data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                    title="افزودن به علاقه مندی">
-                                                    <i class="fa fa-heart"></i>
-                                                </button>
-                                            </section>
-                                        @endguest
-                                        @auth
-                                            @if($product->users->contains('id', auth()->user()->id))
-                                                <section class="product-add-to-favorite position-relative mb-2"
-                                                         style="top: 0">
-                                                    <button
-                                                        class="btn btn-light btn-sm text-decoration-none" type="button"
-                                                        data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        title="حذف از علاقه مندی">
-                                                        <i class="fa fa-heart text-danger"></i>
-                                                    </button>
-                                                </section>
-                                            @else
+                                            <div class="d-flex">
                                                 <section class="product-add-to-favorite position-relative mb-2"
                                                          style="top: 0">
                                                     <button
@@ -189,7 +166,71 @@
                                                         <i class="fa fa-heart"></i>
                                                     </button>
                                                 </section>
-                                            @endif
+                                                <section class="product-add-to-compare position-relative mt-1"
+                                                         style="top: 0">
+                                                    <button
+                                                        class="btn btn-light btn-sm text-decoration-none" type="button"
+                                                        data-url="{{ route('customer.market.add-to-compare', $product->slug) }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به لیست مقایسه">
+                                                        <i class="fa fa-industry"></i>
+                                                    </button>
+                                                </section>
+                                            </div>
+                                        @endguest
+                                        @auth
+                                            <div class="d-flex">
+                                                @if($product->users->contains('id', auth()->user()->id))
+                                                    <section class="product-add-to-favorite position-relative mb-2"
+                                                             style="top: 0">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="حذف از علاقه مندی">
+                                                            <i class="fa fa-heart text-danger"></i>
+                                                        </button>
+                                                    </section>
+                                                @else
+                                                    <section class="product-add-to-favorite position-relative mb-2"
+                                                             style="top: 0">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $product->slug) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="افزودن به علاقه مندی">
+                                                            <i class="fa fa-heart"></i>
+                                                        </button>
+                                                    </section>
+                                                @endif
+                                                @if(isset($product->compares) && $product->compares->contains('id', $compare->id))
+                                                    <section class="product-add-to-compare position-relative mt-1"
+                                                             style="top: 0">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
+                                                            data-url="{{ route('customer.market.add-to-compare', $product->slug) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="حذف از لیست مقایسه">
+                                                            <i class="fa fa-industry text-success"></i>
+                                                        </button>
+                                                    </section>
+                                                @else
+                                                    <section class="product-add-to-compare position-relative mt-1"
+                                                             style="top: 0">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            type="button"
+                                                            data-url="{{ route('customer.market.add-to-compare', $product->slug) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="افزودن به لیست مقایسه">
+                                                            <i class="fa fa-industry"></i>
+                                                        </button>
+                                                    </section>
+                                                @endif
+                                            </div>
                                         @endauth
                                         <section>
                                             <section class="cart-product-number d-inline-block ">
@@ -211,6 +252,7 @@
                                             ارسال
                                             که شما انتخاب کرده اید کالا برای شما در مدت زمان مذکور ارسال می گردد.
                                         </p>
+                                    </form>
                                 </section>
                             </section>
 
@@ -297,7 +339,6 @@
                                         </a>
                                     @endif
                                 </section>
-                                </form>
                             </section>
                         </section>
                     </section>
@@ -647,7 +688,8 @@
 
                                         @if($product->ratingsCount() != 0)
                                             <h6>
-                                                میانگین امتیاز : {{ convertEnglishToPersian(number_format($product->ratingsAvg(), 1, '/')) }}
+                                                میانگین امتیاز
+                                                : {{ convertEnglishToPersian(number_format($product->ratingsAvg(), 1, '/')) }}
                                             </h6>
                                             <h6>
                                                 تعداد امتیاز : {{ convertEnglishToPersian($product->ratingsCount()) }}
@@ -768,6 +810,24 @@
                     } else if (result.status == 2) {
                         $(element).children().first().removeClass('text-danger');
                         $(element).attr('data-bs-original-title', 'افزودن به علاقه مندی');
+                    } else {
+                        $('.toast').toast('show');
+                    }
+                }
+            });
+        });
+        $('.product-add-to-compare button').click(function () {
+            const url = $(this).attr('data-url');
+            const element = $(this);
+            $.ajax({
+                url: url,
+                success: function (result) {
+                    if (result.status == 1) {
+                        $(element).children().first().addClass('text-success');
+                        $(element).attr('data-bs-original-title', 'حذف از لیست مقایسه');
+                    } else if (result.status == 2) {
+                        $(element).children().first().removeClass('text-success');
+                        $(element).attr('data-bs-original-title', 'افزودن به لیست مقایسه');
                     } else {
                         $('.toast').toast('show');
                     }
