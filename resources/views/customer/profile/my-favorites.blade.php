@@ -29,8 +29,11 @@
                         <!-- end vontent header -->
                         @forelse ($products as $product)
                             <section class="cart-item d-flex py-3">
-                                <section class="cart-img align-self-start flex-shrink-1"><img
-                                        src="{{ asset($product->image['indexArray']['medium']) }}" alt="product-image">
+                                <section class="cart-img align-self-start flex-shrink-1">
+                                    <a href="{{ route('customer.market.product', $product->slug) }}">
+                                        <img src="{{ asset($product->image['indexArray']['medium']) }}"
+                                             alt="product-image">
+                                    </a>
                                 </section>
                                 <section class="align-self-start w-100">
                                     <p class="fw-bold">{{ $product->name }}</p>

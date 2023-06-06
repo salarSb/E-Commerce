@@ -39,6 +39,7 @@ use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
 use App\Http\Controllers\Customer\Profile\AddressController as ProfileAddressController;
+use App\Http\Controllers\Customer\Profile\CompareController;
 use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Customer\Profile\ProfileController;
@@ -581,6 +582,10 @@ Route::middleware('auth')->group(function () {
         Route::prefix('/my-addresses')->name('my-addresses.')->group(function () {
             Route::get('/', [ProfileAddressController::class, 'index'])->name('index');
             Route::delete('/{product}', [ProfileAddressController::class, 'delete'])->name('delete');
+        });
+        Route::prefix('/compares')->name('compares.')->group(function () {
+            Route::get('/', [CompareController::class, 'index'])->name('index');
+            Route::delete('/{product}', [CompareController::class, 'delete'])->name('delete');
         });
     });
 });
