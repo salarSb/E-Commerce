@@ -12,7 +12,7 @@ class CartController extends Controller
 {
     public function cart()
     {
-        // TODO : get related products with lazy loading
+        // TODO : get related products with multi select options that selects products you want to show if user adds this product to cart
         $relatedProducts = Product::all();
         return view('customer.sales-process.cart', compact( 'relatedProducts'));
     }

@@ -19,7 +19,9 @@ class ProductController extends Controller
     public function product(Product $product)
     {
         // TODO : get related products correctly and with lazy loading
-        $relatedProducts = Product::all();
+        $relatedProducts = Product::with('category')->whereHas('category', function ($query) use ($product) {
+            $query->where('id', $product->category->id);
+        })->take(10)->get()->except($product->id);
         $compare = Auth::user()->compare;
         return view('customer.market.product.product', compact('product', 'relatedProducts', 'compare'));
     }

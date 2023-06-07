@@ -27,6 +27,7 @@
                             </section>
                         </section>
                         <!-- end vontent header -->
+                        @if($products->isNotEmpty())
                         <table class="table table-striped table-borderless">
                             <thead>
                             <tr>
@@ -63,6 +64,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                        @else
+                            <p>لیست خالی است</p>
+                        @endif
                     </section>
                 </main>
             </section>
