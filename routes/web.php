@@ -589,3 +589,6 @@ Route::middleware('auth')->group(function () {
         });
     });
 });
+
+//page
+Route::get('page/{page}', [HomeController::class, 'page'])->name('page');

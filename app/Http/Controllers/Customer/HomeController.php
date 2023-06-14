@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Banner;
+use App\Models\Content\Page;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
 use App\Models\Market\ProductCategory;
@@ -80,5 +81,10 @@ class HomeController extends Controller
             'status' => false,
             'brands' => null,
         ]);
+    }
+
+    public function page(Page $page)
+    {
+        return view('customer.page', compact('page'));
     }
 }
