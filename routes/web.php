@@ -402,6 +402,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::put('/update/{email}', [EmailController::class, 'update'])->name('update');
             Route::delete('/destroy/{email}', [EmailController::class, 'destroy'])->name('destroy');
             Route::get('/status/{email}', [EmailController::class, 'status'])->name('status');
+            Route::get('/send-mail/{email}', [EmailController::class, 'sendMail'])->name('send-mail');
         });
 
         //email-file

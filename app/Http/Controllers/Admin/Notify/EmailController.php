@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin\Notify;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Notify\EmailRequest;
+use App\Http\Services\Message\Email\EmailService;
+use App\Http\Services\Message\MessageService;
 use App\Models\Notify\Email;
+use App\Models\User;
 
 class EmailController extends Controller
 {
@@ -80,5 +83,23 @@ class EmailController extends Controller
                 'status' => false
             ]);
         }
+    }
+
+    public function sendMail(Email $email, EmailService $emailService)
+    {
+        $users = User::whereNotNull('email')->get();
+        $details = [
+            'title' => $email->subject,
+            'body' => $email->body,
+        ];
+        foreach ($users as $user) {
+            $emailService->setDeatail($details);
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject($email->subject);
+            $emailService->setTo($user->email);
+            $messagesService = new MessageService($emailService);
+            $messagesService->send();
+        }
+        return redirect()->route('admin.notify.email.index')->with('swal-success', 'ایمیل با موفقیت ارسال شد');
     }
 }

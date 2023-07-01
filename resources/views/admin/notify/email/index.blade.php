@@ -54,23 +54,24 @@
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('admin.notify.email-file.index',$email->id) }}"
                                        class="btn btn-sm btn-warning">
-                                        <i class="fa fa-file ml-1"></i>
                                         فایل های ضمیمه شده
                                     </a>
                                     <a href="{{ route('admin.notify.email.edit',$email->id) }}"
                                        class="btn btn-sm btn-primary">
-                                        <i class="fa fa-edit ml-1"></i>
                                         ویرایش
                                     </a>
                                     <form action="{{ route('admin.notify.email.destroy',$email->id) }}"
                                           method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm delete"><i
-                                                class="fa fa-trash-alt ml-1"></i>
+                                        <button type="submit" class="btn btn-danger btn-sm delete">
                                             حذف
                                         </button>
                                     </form>
+                                    <a href="{{ route('admin.notify.email.send-mail', $email->id) }}"
+                                       class="btn btn-sm btn-success">
+                                        ارسال
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
