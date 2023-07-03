@@ -19,13 +19,13 @@ class EmailController extends Controller
 
     public function create()
     {
-        return view('admin.notify.email.create');
+        $users = User::whereNotNull('email')->whereNotNull('email_verified_at')->get();
+        return view('admin.notify.email.create', compact('users'));
     }
 
     public function store(EmailRequest $request)
     {
-        $inputs = $request->all();
-
+        $inputs = $request->validated();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
@@ -87,7 +87,7 @@ class EmailController extends Controller
 
     public function sendMail(Email $email, EmailService $emailService)
     {
-        $users = User::whereNotNull('email')->get();
+        $users = User::find($email->user_ids);
         $details = [
             'title' => $email->subject,
             'body' => $email->body,

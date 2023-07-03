@@ -24,6 +24,8 @@ class EmailRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_ids' => ['required', 'array'],
+            'user_ids.*' => ['integer', 'exists:users,id'],
             'subject' => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
             'body' => ['required', 'max:600', 'min:5', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟! ]+$/u'],
             'status' => ['required', 'numeric', 'in:0,1'],
