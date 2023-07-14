@@ -87,6 +87,9 @@ class EmailController extends Controller
 
     public function sendMail(Email $email, EmailService $emailService)
     {
+        $email->load(['files' => function ($query) {
+            $query->status(1);
+        }]);
         $users = User::find($email->user_ids);
         $details = [
             'title' => $email->subject,
@@ -97,6 +100,7 @@ class EmailController extends Controller
             $emailService->setFrom('noreply@example.com', 'example');
             $emailService->setSubject($email->subject);
             $emailService->setTo($user->email);
+            if ($email->files->isNotEmpty()) $emailService->setEmailFiles($email->files->pluck('file_path')->toArray());
             $messagesService = new MessageService($emailService);
             $messagesService->send();
         }

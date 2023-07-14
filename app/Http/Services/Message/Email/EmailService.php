@@ -7,16 +7,17 @@ use App\Jobs\SendEmailToUser;
 
 class EmailService implements MessageInterface
 {
-    private $detail;
-    private $subject;
-    private $from = [
+    private array $detail;
+    private string $subject;
+    private array $from = [
         ['address' => null, 'name' => null,],
     ];
-    private $to;
+    private string $to;
+    private ?array $emailFiles = null;
 
     public function fire()
     {
-        SendEmailToUser::dispatch($this->detail, $this->subject, $this->from, $this->to);
+        SendEmailToUser::dispatch($this->detail, $this->subject, $this->from, $this->to, $this->emailFiles);
     }
 
     public function getDetails()
@@ -62,5 +63,15 @@ class EmailService implements MessageInterface
     public function setTo($to)
     {
         $this->to = $to;
+    }
+
+    public function getEmailFiles()
+    {
+        return $this->emailFiles;
+    }
+
+    public function setEmailFiles($emailFiles)
+    {
+        $this->emailFiles = $emailFiles;
     }
 }

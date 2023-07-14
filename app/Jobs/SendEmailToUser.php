@@ -20,10 +20,11 @@ class SendEmailToUser implements ShouldQueue
      * @return void
      */
     public function __construct(
-        public array  $detail,
-        public string $subject,
-        public array  $from,
-        public string $to
+        public array      $detail,
+        public string     $subject,
+        public array      $from,
+        public string     $to,
+        public ?array $emailFiles = null
     )
     {
     }
@@ -35,6 +36,6 @@ class SendEmailToUser implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->to)->send(new MailViewProvider($this->detail, $this->subject, $this->from));
+        Mail::to($this->to)->send(new MailViewProvider($this->detail, $this->subject, $this->from, $this->emailFiles));
     }
 }

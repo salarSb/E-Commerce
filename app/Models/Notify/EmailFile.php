@@ -23,4 +23,9 @@ class EmailFile extends Model
     {
         return $this->belongsTo(Email::class, 'public_mail_id');
     }
+
+    public function scopeStatus($query, $value)
+    {
+        return $query->where('status', $value);
+    }
 }
