@@ -425,6 +425,7 @@ Route::prefix('/admin')->namespace('Admin')->middleware('auth')->name('admin.')-
             Route::put('/update/{sms}', [SMSController::class, 'update'])->name('update');
             Route::delete('/destroy/{sms}', [SMSController::class, 'destroy'])->name('destroy');
             Route::get('/status/{sms}', [SMSController::class, 'status'])->name('status');
+            Route::get('/send-sms/{sms}', [SMSController::class, 'sendSms'])->name('send-sms');
         });
     });
 

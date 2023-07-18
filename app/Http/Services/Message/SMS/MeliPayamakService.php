@@ -3,6 +3,7 @@
 namespace App\Http\Services\Message\SMS;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 
 class MeliPayamakService
@@ -161,13 +162,11 @@ class MeliPayamakService
             $parameters['status'] = 0x0;
             $GetCreditResult = $client->GetCredit(array("username" => $this->username, "password" => $this->password))->GetCreditResult;
             $sendSmsResult = $client->SendSms($parameters)->SendSmsResult;
-
             if ($GetCreditResult == 0 && $sendSmsResult == 1) {
                 return true;
             } else {
                 return false;
             }
-
         } catch (\SoapFault $ex) {
             echo $ex->faultstring;
         }

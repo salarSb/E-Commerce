@@ -12,10 +12,18 @@ class SMS extends Model
 
     protected $table = 'public_sms';
     protected $fillable = [
+        'user_ids',
         'title',
         'body',
         'status',
         'published_at',
     ];
+    protected $casts = [
+        'user_ids' => 'array',
+    ];
 
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
 }

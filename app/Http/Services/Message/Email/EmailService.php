@@ -17,7 +17,13 @@ class EmailService implements MessageInterface
 
     public function fire()
     {
-        SendEmailToUser::dispatch($this->detail, $this->subject, $this->from, $this->to, $this->emailFiles);
+        SendEmailToUser::dispatch(
+            $this->getDetails(),
+            $this->getSubject(),
+            $this->getFrom(),
+            $this->getTo(),
+            $this->getEmailFiles()
+        );
     }
 
     public function getDetails()

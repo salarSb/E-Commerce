@@ -66,6 +66,10 @@
                                             حذف
                                         </button>
                                     </form>
+                                    <a href="{{ route('admin.notify.sms.send-sms', $singleSms->id) }}"
+                                       class="btn btn-sm btn-success">
+                                        ارسال
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -19,8 +19,7 @@ class EmailController extends Controller
 
     public function create()
     {
-        $users = User::whereNotNull('email')->whereNotNull('email_verified_at')->get();
-        return view('admin.notify.email.create', compact('users'));
+        return view('admin.notify.email.create');
     }
 
     public function store(EmailRequest $request)
@@ -34,11 +33,6 @@ class EmailController extends Controller
         return redirect()->route('admin.notify.email.index')->with('swal-success', 'ایمیل شما با موفقیت ثبت شد');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
     public function edit(Email $email)
     {
         return view('admin.notify.email.edit', compact('email'));
@@ -46,7 +40,7 @@ class EmailController extends Controller
 
     public function update(EmailRequest $request, Email $email)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);

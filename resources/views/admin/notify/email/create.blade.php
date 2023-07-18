@@ -64,7 +64,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('product_id')
+                                @error('user_ids')
                                 <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

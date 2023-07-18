@@ -53,7 +53,24 @@
                                 </span>
                                 @enderror
                             </section>
-                            <section class="col-12 my-2">
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="user_ids">انتخاب کاربران</label>
+                                    <select class="form-control form-control-sm" name="user_ids[]" id="user_ids">
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}">
+                                                {{ $user->id }}-{{ $user->fullName ?? 'کاربر' }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('user_ids')
+                                <span class="alert-required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </section>
+                            <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="published_at_view">تاریخ انتشار</label>
                                     <input id="published_at" class="form-control form-control-sm d-none" type="text"
@@ -102,5 +119,37 @@
                 }
             })
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            let select = $('#user_ids')
+            select.val(null);
+            const addSelectAll = matches => {
+                if (matches.length > 0) {
+                    // Insert a special "Select all matches" item at the start of the
+                    // list of matched items.
+                    return [
+                        {id: 'selectAll', text: 'انتخاب تمام کاربران', matchIds: matches.map(match => match.id)},
+                        {id: 'deleteAll', text: 'پاک کردن تمام کاربران', matchIds: matches.map(match => match.id)},
+                        ...matches
+                    ];
+                }
+            };
+            const handleSelection = event => {
+                if (event.params.data.id === 'selectAll') {
+                    select.val(event.params.data.matchIds);
+                    select.trigger('change');
+                } else if (event.params.data.id === 'deleteAll') {
+                    select.val(null);
+                    select.trigger('change');
+                }
+            };
+            select.select2({
+                multiple: true,
+                placeholder: "جستجو",
+                sorter: addSelectAll,
+            });
+            select.on('select2:select', handleSelection);
+        });
     </script>
 @endsection

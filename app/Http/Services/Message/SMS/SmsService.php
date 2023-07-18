@@ -3,20 +3,20 @@
 namespace App\Http\Services\Message\SMS;
 
 use App\Http\Interfaces\MessageInterface;
+use App\Jobs\SendSmsToUser;
 
 class SmsService implements MessageInterface
 {
 
-    private $from;
-    private $text;
-    private $to;
-    private $isFlash = true;
+    private string $from;
+    private string $text;
+    private array $to;
+    private bool $isFlash = true;
 
 
     public function fire()
     {
-        $meliPayamak = new MeliPayamakService();
-        return $meliPayamak->sendSmsSoapClient($this->from, $this->to, $this->text, $this->isFlash);
+        SendSmsToUser::dispatch($this->getFrom(), $this->getTo(), $this->getText(), $this->getIsFlash());
     }
 
     public function getFrom()
@@ -53,7 +53,7 @@ class SmsService implements MessageInterface
 
     public function getIsFlash()
     {
-        return $this->to;
+        return $this->isFlash;
     }
 
     public function setIsFlash($flash)

@@ -75,7 +75,7 @@ class LoginRegisterController extends Controller
         if ($type == 0) {
             //send sms
             $smsService = new SmsService();
-            $smsService->setFrom(Config::get('sms.otp_from'));
+            $smsService->setFrom(Config::get('sms.from'));
             $smsService->setTo(['0' . $user->mobile]);
             $smsService->setText("مجموعه آمازون \n  کد تایید : $otpCode");
             $smsService->setIsFlash(true);

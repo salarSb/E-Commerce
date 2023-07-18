@@ -206,5 +206,6 @@ return [
         "permissions.*"             => "دسترسی",
         "display_name"              => "نام نمایشی",
         "rating"                    => "امتیاز",
+        "user_ids"                  => "کاربران",
     ],
 ];

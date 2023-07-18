@@ -31,9 +31,12 @@ class AutoEmail extends Command
      */
     public function handle(EmailService $emailService)
     {
-        $emailsToSend = Email::status(1)->where('published_at', '2023-07-03 18:46:38')->get();
+        $emailsToSend = Email::status(1)->where('published_at', now())->get();
         if ($emailsToSend->isNotEmpty()) {
             foreach ($emailsToSend as $emailToSend) {
+                $emailToSend->load(['files' => function ($query) {
+                    $query->status(1);
+                }]);
                 $users = User::find($emailToSend->user_ids);
                 $details = [
                     'title' => $emailToSend->subject,
@@ -44,6 +47,7 @@ class AutoEmail extends Command
                     $emailService->setFrom('noreply@example.com', 'example');
                     $emailService->setSubject($emailToSend->subject);
                     $emailService->setTo($user->email);
+                    if ($emailToSend->files->isNotEmpty()) $emailService->setEmailFiles($emailToSend->files->pluck('file_path')->toArray());
                     $messagesService = new MessageService($emailService);
                     $messagesService->send();
                 }

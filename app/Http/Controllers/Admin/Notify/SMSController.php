@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin\Notify;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Notify\SMSRequest;
+use App\Http\Services\Message\MessageService;
+use App\Http\Services\Message\SMS\SmsService;
 use App\Models\Notify\SMS;
+use App\Models\User;
+use Illuminate\Support\Facades\Config;
 
 class SMSController extends Controller
 {
@@ -21,19 +25,13 @@ class SMSController extends Controller
 
     public function store(SMSRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
         SMS::create($inputs);
         return redirect()->route('admin.notify.sms.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit(SMS $sms)
@@ -43,7 +41,7 @@ class SMSController extends Controller
 
     public function update(SMSRequest $request, SMS $sms)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
@@ -80,5 +78,19 @@ class SMSController extends Controller
                 'status' => false
             ]);
         }
+    }
+
+    public function sendSms(SMS $sms, SmsService $smsService)
+    {
+        $users = User::find($sms->user_ids);
+        foreach ($users as $user) {
+            $smsService->setFrom(Config::get('sms.from'));
+            $smsService->setTo(['0' . $user->mobile]);
+            $smsService->setText($sms->title . "\n" . $sms->body);
+            $smsService->setIsFlash(true);
+            $messagesService = new MessageService($smsService);
+            $messagesService->send();
+        }
+        return redirect()->route('admin.notify.sms.index')->with('swal-success', 'پیامک با موفقیت ارسال شد');
     }
 }
